@@ -2,12 +2,21 @@
 
 namespace Ibonly\SugarORM;
 
-use Ibonly\SugarORM\DBConfig;
+use Ibonly\SugarORM\DatabaseQuery;
 
-class Model extends DBConfig
+class Model extends DatabaseQuery
 {
-    public function getClass()
+    public function stripclassName()
     {
-        return get_called_class();
+        $className = strtolower(get_called_class());
+        $r = explode("\\", $className);
+        return $r[2];
     }
+    public function getClassName()
+    {
+        return $this->checkTableName($this->stripclassName());
+    }
+
+
+
 }

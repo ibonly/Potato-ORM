@@ -12,6 +12,12 @@
             "Ibonly\\SugarORM\\": "src/"
         }
     },
+    "autoload-dev": {
+        "classmap": ["test/"],
+        "psr-4"   : {
+            "Ibonly\\SugarORM\\Test\\": "test/"
+        }
+    },
     "require": {
         "phpunit/phpunit": "^5.0"
     }

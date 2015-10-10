@@ -9,7 +9,7 @@ class DBConfig
     private $host      = "localhost";
     private $user      = "root";
     private $pass      = "";
-    private $dbname    = "newsletter";
+    private $dbname    = "todo_app";
 
     protected $dbh;
     protected $error;

@@ -8,6 +8,6 @@ class Users extends Model
 {
     public function getClassss()
     {
-        return $this->getClass();
+        return Model::getClassName();
     }
 }
