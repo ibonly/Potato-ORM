@@ -25,7 +25,8 @@ class Model extends DatabaseQuery
     public function getALL()
     {
             $conn = DatabaseQuery::connect();
-            $query = $conn->prepare('SELECT * FROM ' . self::getTableName());
+            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName());
+            $query = $conn->prepare($sqlQuery);
             $query->execute();
             if ($query->rowCount()) {
                 return json_encode($query->fetchAll(PDO::FETCH_OBJ), JSON_FORCE_OBJECT);
@@ -37,7 +38,8 @@ class Model extends DatabaseQuery
     public function where($field, $value)
     {
             $conn = DatabaseQuery::connect();
-            $query = $conn->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE '.$field.' = '.$value);
+            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), $field, $value);
+            $query = $conn->prepare($sqlQuery);
             $query->execute();
             if ($query->rowCount()) {
                 return json_encode($query->fetchAll(PDO::FETCH_OBJ), JSON_FORCE_OBJECT);
@@ -49,7 +51,8 @@ class Model extends DatabaseQuery
     public function find($value)
     {
         $conn = DatabaseQuery::connect();
-        $query = $conn->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE id = '.$value);
+        $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), 'id', $value);
+        $query = $conn->prepare($sqlQuery);
         $query->execute();
         if ($query->rowCount()) {
             $found = new static;
@@ -63,51 +66,15 @@ class Model extends DatabaseQuery
 
     public function save()
     {
-
-            $t = (array)$this;
-            array_shift($t);
-            $r = "";
-            $arraySize = sizeof($t);
-            $i = 0;
-
-            $insertQuery = "INSERT INTO ". self::getTableName(). "(";
-            foreach ($t as $key => $value) {
-                $i++;
-                $insertQuery .= $key;
-                if($arraySize > $i)
-                    $insertQuery .= ", ";
-            }
-            $i = 0;
-            $insertQuery .= ") VALUES (";
-            foreach ($t as $key => $value) {
-                 $i++;
-                $insertQuery .= "'".$value ."'";
-                if($arraySize > $i)
-                    $insertQuery .= ", ";
-            }
-            $insertQuery .= ")";
-
-            $r = (array)$this;
-            array_shift($r);
-            array_shift($r);
-            $arraySize = sizeof($r);
-            $updateQuery = "UPDATE ". self::getTableName(). " SET ";
-            $i = 0;
-            foreach ($r as $key => $value) {
-                $i++;
-                $updateQuery .= $key ." = '".$value."'";
-                if($arraySize > $i)
-                    $updateQuery .= ", ";
-            }
-            $updateQuery .= " WHERE id = ". $this->id;
-
+        $connection = DatabaseQuery::connect();
         try{
-            $connection = DatabaseQuery::connect();
                 if ( ! isset ($this->id)  && ! is_array($this->data) ) {
+                    $insertQuery = DatabaseQuery::insertQuery(self::getTableName());
                     $statement = $connection->prepare($insertQuery);
                     $statement->execute();
                     return true;
                 }else{
+                    $updateQuery = DatabaseQuery::updateQuery(self::getTableName());
                     $statement = $connection->prepare($updateQuery);
                     $statement->execute();
                     return true;

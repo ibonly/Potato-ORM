@@ -7,15 +7,19 @@ use Ibonly\SugarORM\SaveUserExistException;
 use Ibonly\SugarORM\UserNotFoundException;
 
 
-// $sugar = new Users();
-// echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
-// echo $sugar->getAll().PHP_EOL.PHP_EOL;
+$sugar = new Users();
+// echo $sugar->where('id', 2).PHP_EOL.PHP_EOL;
+try{
+    echo $sugar->getAll().PHP_EOL.PHP_EOL;
+} catch (SaveUserExistException $e) {
+echo $e->errorMessage();
+}
 
 // $sugar = new Users();
 // $sugar->id = NULL;
-// $sugar->username = "Sasdh2owasdla21";
-// $sugar->email = "segusada22adnw1@g.com";
-// $sugar->password = 12111111;
+// $sugar->username = "alayande";
+// $sugar->email = "ikechukwu@dede.com";
+// $sugar->password = "password123";
 // try{
 //     echo $sugar->save();
 // } catch (SaveUserExistException $e) {
@@ -27,11 +31,12 @@ use Ibonly\SugarORM\UserNotFoundException;
 // print_r($sugar->find(2));
 
 
-// $sugar = Users::find(1);
-// $sugar->password = "adasdsad";
-// $sugar->email = "ade@ade.com";
+// $sugar = Users::find(19);
+// $sugar->password = "password";
 // echo $sugar->save();
 
-    echo $sugar = Users::destroy(47);
-    die($sugar);
+    // echo $sugar = Users::destroy(2);
+    // die($sugar);
 
+// $n = new Users();
+// print_r($n->selectQuery());
