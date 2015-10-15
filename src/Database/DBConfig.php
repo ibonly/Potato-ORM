@@ -9,7 +9,7 @@ class DBConfig
 
     public function connect(){
         // Set DSN
-        $dsn = 'mysql:host=localhost;dbname=todo_app';
+        $dsn = 'mysql:host=localhost;dbname=sugarorm';
         // Set options
         $options = array(
             PDO::ATTR_PERSISTENT    => true,

@@ -9,16 +9,7 @@ use PDOException;
 
 class Model extends DatabaseQuery
 {
-    protected $connect;
 
-    public function __construct()
-    {
-        $this->connect =  DatabaseQuery::connect();
-    }
-    public function getDBConnect()
-    {
-        return $this->connect;
-    }
     public function stripclassName()
     {
         $className = strtolower(get_called_class());
@@ -32,7 +23,8 @@ class Model extends DatabaseQuery
 
     public function getALL()
     {
-            $query = $this->getDBConnect()->prepare('SELECT * FROM ' . self::getTableName());
+            $conn = DatabaseQuery::connect();
+            $query = $conn->prepare('SELECT * FROM ' . self::getTableName());
             $query->execute();
             if ($query->rowCount()) {
                 return json_encode($query->fetchAll(PDO::FETCH_OBJ), JSON_FORCE_OBJECT);
@@ -43,11 +35,26 @@ class Model extends DatabaseQuery
 
     public function where($field, $value)
     {
-            $query = $this->getDBConnect()
-                          ->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE '.$field.' = '.$value);
+            $conn = DatabaseQuery::connect();
+            $query = $conn->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE '.$field.' = '.$value);
             $query->execute();
             if ($query->rowCount()) {
                 return json_encode($query->fetchAll(PDO::FETCH_OBJ), JSON_FORCE_OBJECT);
+            } else {
+                return false;
+            }
+    }
+
+    public function find($value)
+    {
+            $conn = DatabaseQuery::connect();
+            $query = $conn->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE id = '.$value);
+            $query->execute();
+            if ($query->rowCount()) {
+                $found = new static;
+                $found->id = $value;
+                $found->data = $query->fetchAll($conn::FETCH_ASSOC);
+                return $found;
             } else {
                 return false;
             }
@@ -61,28 +68,48 @@ class Model extends DatabaseQuery
             $r = "";
             $arraySize = sizeof($t);
             $i = 0;
-            $query = "INSERT INTO ". self::getTableName(). "(";
-            foreach ($t as $key => $value) {
-                $i++;
-                $query .= $key;
-                if($arraySize > $i)
-                    $query .= ", ";
-            }
-            $i = 0;
-            $query .= ") VALUES (";
-            foreach ($t as $key => $value) {
-                 $i++;
-                $query .= "'".$value ."'";
-                if($arraySize > $i)
-                    $query .= ", ";
-            }
-            $query .= ")";
+            // $insertQuery = "INSERT INTO ". self::getTableName(). "(";
+            // foreach ($t as $key => $value) {
+            //     $i++;
+            //     $query .= $key;
+            //     if($arraySize > $i)
+            //         $query .= ", ";
+            // }
+            // $i = 0;
+            // $query .= ") VALUES (";
+            // foreach ($t as $key => $value) {
+            //      $i++;
+            //     $query .= "'".$value ."'";
+            //     if($arraySize > $i)
+            //         $query .= ", ";
+            // }
+            // $query .= ")";
 
-            try{
-                $connection = $this->getDBConnect();
-                $statement = $connection->prepare($query);
-                $statement->execute();
-                return true;
+            $r = (array)$this;
+            array_shift($r);
+            array_shift($r);
+            $arraySize = sizeof($r);
+            $updateQuery = "UPDATE ". self::getTableName(). " SET ";
+            $i = 0;
+            foreach ($r as $key => $value) {
+                $i++;
+                $updateQuery .= $key ." = '".$value."'";
+                if($arraySize > $i)
+                    $updateQuery .= ", ";
+            }
+            $updateQuery .= " WHERE id = ". $this->id;
+
+        try{
+            $connection = DatabaseQuery::connect();
+                if ( ! isset ($this->data)  && ! is_array($this->data) ) {
+                    $statement = $connection->prepare($insertQuery);
+                    $statement->execute();
+                    return true;
+                }else{
+                    $statement = $connection->prepare($updateQuery);
+                    $statement->execute();
+                    return true;
+                }
         }catch(PDOException $e){
             throw new  SaveUserExistException($e->getMessage());
         }
