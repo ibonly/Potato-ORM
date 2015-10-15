@@ -4,6 +4,7 @@ namespace Ibonly\SugarORM;
 
 use Ibonly\SugarORM\DatabaseQuery;
 use Ibonly\SugarORM\SaveUserExistException;
+use Ibonly\SugarORM\UserNotFoundException;
 use PDO;
 use PDOException;
 
@@ -47,17 +48,17 @@ class Model extends DatabaseQuery
 
     public function find($value)
     {
-            $conn = DatabaseQuery::connect();
-            $query = $conn->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE id = '.$value);
-            $query->execute();
-            if ($query->rowCount()) {
-                $found = new static;
-                $found->id = $value;
-                $found->data = $query->fetchAll($conn::FETCH_ASSOC);
-                return $found;
-            } else {
-                return false;
-            }
+        $conn = DatabaseQuery::connect();
+        $query = $conn->prepare('SELECT * FROM ' . self::getTableName() . ' WHERE id = '.$value);
+        $query->execute();
+        if ($query->rowCount()) {
+            $found = new static;
+            $found->id = $value;
+            $found->data = $query->fetchAll($conn::FETCH_ASSOC);
+            return $found;
+        } else {
+            return false;
+        }
     }
 
     public function save()
@@ -68,22 +69,23 @@ class Model extends DatabaseQuery
             $r = "";
             $arraySize = sizeof($t);
             $i = 0;
-            // $insertQuery = "INSERT INTO ". self::getTableName(). "(";
-            // foreach ($t as $key => $value) {
-            //     $i++;
-            //     $query .= $key;
-            //     if($arraySize > $i)
-            //         $query .= ", ";
-            // }
-            // $i = 0;
-            // $query .= ") VALUES (";
-            // foreach ($t as $key => $value) {
-            //      $i++;
-            //     $query .= "'".$value ."'";
-            //     if($arraySize > $i)
-            //         $query .= ", ";
-            // }
-            // $query .= ")";
+
+            $insertQuery = "INSERT INTO ". self::getTableName(). "(";
+            foreach ($t as $key => $value) {
+                $i++;
+                $insertQuery .= $key;
+                if($arraySize > $i)
+                    $insertQuery .= ", ";
+            }
+            $i = 0;
+            $insertQuery .= ") VALUES (";
+            foreach ($t as $key => $value) {
+                 $i++;
+                $insertQuery .= "'".$value ."'";
+                if($arraySize > $i)
+                    $insertQuery .= ", ";
+            }
+            $insertQuery .= ")";
 
             $r = (array)$this;
             array_shift($r);
@@ -101,7 +103,7 @@ class Model extends DatabaseQuery
 
         try{
             $connection = DatabaseQuery::connect();
-                if ( ! isset ($this->data)  && ! is_array($this->data) ) {
+                if ( ! isset ($this->id)  && ! is_array($this->data) ) {
                     $statement = $connection->prepare($insertQuery);
                     $statement->execute();
                     return true;
@@ -113,7 +115,24 @@ class Model extends DatabaseQuery
         }catch(PDOException $e){
             throw new  SaveUserExistException($e->getMessage());
         }
+    }
 
+    public function destroy($value)
+    {
+        $conn = DatabaseQuery::connect();
+    try{
+            $query = $conn->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);
+            $query->execute();
+
+            $check = $query->rowCount();
+            if ($check) {
+                return $check;
+            } else {
+                throw new UserNotFoundException;
+            }
+        } catch (UserNotFoundException $e) {
+        echo $e->errorMessage();
+    }
     }
 
 }

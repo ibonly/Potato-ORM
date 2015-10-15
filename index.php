@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 
 use Ibonly\SugarORM\Users;
 use Ibonly\SugarORM\SaveUserExistException;
+use Ibonly\SugarORM\UserNotFoundException;
 
 
 // $sugar = new Users();
@@ -12,9 +13,9 @@ use Ibonly\SugarORM\SaveUserExistException;
 
 // $sugar = new Users();
 // $sugar->id = NULL;
-// $sugar->username = "Sasdh2owla21";
-// $sugar->email = "segusada22nw1@g.com";
-// $sugar->password = 121111;
+// $sugar->username = "Sasdh2owasdla21";
+// $sugar->email = "segusada22adnw1@g.com";
+// $sugar->password = 12111111;
 // try{
 //     echo $sugar->save();
 // } catch (SaveUserExistException $e) {
@@ -26,10 +27,11 @@ use Ibonly\SugarORM\SaveUserExistException;
 // print_r($sugar->find(2));
 
 
-$sugar = Users::find(1);
-$sugar->password = "adasdsad";
-$sugar->email = "ade@ade.com";
-echo $sugar->save();
-// if ($sugar->save())
+// $sugar = Users::find(1);
+// $sugar->password = "adasdsad";
+// $sugar->email = "ade@ade.com";
+// echo $sugar->save();
 
+    echo $sugar = Users::destroy(47);
+    die($sugar);
 
