@@ -6,17 +6,10 @@ use PDO;
 class DBConfig
 {
 
-    private $host      = "localhost";
-    private $user      = "root";
-    private $pass      = "";
-    private $dbname    = "todo_app";
 
-    protected $dbh;
-    protected $error;
-
-    public function __construct(){
+    public function connect(){
         // Set DSN
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
+        $dsn = 'mysql:host=localhost;dbname=todo_app';
         // Set options
         $options = array(
             PDO::ATTR_PERSISTENT    => true,
@@ -25,12 +18,13 @@ class DBConfig
         // Create a new PDO instanace
         try
         {
-            $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
+            $dbh = new PDO($dsn, "root", "", $options);
         }
         // Catch any errors
         catch(PDOException $e)
         {
-            $this->error = $e->getMessage();
+            $error = $e->getMessage();
         }
+        return $dbh;
     }
 }

@@ -6,8 +6,4 @@ use Ibonly\SugarORM\Model;
 
 class Users extends Model
 {
-    public function getClassss()
-    {
-        return Model::getClassName();
-    }
 }
