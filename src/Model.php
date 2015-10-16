@@ -1,4 +1,11 @@
 <?php
+/**
+ * SugarORM manages the persistence of database CRUD operations.
+ *
+ * @package Ibonly\SugarORM\Model
+ * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
+ * @license MIT <https://opensource.org/licenses/MIT>
+ */
 
 namespace Ibonly\SugarORM;
 
@@ -6,15 +13,16 @@ use PDO;
 use Exception;
 use PDOException;
 use Ibonly\SugarORM\DatabaseQuery;
+use Ibonly\SugarORM\ModelInterface;
 use Ibonly\SugarORM\UserNotFoundException;
 use Ibonly\SugarORM\EmptyDatabaseException;
 use Ibonly\SugarORM\SaveUserExistException;
 
-class Model extends DatabaseQuery
+class Model extends DatabaseQuery implements ModelInterface
 {
 
     /**
-     * stripclassName
+     * stripclassName()
      *
      * @param  get_class_name
      *
@@ -28,7 +36,7 @@ class Model extends DatabaseQuery
     }
 
     /**
-     * getTableName
+     * getTableName()
      *
      * @return [type] [description]
      */
@@ -37,6 +45,12 @@ class Model extends DatabaseQuery
         return DatabaseQuery::checkTableName(self::stripclassName());
     }
 
+    /**
+     * getALL()
+     * Get all record from the database
+     *
+     * @return [json]
+     */
     public function getALL()
     {
         $connection = DatabaseQuery::connect();
@@ -54,6 +68,14 @@ class Model extends DatabaseQuery
         }
     }
 
+    /**
+     * where($field, $value)
+     * Get data from database where $field = $value
+     *
+     * @param  [string] $field
+     * @param  [string/int] $value
+     * @return [json]
+     */
     public function where($field, $value)
     {
         $connection = DatabaseQuery::connect();
@@ -71,6 +93,13 @@ class Model extends DatabaseQuery
         }
     }
 
+    /**
+     * find($value)
+     * Find data from database where id = $value
+     *
+     * @param  [int] $value
+     * @return [array]
+     */
     public function find($value)
     {
         $connection = DatabaseQuery::connect();
@@ -92,6 +121,12 @@ class Model extends DatabaseQuery
         }
     }
 
+    /**
+     * save()
+     * Insert data into database
+     *
+     * @return [bool]
+     */
     public function save()
     {
         $connection = DatabaseQuery::connect();
@@ -116,6 +151,13 @@ class Model extends DatabaseQuery
         }
     }
 
+    /**
+     * destroy($value)
+     * Delete data from database
+     *
+     *@param  [int] $value
+     * @return [bool]
+     */
     public function destroy($value)
     {
         $connection = DatabaseQuery::connect();
@@ -132,53 +174,6 @@ class Model extends DatabaseQuery
         catch (UserNotFoundException $e) {
             return $e->errorMessage();
         }
-    }
-
-    // public function create($ree, $rr)
-    // {
-    //     $val = "";
-        //array_shift($rr);
-        // $r = (array)$this;
-        // foreach ($r as $key) {
-        //     $i++;
-        //     $val .= $key;
-        // }
-        // $conn = DatabaseQuery::connect();
-
-        /*$creatQuery = "CREATE TABLE IF NOT EXISTS peaple (
-        id int(11) NOT NULL AUTO_INCREMENT,
-        username varchar(20) NOT NULL,
-        email varchar(100) NOT NULL,
-        password varchar(100) NOT NULL,
-        PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";*/
-        // $query = $conn->prepare($creatQuery);
-        // $query->execute();
-    //     return $rr[1];
-    // }
-
-    public function increments($value)
-    {
-        return $value." int(11) NOT NULL AUTO_INCREMENT";
-    }
-    public function string($value, $length=NULL)
-    {
-        if( is_null($length))
-        {
-            return $value ." varchar (20) NOT NULL";
-        }
-        else
-        {
-            return $value ." varchar (".$length.") NOT NULL";
-        }
-    }
-    public function text($value)
-    {
-        return $value." text NOT NULL";
-    }
-    public function integer($value)
-    {
-        return $value." int(11) NOT NULL";
     }
 
 }

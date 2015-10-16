@@ -13,16 +13,13 @@ use Exception;
 
 class SaveUserExistException extends Exception
 {
-
-
-
     public function __construct()
     {
         parent::__construct("User already exist in database");
     }
 
     /**
-     * Handle empty user
+     * Get error message
      *
      * @return string
      */

@@ -1,7 +1,6 @@
 <?php
 /**
- * This class handles building sql query statement and check
- * that the table exist in the database.
+ * This class handles database connection.
  *
  * @package Ibonly\SugarORM\DBConfig
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
@@ -13,19 +12,26 @@ namespace Ibonly\SugarORM;
 use PDO;
 use PDOException;
 use Dotenv\Dotenv;
+use Ibonly\SugarORM\DBConfigInterface;
 use Ibonly\SugarORM\InvalidConnectionException;
 
-class DBConfig
+class DBConfig implements DBConfigInterface
 {
 
-
-    public function connect(){
+    /**
+     * connect
+     * database connection
+     *
+     * @return [bool]
+     */
+    public function connect()
+    {
         $this->loadEnv();
 
-        $driver = getenv('DATABASE_DRIVER');
-        $host = getenv('DATABASE_HOST');
-        $name = getenv('DATABASE_NAME');
-        $user = getenv('DATABASE_USER');
+        $driver   = getenv('DATABASE_DRIVER');
+        $host     = getenv('DATABASE_HOST');
+        $name     = getenv('DATABASE_NAME');
+        $user     = getenv('DATABASE_USER');
         $password = getenv('DATABASE_PASSWORD');
 
         // Set DSN
@@ -45,6 +51,7 @@ class DBConfig
         {
             echo "Error connecting to database";
         }
+
         return $dbh;
     }
 

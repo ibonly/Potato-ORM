@@ -12,8 +12,9 @@ namespace Ibonly\SugarORM;
 
 use PDO;
 use Ibonly\SugarORM\DBConfig;
+use Ibonly\SugarORM\DatabaseQueryInterface;
 
-class DatabaseQuery extends DBConfig
+class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
 {
 
     /**

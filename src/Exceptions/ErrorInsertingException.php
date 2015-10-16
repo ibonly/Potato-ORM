@@ -13,7 +13,6 @@ use Exception;
 
 class ErrorInsertingException extends Exception
 {
-
     public function __construct()
     {
         parent::__construct("Cannot insert into database");

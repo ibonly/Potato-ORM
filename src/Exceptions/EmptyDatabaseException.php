@@ -1,6 +1,6 @@
 <?php
 /**
- * Exception for user already exist
+ * Exception for no records in database
  *
  * @package Ibonly\SugarORM\UserAlreadyExistException
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
@@ -13,14 +13,13 @@ use Exception;
 
 class EmptyDatabaseException extends Exception
 {
-
     public function __construct()
     {
         parent::__construct("No record found in database");
     }
 
     /**
-     * Handle empty user
+     * Get the error message
      *
      * @return string
      */
