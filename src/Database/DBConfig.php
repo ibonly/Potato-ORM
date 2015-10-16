@@ -2,6 +2,8 @@
 
 namespace Ibonly\SugarORM;
 use PDO;
+use PDOException;
+use Ibonly\SugarORM\InvalidConnectionException;
 
 class DBConfig
 {
@@ -23,7 +25,7 @@ class DBConfig
         // Catch any errors
         catch(PDOException $e)
         {
-            $error = $e->getMessage();
+            echo "Error connecting to database";
         }
         return $dbh;
     }

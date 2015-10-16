@@ -5,8 +5,10 @@ namespace Ibonly\SugarORM;
 use Ibonly\SugarORM\DatabaseQuery;
 use Ibonly\SugarORM\SaveUserExistException;
 use Ibonly\SugarORM\UserNotFoundException;
+use Ibonly\SugarORM\EmptyDatabaseException;
 use PDO;
 use PDOException;
+use Exception;
 
 class Model extends DatabaseQuery
 {
@@ -24,43 +26,56 @@ class Model extends DatabaseQuery
 
     public function getALL()
     {
-            $conn = DatabaseQuery::connect();
+        $connection = DatabaseQuery::connect();
+        try{
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName());
-            $query = $conn->prepare($sqlQuery);
+            $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ($query->rowCount()) {
-                return json_encode($query->fetchAll(PDO::FETCH_OBJ), JSON_FORCE_OBJECT);
+                return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
             } else {
-                return false;
+                throw new EmptyDatabaseException();
             }
+        }catch(EmptyDatabaseException $e){
+            echo $e->errorMessage();
+        }
     }
 
     public function where($field, $value)
     {
-            $conn = DatabaseQuery::connect();
+        $connection = DatabaseQuery::connect();
+        try{
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), $field, $value);
-            $query = $conn->prepare($sqlQuery);
+            $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ($query->rowCount()) {
-                return json_encode($query->fetchAll(PDO::FETCH_OBJ), JSON_FORCE_OBJECT);
+                return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
             } else {
-                return false;
+                throw new UserNotFoundException();
             }
+        }catch(UserNotFoundException $e){
+            echo $e->errorMessage();
+        }
     }
 
     public function find($value)
     {
-        $conn = DatabaseQuery::connect();
+        $connection = DatabaseQuery::connect();
+        try
+        {
         $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), 'id', $value);
-        $query = $conn->prepare($sqlQuery);
+        $query = $connection->prepare($sqlQuery);
         $query->execute();
         if ($query->rowCount()) {
             $found = new static;
             $found->id = $value;
-            $found->data = $query->fetchAll($conn::FETCH_ASSOC);
+            $found->data = $query->fetchAll($connection::FETCH_ASSOC);
             return $found;
         } else {
-            return false;
+                throw new UserNotFoundException();
+            }
+        }catch(UserNotFoundException $e){
+            echo $e->errorMessage();
         }
     }
 
@@ -82,24 +97,75 @@ class Model extends DatabaseQuery
         }catch(PDOException $e){
             throw new  SaveUserExistException($e->getMessage());
         }
+        catch(SaveUserExistException $e)
+        {
+            echo $e->getMessage();
+        }
     }
 
     public function destroy($value)
     {
-        $conn = DatabaseQuery::connect();
-    try{
-            $query = $conn->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);
-            $query->execute();
-
-            $check = $query->rowCount();
-            if ($check) {
-                return $check;
-            } else {
-                throw new UserNotFoundException;
-            }
-        } catch (UserNotFoundException $e) {
-        echo $e->errorMessage();
+        $connection = DatabaseQuery::connect();
+        try{
+                $query = $connection->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);
+                $query->execute();
+                $check = $query->rowCount();
+                if ($check) {
+                    return $check;
+                } else {
+                    throw new UserNotFoundException;
+                }
+        }
+        catch (UserNotFoundException $e) {
+            return $e->errorMessage();
+        }
     }
+
+    // public function create($ree, $rr)
+    // {
+    //     $val = "";
+        //array_shift($rr);
+        // $r = (array)$this;
+        // foreach ($r as $key) {
+        //     $i++;
+        //     $val .= $key;
+        // }
+        // $conn = DatabaseQuery::connect();
+
+        /*$creatQuery = "CREATE TABLE IF NOT EXISTS peaple (
+        id int(11) NOT NULL AUTO_INCREMENT,
+        username varchar(20) NOT NULL,
+        email varchar(100) NOT NULL,
+        password varchar(100) NOT NULL,
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";*/
+        // $query = $conn->prepare($creatQuery);
+        // $query->execute();
+    //     return $rr[1];
+    // }
+
+    public function increments($value)
+    {
+        return $value." int(11) NOT NULL AUTO_INCREMENT";
+    }
+    public function string($value, $length=NULL)
+    {
+        if( is_null($length))
+        {
+            return $value ." varchar (20) NOT NULL";
+        }
+        else
+        {
+            return $value ." varchar (".$length.") NOT NULL";
+        }
+    }
+    public function text($value)
+    {
+        return $value." text NOT NULL";
+    }
+    public function integer($value)
+    {
+        return $value." int(11) NOT NULL";
     }
 
 }
