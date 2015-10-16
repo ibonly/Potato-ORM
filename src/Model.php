@@ -2,23 +2,36 @@
 
 namespace Ibonly\SugarORM;
 
+use PDO;
+use Exception;
+use PDOException;
 use Ibonly\SugarORM\DatabaseQuery;
-use Ibonly\SugarORM\SaveUserExistException;
 use Ibonly\SugarORM\UserNotFoundException;
 use Ibonly\SugarORM\EmptyDatabaseException;
-use PDO;
-use PDOException;
-use Exception;
+use Ibonly\SugarORM\SaveUserExistException;
 
 class Model extends DatabaseQuery
 {
 
+    /**
+     * stripclassName
+     *
+     * @param  get_class_name
+     *
+     * @return [string] actual class name as table
+     */
     public function stripclassName()
     {
         $className = strtolower(get_called_class());
         $r = explode("\\", $className);
         return $r[2];
     }
+
+    /**
+     * getTableName
+     *
+     * @return [type] [description]
+     */
     public function getTableName()
     {
         return DatabaseQuery::checkTableName(self::stripclassName());
