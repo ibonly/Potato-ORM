@@ -12,6 +12,7 @@ namespace Ibonly\SugarORM;
 use PDO;
 use PDOException;
 use Dotenv\Dotenv;
+use Ibonly\SugarORM\Inflector;
 use Ibonly\SugarORM\DBConfigInterface;
 use Ibonly\SugarORM\InvalidConnectionException;
 

@@ -2,14 +2,20 @@
 
 require 'vendor/autoload.php';
 
-use Ibonly\SugarORM\Users;
+use Ibonly\SugarORM\User;
+use Ibonly\SugarORM\Child;
+use Ibonly\SugarORM\Inflector;
 use Ibonly\SugarORM\UserNotFoundException;
 use Ibonly\SugarORM\SaveUserExistException;
 
-$sugar = new Users();
+// echo Inflector::pluralize("knife");
 
-// echo $sugar->where('id', 2).PHP_EOL.PHP_EOL;
-echo $sugar->getAll().PHP_EOL.PHP_EOL;
+
+$sugar = new User();
+// echo $sugar->getTableName();
+
+echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
+// echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new Users();

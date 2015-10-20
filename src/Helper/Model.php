@@ -20,6 +20,25 @@ use Ibonly\SugarORM\SaveUserExistException;
 
 class Model extends DatabaseQuery implements ModelInterface
 {
+    protected $pluralize;
+
+    //Inject the inflector trait
+    use Inflector;
+
+    public function __construct()
+    {
+        $this->pluralize = self::pluralize(self::stripclassName());
+    }
+
+    /**
+     * getClassName()
+     *
+     * @return [string] Plural form of class name
+     */
+    public function getClassName()
+    {
+        return $this->pluralize;
+    }
 
     /**
      * stripclassName()
@@ -38,11 +57,11 @@ class Model extends DatabaseQuery implements ModelInterface
     /**
      * getTableName()
      *
-     * @return [type] [description]
+     * @return [string] actual tablename from database
      */
     public function getTableName()
     {
-        return DatabaseQuery::checkTableName(self::stripclassName());
+        return DatabaseQuery::checkTableName(self::getClassName());
     }
 
     /**
@@ -63,7 +82,7 @@ class Model extends DatabaseQuery implements ModelInterface
             } else {
                 throw new EmptyDatabaseException();
             }
-        }catch(EmptyDatabaseException $e){
+        } catch (EmptyDatabaseException $e){
             echo $e->errorMessage();
         }
     }
@@ -88,7 +107,7 @@ class Model extends DatabaseQuery implements ModelInterface
             } else {
                 throw new UserNotFoundException();
             }
-        }catch(UserNotFoundException $e){
+        } catch (UserNotFoundException $e){
             echo $e->errorMessage();
         }
     }
@@ -116,7 +135,7 @@ class Model extends DatabaseQuery implements ModelInterface
         } else {
                 throw new UserNotFoundException();
             }
-        }catch(UserNotFoundException $e){
+        } catch (UserNotFoundException $e){
             echo $e->errorMessage();
         }
     }
@@ -142,7 +161,7 @@ class Model extends DatabaseQuery implements ModelInterface
                     $statement->execute();
                     return true;
                 }
-        }catch(PDOException $e){
+        } catch (PDOException $e){
             throw new  SaveUserExistException($e->getMessage());
         }
         catch(SaveUserExistException $e)
@@ -170,8 +189,7 @@ class Model extends DatabaseQuery implements ModelInterface
                 } else {
                     throw new UserNotFoundException;
                 }
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return $e->errorMessage();
         }
     }

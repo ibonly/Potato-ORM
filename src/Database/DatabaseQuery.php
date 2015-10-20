@@ -16,6 +16,15 @@ use Ibonly\SugarORM\DatabaseQueryInterface;
 
 class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
 {
+    /**
+     * @param sanitize function
+     */
+    public function sanitize($value)
+    {
+        $value = trim($value);
+        $value = htmlentities($value);
+        return $value;
+    }
 
     /**
      * checkTableName
@@ -40,6 +49,7 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
      * @param  [string] $tableName
      * @param  [string/NULL] $field
      * @param  [string/NULL] $value
+     *
      * @return [string] SQL select query statement
      */
     public function selectQuery($tableName, $field = NULL, $value = NULL)
@@ -48,7 +58,7 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
         if( is_null ($field)){
             $query = "SELECT * FROM $tableName";
         }else{
-            $query =  "SELECT * FROM $tableName WHERE ".$field." = ".$value;
+            $query =  "SELECT * FROM $tableName WHERE ".self::sanitize($field)." = ".self::sanitize($value);
         }
 
         return $query;
@@ -72,7 +82,7 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
         foreach ($data as $key => $value)
         {
             $counter++;
-            $insertQuery .= $key;
+            $insertQuery .= self::sanitize($key);
             if($arraySize > $counter)
                 $insertQuery .= ", ";
         }
@@ -83,7 +93,7 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
         foreach ($data as $key => $value)
         {
              $counter++;
-            $insertQuery .= "'".$value ."'";
+            $insertQuery .= "'".self::sanitize($value) ."'";
             if($arraySize > $counter)
                 $insertQuery .= ", ";
         }
@@ -112,12 +122,12 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
         foreach ($data as $key => $value)
         {
             $counter++;
-            $updateQuery .= $key ." = '".$value."'";
+            $updateQuery .= $key ." = '".self::sanitize($value)."'";
             if($arraySize > $counter)
                 $updateQuery .= ", ";
         }
 
-        $updateQuery .= " WHERE id = ". $this->id;
+        $updateQuery .= " WHERE id = ". self::sanitize($this->id);
 
         return $updateQuery;
     }

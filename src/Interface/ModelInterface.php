@@ -12,6 +12,8 @@ namespace Ibonly\SugarORM;
 interface ModelInterface
 {
 
+    public function getclassName();
+
     public function stripclassName();
 
     public function getTableName();
