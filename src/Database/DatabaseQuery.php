@@ -27,6 +27,23 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
     }
 
     /**
+     * checkTableExist
+     *
+     * @param  [string] $table
+     * @return [bool] table name
+     */
+    public function checkTableExist($table)
+    {
+        $output = "";
+        $con = DBConfig::connect();
+        $query = $con->query("select 1 from $table LIMIT 1");
+        if($query !== false)
+        {
+            return true;
+        }
+    }
+
+    /**
      * checkTableName
      *
      * @param  [string] $table

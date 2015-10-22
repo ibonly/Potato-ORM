@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 
 use Ibonly\SugarORM\User;
 use Ibonly\SugarORM\Child;
+use Ibonly\SugarORM\Schema;
 use Ibonly\SugarORM\Inflector;
 use Ibonly\SugarORM\UserNotFoundException;
 use Ibonly\SugarORM\SaveUserExistException;
@@ -11,10 +12,10 @@ use Ibonly\SugarORM\SaveUserExistException;
 // echo Inflector::pluralize("knife");
 
 
-$sugar = new User();
+// $sugar = new User();
 // echo $sugar->getTableName();
 
-echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
+// echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
 // echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
@@ -42,10 +43,14 @@ echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
     // die($sugar);
     //
 
-// $ee = Users::create('channels', function($table){
-// $table->increments('id');
-// $table->string('channel_name', 30);
-// $table->text('channel_description');
-// $table->integer('subscription_count');
-// });
-// var_dump($ee);
+$table = new Schema;
+$table->field('increments', 'id');
+$table->field('string', 'milk', 30);
+$table->field('string', 'name');
+$table->field('text', 'body');
+$table->field('text', 'cool');
+$table->field('string', 'email', 100);
+$table->field('primaryKey', 'id');
+$table->field('foriegnKey', 'id', 'useers_id');
+
+echo $table->createTable('peoples');
