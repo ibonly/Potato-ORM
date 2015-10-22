@@ -53,4 +53,4 @@ $table->field('string', 'email', 100);
 $table->field('primaryKey', 'id');
 $table->field('foriegnKey', 'id', 'useers_id');
 
-echo $table->createTable('peoples');
+echo $table->createTable('peoples');a
