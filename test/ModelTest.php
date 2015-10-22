@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibonly\SugarORM\Test;
+// namespace Ibonly\SugarORM\Test;
 
 use PDO;
 use Mockery;
