@@ -39,12 +39,14 @@ before_script:
   - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi
   - if [[ "$DB" == "pgsql" ]]; then psql -c "create database hello_world_test;" -U postgres; fi
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot; fi
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
 
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
 script: phpunit --configuration phpunit_$DB.xml --coverage-text
 
-install: travis_retry composer install --no-interaction --prefer-source
+# install: travis_retry composer install --no-interaction --prefer-source
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
