@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 // namespace Ibonly\SugarORM\Test;
 
 // use PDO;
