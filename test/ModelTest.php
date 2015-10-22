@@ -2,9 +2,9 @@
 
 namespace Ibonly\SugarORM\Test;
 
+use PDO;
 use Mockery;
 use Ibonly\SugarORM\Model;
-use PDO;
 
 class ModelTest extends \PHPUnit_Framework_TestCase
 {
