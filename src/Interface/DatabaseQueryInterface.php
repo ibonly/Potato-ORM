@@ -11,6 +11,8 @@ namespace Ibonly\SugarORM;
 
 interface DatabaseQueryInterface
 {
+    public function connect();
+
     public function checkTableExist($table);
 
     public function checkTableName($table);

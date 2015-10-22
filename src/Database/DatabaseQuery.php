@@ -16,6 +16,11 @@ use Ibonly\SugarORM\DatabaseQueryInterface;
 
 class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
 {
+    public function connect()
+    {
+        return new DBConfig();
+    }
+
     /**
      * @param sanitize function
      */
@@ -35,7 +40,7 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
     public function checkTableExist($table)
     {
         $output = "";
-        $con = DBConfig::connect();
+        $con = self::connect();
         $query = $con->query("select 1 from $table LIMIT 1");
         if($query !== false)
         {
@@ -52,7 +57,7 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
     public function checkTableName($table)
     {
         $output = "";
-        $con = DBConfig::connect();
+        $con = self::connect();
         $query = $con->query("select 1 from $table LIMIT 1");
         if($query !== false)
         {

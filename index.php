@@ -12,11 +12,11 @@ use Ibonly\SugarORM\SaveUserExistException;
 // echo Inflector::pluralize("knife");
 
 
-// $sugar = new User();
+$sugar = new User();
 // echo $sugar->getTableName();
 
 // echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
-// echo $sugar->getAll().PHP_EOL.PHP_EOL;
+echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new Users();
@@ -43,14 +43,14 @@ use Ibonly\SugarORM\SaveUserExistException;
     // die($sugar);
     //
 
-$table = new Schema;
-$table->field('increments', 'id');
-$table->field('string', 'milk', 30);
-$table->field('string', 'name');
-$table->field('text', 'body');
-$table->field('text', 'cool');
-$table->field('string', 'email', 100);
-$table->field('primaryKey', 'id');
-$table->field('foriegnKey', 'id', 'useers_id');
+// $table = new Schema;
+// $table->field('increments', 'id');
+// $table->field('string', 'milk', 30);
+// $table->field('string', 'name');
+// $table->field('text', 'body');
+// $table->field('text', 'cool');
+// $table->field('string', 'email', 100);
+// $table->field('primaryKey', 'id');
+// $table->field('foriegnKey', 'id', 'useers_id');
 
-echo $table->createTable('peoples');a
+// echo $table->createTable('peoples');

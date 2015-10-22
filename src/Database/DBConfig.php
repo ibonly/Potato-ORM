@@ -16,54 +16,42 @@ use Ibonly\SugarORM\Inflector;
 use Ibonly\SugarORM\DBConfigInterface;
 use Ibonly\SugarORM\InvalidConnectionException;
 
-class DBConfig implements DBConfigInterface
+class DBConfig extends PDO
 {
-
     /**
-     * connect
-     * database connection
      *
-     * @return [bool]
      */
-    public function connect()
+    public function __construct()
     {
-        $this->loadEnv();
-
-        $driver   = getenv('DATABASE_DRIVER');
-        $host     = getenv('DATABASE_HOST');
-        $name     = getenv('DATABASE_NAME');
-        $user     = getenv('DATABASE_USER');
+        $this->loadDotenv();
+        $engine = getenv('DATABASE_DRIVER');
+        $host = getenv('DATABASE_HOST');
+        $dbname = getenv('DATABASE_NAME');
+        $port= getenv('DATABASE_PORT');
+        $user = getenv('DATABASE_USER');
         $password = getenv('DATABASE_PASSWORD');
-
-        // Set DSN
-        $dsn = $driver.':host='.$host.';dbname='.$name;
-        // Set options
-        $options = array(
-            PDO::ATTR_PERSISTENT    => true,
-            PDO::ATTR_ERRMODE       => PDO::ERRMODE_EXCEPTION
-        );
-        // Create a new PDO instanace
-        try
-        {
-            $dbh = new PDO($dsn, $user, $password, $options);
+        try {
+            if ($engine === 'pgsql') {
+                $dbConn = parent::__construct($engine . ':host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';user=' . $user . ';password=' . $password);
+                $dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $dbConn->setAttribute(PDO::ATTR_PERSISTENT, false);
+            } elseif ($engine === 'mysql') {
+                $dbConn = parent::__construct($engine . ':host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                                PDO::ATTR_PERSISTENT => false]);
+            }
+        } catch (\PDOException $e) {
+            return 'Error in connection';
         }
-        // Catch any errors
-        catch(PDOException $e)
-        {
-            echo "Error connecting to database";
-        }
-
-        return $dbh;
+        return $dbConn;
     }
-
     /**
-     * Get the environment variables from .env using vlucas package
-     *
-     * @return String
+     * Load Dotenv to grant getenv() access to environment variables in .env file
      */
-    public function loadEnv()
+    protected function loadDotenv()
     {
-        $dotenv = new Dotenv(__DIR__ ."../../../");
-        $dotenv->load();
+        if (! getenv('APP_ENV')) {
+            $dotenv = new \Dotenv\Dotenv(__DIR__ . "../../../");
+            $dotenv->load();
+        }
     }
 }

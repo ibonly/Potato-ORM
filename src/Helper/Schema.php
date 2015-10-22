@@ -164,6 +164,17 @@ class Schema extends DatabaseQuery implements SchemaInterface
     }
 
     /**
+     * unique(argument)
+     *
+     * @param  [string] $value
+     *
+     * @return [string]
+     */
+    public function unique($value)
+    {
+        return "UNIQUE KEY {$value} ({$value})";
+    }
+    /**
      * foreignKey(argument)
      *
      * @param  [type] $value
