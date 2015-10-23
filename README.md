@@ -20,65 +20,67 @@ $ composer require ibonly/potato-orm
 ```
 $ composer install
 ```
+
 ## Usage
+
 Create a `Class` that correspond to the singular form of the table name in the database. i.e.
 
 ```
 <?php
+    namespace Ibonly\PotatoORM;
 
-namespace Ibonly\PotatoORM;
+    class User extends Model
+    {
 
-class User extends Model
-{
-
-}
+    }
 ?>
 ```
 The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, `save()` and `detroy($id)` methods.
 
 ### getAll()
+
 ```
 <?php
+    use Ibonly\PotatoORM\User;
 
-use Ibonly\PotatoORM\User;
-
-echo $sugar->getAll();
-
+    echo $sugar->getAll();
 ?>
 ```
+
     `Return type = JSON`
 
 ### where($field, $value)
+
 ```
 <?php
+    use Ibonly\PotatoORM\User;
 
-use Ibonly\PotatoORM\User;
-
-echo $sugar->where($field, $value);
-
+    echo $sugar->where($field, $value);
 ?>
 ```
+
     `Return type = JSON`
 
 ### find($value)
+
 ```
 <?php
-
     use Ibonly\PotatoORM\User;
 
     $insert = User::find(1);
     $insert->password = "password";
     echo $insert->save()
-
 ?>
 ```
+
     To return custom message, wrap the `save()` method in an `if statement`
+
     `Return type = Boolean`
 
 ### save()
+
 ```
 <?php
-
     use Ibonly\PotatoORM\User;
     use Ibonly\PotatoORM\SaveUserExistException;
 
@@ -94,22 +96,27 @@ echo $sugar->where($field, $value);
     }
 ?>
 ```
+
     To return custom message, wrap the `save()` method in an `if statement`
+
     `Return type = Boolean`
 
 ### detroy($value)
+
 ```
 <?php
-
-use Ibonly\PotatoORM\User;
+    use Ibonly\PotatoORM\User;
 
     $insert = User::destroy(2);
     die($insert);
 ?>
 ```
+
     `Return type = Boolean`
 
-Its is also possible to create Database Table with the `Schema` class. The table name will be specified in the `createTable($name)` method.
+Its is also possible to create Database Table with the `Schema` class. The table name will be specified in the
+`createTable($name)` method.
+
 ```
 <?php
     use Ibonly\PotatoORM\Schema;
@@ -127,24 +134,30 @@ Its is also possible to create Database Table with the `Schema` class. The table
     `Return type = Boolean`
 
 #### Database Constraint
+
     Foreign Key
+
     ```
         $user->field('foreignKey', 'id', 'users_id');
     ```
+
     The reference table `(users)` and field `(id)` will be written as `(users_id)`
 
     Unique
+
     ```
         $user->field('unique', 'email')
     ```
 
 
 ## Testing
+
 ```
 $ vendor/bin/phpunit test
 ```
 
 ## Contributing
+
 To contribute and extend the scope of this package,
 Please check out [CONTRIBUTING](CONTRIBUTING.md) file for detailed contribution guidelines.
 
