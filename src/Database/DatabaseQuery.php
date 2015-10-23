@@ -20,7 +20,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     }
 
     /**
-     * @param sanitize function
+     * sanitize(argument) Removes unwanted characters
      */
     public function sanitize($value)
     {
@@ -32,8 +32,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * checkTableExist
      *
-     * @param  [string] $table
-     * @return [bool] table name
+     * @return bool
      */
     public function checkTableExist($table, $con=NULL)
     {
@@ -51,8 +50,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * checkTableName
      *
-     * @param  [string] $table
-     * @return [string] table name
+     * @return string
      */
     public function checkTableName($table, $con=NULL)
     {
@@ -70,11 +68,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * selectQuery
      *
-     * @param  [string] $tableName
-     * @param  [string/NULL] $field
-     * @param  [string/NULL] $value
-     *
-     * @return [string] SQL select query statement
+     * @return string
      */
     public function selectQuery($tableName, $field = NULL, $value = NULL)
     {
@@ -91,9 +85,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * insertQuery
      *
-     * @param  [string] $tableName
-     * @param  (array)$this [variables set outside the class]
-     * @return [string] SQL insert query statement
+     * @return string
      */
     public function insertQuery($tableName)
     {
@@ -130,9 +122,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * updateQuery
      *
-     * @param  [string] $tableName
-     * @param  (array)$this [variables set outside the class]
-     * @return [string] SQL update query statement
+     * @return string
      */
     public function updateQuery($tableName)
     {

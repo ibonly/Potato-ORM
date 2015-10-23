@@ -33,9 +33,7 @@ class Model extends DatabaseQuery implements ModelInterface
     /**
      * stripclassName()
      *
-     * @param  get_class_name
-     *
-     * @return [string] actual class name as table
+     * @return string
      */
     public function stripclassName()
     {
@@ -91,9 +89,7 @@ class Model extends DatabaseQuery implements ModelInterface
      * where($field, $value)
      * Get data from database where $field = $value
      *
-     * @param  [string] $field
-     * @param  [string/int] $value
-     * @return [json]
+     * @return array
      */
     public function where($field, $value)
     {
@@ -103,7 +99,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ($query->rowCount()) {
-                return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
+                return $query->fetchAll($connection::FETCH_OBJ);
             } else {
                 throw new UserNotFoundException();
             }
@@ -116,8 +112,7 @@ class Model extends DatabaseQuery implements ModelInterface
      * find($value)
      * Find data from database where id = $value
      *
-     * @param  [int] $value
-     * @return [array]
+     * @return array
      */
     public function find($value)
     {
@@ -144,7 +139,7 @@ class Model extends DatabaseQuery implements ModelInterface
      * save()
      * Insert data into database
      *
-     * @return [bool]
+     * @return bool
      */
     public function save()
     {
@@ -174,8 +169,7 @@ class Model extends DatabaseQuery implements ModelInterface
      * destroy($value)
      * Delete data from database
      *
-     *@param  [int] $value
-     * @return [bool]
+     * @return bool
      */
     public function destroy($value)
     {

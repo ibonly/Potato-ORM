@@ -19,11 +19,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * field(arguments) contains the sql field statement
      *
-     * @param  $type
-     * @param  $fieldName
-     * @param  $length
-     *
-     * @return [array]
+     * @return array
      */
     public function field($type, $fieldName, $length=NULL)
     {
@@ -39,9 +35,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * buildQuery(argument): Builds the CREATE query
      *
-     * @param  [string] $tablename
-     *
-     * @return [string] SQL CREATE query statmement
+     * @return string
      */
     public function buildQuery($tablename)
     {
@@ -60,16 +54,15 @@ class Schema extends DatabaseQuery implements SchemaInterface
             }
         };
         array_walk($this->fieldDescription, $callback);
-        $query .= ');';        return $query;
+        $query .= ');';
+        return $query;
     }
 
     /**
-     * sanitizeQuery(argument) Removes the unwanted character in the build
-     *                         and completes the statement
+     * SanitizeQuery(argument) Removes the unwanted character in the build
+     * and completes the statement
      *
-     * @param  [string] $query
-     *
-     * @return [string] Complete sql CREATE statement
+     * @return string
      */
     public function sanitizeQuery($query)
     {
@@ -81,9 +74,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * createTable(argument) Execute the CREATE query
      *
-     * @param  [string] $tablename
-     *
-     * @return [bool]
+     * @return bool
      */
     public function createTable($tablename)
     {
@@ -104,9 +95,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * increments(argument)
      *
-     * @param  [string] $value [description]
-     *
-     * @return [string]
+     * @return string
      */
     public function increments($value)
     {
@@ -116,10 +105,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * strings(arguments)
      *
-     * @param  [strings] $value
-     * @param  [int] $length
-     *
-     * @return [string]
+     * @return string
      */
     public function strings($value, $length)
     {
@@ -129,9 +115,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * text(argument)
      *
-     * @param  [string] $value
-     *
-     * @return [string]
+     * @return string
      */
     public function text($value)
     {
@@ -141,10 +125,8 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * increments(argument)
      *
-     * @param  [string] $value [description]
-     * @param  [int] $length [description]
      *
-     * @return [string]
+     * @return string
      */
     public function integer($value, $length)
     {
@@ -154,9 +136,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * increments(argument)
      *
-     * @param  [string] $value [description]
-     *
-     * @return [string]
+     * @return string
      */
     public function primaryKey($value)
     {
@@ -166,9 +146,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * unique(argument)
      *
-     * @param  [string] $value
-     *
-     * @return [string]
+     * @return string
      */
     public function unique($value)
     {
@@ -177,10 +155,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     /**
      * foreignKey(argument)
      *
-     * @param  [type] $value
-     * @param  [string/int] $length
-     *
-     * @return [string]
+     * @return string
      */
     public function foreignKey($value, $length)
     {
