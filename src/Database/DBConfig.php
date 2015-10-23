@@ -23,6 +23,7 @@ class DBConfig extends PDO
      */
     public function __construct()
     {
+        $dbConn = "";
         $this->loadDotenv();
         $engine = getenv('DATABASE_DRIVER');
         $host = getenv('DATABASE_HOST');

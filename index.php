@@ -8,27 +8,29 @@ use Ibonly\SugarORM\Schema;
 use Ibonly\SugarORM\Inflector;
 use Ibonly\SugarORM\UserNotFoundException;
 use Ibonly\SugarORM\SaveUserExistException;
+use Ibonly\SugarORM\DBConfig;
 
 // echo Inflector::pluralize("knife");
 
 
-$sugar = new User();
+// $sugar = new User();
+// $db = new DBConfig;
 // echo $sugar->getTableName();
-
+// echo $sugar->checkTableExist('uses', $db);
 // echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
-echo $sugar->getAll().PHP_EOL.PHP_EOL;
+// echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
-// $sugar = new Users();
-// $sugar->id = NULL;
-// $sugar->username = "alande";
-// $sugar->email = "ikechu@dede.com";
-// $sugar->password = "password123";
-// try{
-//     echo $sugar->save();
-// } catch (SaveUserExistException $e) {
-//     echo $e->errorMessage();
-// }
+$sugar = new User();
+$sugar->id = NULL;
+$sugar->username = "alanxzde";
+$sugar->email = "ikechu@zxzdede.com";
+$sugar->password = "passwxzxxord123";
+try{
+    echo $sugar->save();
+} catch (SaveUserExistException $e) {
+    echo $e->errorMessage();
+}
 
 
 // $sugar = new Users();

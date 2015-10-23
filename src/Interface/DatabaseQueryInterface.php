@@ -13,9 +13,9 @@ interface DatabaseQueryInterface
 {
     public function connect();
 
-    public function checkTableExist($table);
+    public function checkTableExist($table, $dbConnection=NULL);
 
-    public function checkTableName($table);
+    public function checkTableName($table, $dbConnection=NULL);
 
     public function selectQuery($tableName, $field = NULL, $value = NULL);
 

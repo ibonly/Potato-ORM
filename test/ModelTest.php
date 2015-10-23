@@ -1,45 +1,49 @@
 <?php
 
-require '../vendor/autoload.php';
-// namespace Ibonly\SugarORM\Test;
+namespace Ibonly\SugarORM\Test;
 
-// use PDO;
-// use Mockery;
-// use Ibonly\SugarORM\Model;
+use PDO;
+use Mockery;
+use Ibonly\SugarORM\Model;
+use PHPUnit_Framework_TestCase;
 
 class ModelTest extends PHPUnit_Framework_TestCase
 {
-    // public function setUp()
-    // {
-    //     $this->model = new Model();
-    // }
-
-    private $pdo;
+    /**
+     * Define class initialization
+     */
     public function setUp()
     {
-        $this->pdo = new PDO($GLOBALS['db_dsn'], $GLOBALS['db_username'], $GLOBALS['db_password']);
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->pdo->query("CREATE TABLE users (what VARCHAR(50) NOT NULL)");
+        $this->databaseQuery = new Model;
     }
+
+    /**
+     * Tear down all mock objects
+     */
     public function tearDown()
     {
-        $this->pdo->query("DROP TABLE users");
-    }
-    public function testClassNameIsString()
-    {
-        $this->assertInternalType("string", Model::stripclassName());
+        Mockery::close();
     }
 
-    public function testGetAll()
+    public function testGetClassName()
     {
-        $dbConnMocked = Mockery::mock('Ibonly\SugarORM\DatabaseQuery');
+        $this->assertInternalType("string", $this->databaseQuery->getClassName());
+    }
+
+    public function testStripclassName()
+    {
+        $this->assertInternalType("string", $this->databaseQuery->stripclassName());
+    }
+
+
+    public function testGetTableNameException()
+    {
+        $dbConnMocked = Mockery::mock('\Ibonly\SugarORM\DBConfig');
         $statement = Mockery::mock('\PDOStatement');
 
-        // $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM dogs LIMIT 1')->andReturn($statement);
-        $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn(true);
+        $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn($statement);
 
-        // $this->assertTrue(Backbone::checkForTable('dogs', $dbConnMocked));
-        $this->assertTrue(Model::checkTableExist('children'));
+        $this->setExpectedException('\PDOException');
+        $this->assertTrue($this->databaseQuery->getTableName());
     }
-
 }
