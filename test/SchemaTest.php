@@ -1,10 +1,10 @@
 <?php
 
-namespace Ibonly\SugarORM\Test;
+namespace Ibonly\PotatoORM\Test;
 
 use PDO;
 use Mockery;
-use Ibonly\SugarORM\Schema;
+use Ibonly\PotatoORM\Schema;
 
 class SchemaTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +51,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateTable()
     {
-        $dbConnMocked = Mockery::mock('\Ibonly\SugarORM\DBConfig');
+        $dbConnMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
         $statement = Mockery::mock('\PDOStatement');
 
         $dbConnMocked->shouldReceive('query')->with("CREATE TABLE IF NOT EXISTS users( id int(11) NOT NULL AUTO_INCREMENT );")->andReturn($statement);

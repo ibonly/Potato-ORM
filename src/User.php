@@ -1,8 +1,8 @@
 <?php
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
-use Ibonly\SugarORM\Model;
+use Ibonly\PotatoORM\Model;
 
 class User extends Model
 {

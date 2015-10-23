@@ -2,12 +2,12 @@
 /**
  * Exception for no records in database
  *
- * @package Ibonly\SugarORM\UserAlreadyExistException
+ * @package Ibonly\PotatoORM\UserAlreadyExistException
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
 use Exception;
 

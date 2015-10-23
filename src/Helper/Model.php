@@ -1,22 +1,22 @@
 <?php
 /**
- * SugarORM manages the persistence of database CRUD operations.
+ * PotatoORM manages the persistence of database CRUD operations.
  *
- * @package Ibonly\SugarORM\Model
+ * @package Ibonly\PotatoORM\Model
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
 use PDO;
 use Exception;
 use PDOException;
-use Ibonly\SugarORM\DatabaseQuery;
-use Ibonly\SugarORM\ModelInterface;
-use Ibonly\SugarORM\UserNotFoundException;
-use Ibonly\SugarORM\EmptyDatabaseException;
-use Ibonly\SugarORM\SaveUserExistException;
+use Ibonly\PotatoORM\DatabaseQuery;
+use Ibonly\PotatoORM\ModelInterface;
+use Ibonly\PotatoORM\UserNotFoundException;
+use Ibonly\PotatoORM\EmptyDatabaseException;
+use Ibonly\PotatoORM\SaveUserExistException;
 
 class Model extends DatabaseQuery implements ModelInterface
 {

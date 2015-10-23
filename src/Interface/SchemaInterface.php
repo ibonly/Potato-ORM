@@ -2,12 +2,12 @@
 /**
  * Defining Interface for class SchemaInterface.
  *
- * @package Ibonly\SugarORM\DatabaseQueryInterface
+ * @package Ibonly\PotatoORM\DatabaseQueryInterface
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
 interface SchemaInterface
 {

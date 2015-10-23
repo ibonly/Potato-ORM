@@ -1,11 +1,11 @@
 <?php
 
-namespace Ibonly\SugarORM\Test;
+namespace Ibonly\PotatoORM\Test;
 
 use PDO;
 use Mockery;
 use PHPUnit_Framework_TestCase;
-use Ibonly\SugarORM\DatabaseQuery;
+use Ibonly\PotatoORM\DatabaseQuery;
 
 class DatabaseQueryTest extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class DatabaseQueryTest extends PHPUnit_Framework_TestCase
 
     public function testTableExist()
     {
-        $dbConnMocked = Mockery::mock('\Ibonly\SugarORM\DBConfig');
+        $dbConnMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
         $statement = Mockery::mock('\PDOStatement');
 
         $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn($statement);

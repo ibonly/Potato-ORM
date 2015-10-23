@@ -3,14 +3,14 @@
  * This class handles building sql query statement and check
  * that the table exist in the database.
  *
- * @package Ibonly\SugarORM\DatabaseQuery
+ * @package Ibonly\PotatoORM\DatabaseQuery
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
-use Ibonly\SugarORM\DatabaseQueryInterface;
+use Ibonly\PotatoORM\DatabaseQueryInterface;
 
 class DatabaseQuery implements DatabaseQueryInterface
 {

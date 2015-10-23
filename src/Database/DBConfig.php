@@ -2,18 +2,18 @@
 /**
  * This class handles database connection.
  *
- * @package Ibonly\SugarORM\DBConfig
+ * @package Ibonly\PotatoORM\DBConfig
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
 use PDO;
 use PDOException;
 use Dotenv\Dotenv;
-use Ibonly\SugarORM\Inflector;
-use Ibonly\SugarORM\InvalidConnectionException;
+use Ibonly\PotatoORM\Inflector;
+use Ibonly\PotatoORM\InvalidConnectionException;
 
 class DBConfig extends PDO
 {

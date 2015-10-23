@@ -9,13 +9,13 @@
     "autoload": {
         "classmap": ["src/"],
         "psr-4": {
-            "Ibonly\\SugarORM\\": "src/"
+            "Ibonly\\PotatoORM\\": "src/"
         }
     },
     "autoload-dev": {
         "classmap": ["test/"],
         "psr-4"   : {
-            "Ibonly\\SugarORM\\Test\\": "test/"
+            "Ibonly\\PotatoORM\\Test\\": "test/"
         }
     },
     "scripts": {

@@ -2,12 +2,12 @@
 /**
  * Defining Interface for class Model.
  *
- * @package Ibonly\SugarORM\ModelInterface
+ * @package Ibonly\PotatoORM\ModelInterface
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
 interface ModelInterface
 {

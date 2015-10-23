@@ -2,13 +2,13 @@
 
 require 'vendor/autoload.php';
 
-use Ibonly\SugarORM\User;
-use Ibonly\SugarORM\Child;
-use Ibonly\SugarORM\Schema;
-use Ibonly\SugarORM\Inflector;
-use Ibonly\SugarORM\UserNotFoundException;
-use Ibonly\SugarORM\SaveUserExistException;
-use Ibonly\SugarORM\DBConfig;
+use Ibonly\PotatoORM\User;
+use Ibonly\PotatoORM\Child;
+use Ibonly\PotatoORM\Schema;
+use Ibonly\PotatoORM\Inflector;
+use Ibonly\PotatoORM\UserNotFoundException;
+use Ibonly\PotatoORM\SaveUserExistException;
+use Ibonly\PotatoORM\DBConfig;
 
 // echo Inflector::pluralize("knife");
 

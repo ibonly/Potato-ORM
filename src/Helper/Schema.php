@@ -7,11 +7,11 @@
  * @license MIT <https://opensource.org/licenses/MIT>
  */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
 use PDOException;
-use Ibonly\SugarORM\DatabaseQuery;
-use Ibonly\SugarORM\SchemaInterface;
+use Ibonly\PotatoORM\DatabaseQuery;
+use Ibonly\PotatoORM\SchemaInterface;
 
 class Schema extends DatabaseQuery implements SchemaInterface
 {

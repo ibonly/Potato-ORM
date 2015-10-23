@@ -34,7 +34,7 @@
 * @version $Revision 0.1 $
 */
 
-namespace Ibonly\SugarORM;
+namespace Ibonly\PotatoORM;
 
 trait Inflector
 {
