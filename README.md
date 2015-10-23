@@ -109,6 +109,36 @@ use Ibonly\PotatoORM\User;
 ```
     `Return type = Boolean`
 
+Its is also possible to create Database Table with the `Schema` class. The table name will be specified in the `createTable($name)` method.
+```
+<?php
+    use Ibonly\PotatoORM\Schema;
+
+    $user = new Schema;
+    $user->field('increments', 'id');
+    $user->field('strings', 'username');
+    $user->field('strings', 'name', 50);
+    $user->field('integer', 'age');
+    $user->field('primaryKey', 'id');
+
+    echo $table->createTable('players');
+?>
+```
+    `Return type = Boolean`
+
+#### Database Constraint
+    Foreign Key
+    ```
+        $user->field('foreignKey', 'id', 'users_id');
+    ```
+    The reference table `(users)` and field `(id)` will be written as `(users_id)`
+
+    Unique
+    ```
+        $user->field('unique', 'email')
+    ```
+
+
 ## Testing
 ```
 $ vendor/bin/phpunit test

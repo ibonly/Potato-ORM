@@ -2,7 +2,7 @@
 
 require 'vendor/autoload.php';
 
-use Ibonly\PotatoORM\User;
+use Ibonly\PotatoORM\Schema;
 // use Ibonly\PotatoORM\Child;
 // use Ibonly\PotatoORM\Schema;
 // use Ibonly\PotatoORM\Inflector;
@@ -41,18 +41,15 @@ use Ibonly\PotatoORM\UserNotFoundException;
 // $sugar->password = "password";
 // echo $sugar->save();
 
-    $sugar = User::destroy(14);
-    die($sugar);
+    // $sugar = User::destroy(14);
+    // die($sugar);
     //
 
-// $table = new Schema;
-// $table->field('increments', 'id');
-// $table->field('strings', 'milk', 30);
-// $table->field('strings', 'name');
-// $table->field('text', 'body');
-// $table->field('text', 'cool');
-// $table->field('strings', 'email', 100);
-// $table->field('primaryKey', 'id');
-// $table->field('foreignKey', 'id', 'users_id');
+$table = new Schema;
+$table->field('increments', 'id');
+$table->field('strings', 'name', 30);
+$table->field('integer', 'number');
+$table->field('primaryKey', 'id');
+$table->field('foreignKey', 'id', 'users_id');
 
-// echo $table->createTable('peopless');
+echo $table->createTable('players');
