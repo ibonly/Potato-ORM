@@ -37,7 +37,8 @@ class User extends Model
 The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, `save()` and `detroy($id)` methods.
 
 ### getAll()
-```<?php
+```
+<?php
 
 use Ibonly\PotatoORM\User;
 
@@ -48,7 +49,8 @@ echo $sugar->getAll();
     `Return type = JSON`
 
 ### where($field, $value)
-```<?php
+```
+<?php
 
 use Ibonly\PotatoORM\User;
 
@@ -59,7 +61,8 @@ echo $sugar->where($field, $value);
     `Return type = JSON`
 
 ### find($value)
-```<?php
+```
+<?php
 
     use Ibonly\PotatoORM\User;
 
@@ -73,7 +76,8 @@ echo $sugar->where($field, $value);
     `Return type = Boolean`
 
 ### save()
-```<?php
+```
+<?php
 
     use Ibonly\PotatoORM\User;
     use Ibonly\PotatoORM\SaveUserExistException;
@@ -94,7 +98,8 @@ echo $sugar->where($field, $value);
     `Return type = Boolean`
 
 ### detroy($value)
-```<?php
+```
+<?php
 
 use Ibonly\PotatoORM\User;
 
@@ -103,3 +108,16 @@ use Ibonly\PotatoORM\User;
 ?>
 ```
     `Return type = Boolean`
+
+## Testing
+```
+$ vendor/bin/phpunit test
+```
+
+## Contributing
+To contribute and extend the scope of this package,
+Please check out [CONTRIBUTING](CONTRIBUTING.md) file for detailed contribution guidelines.
+
+## Credits
+
+Open-source-Evangelist is created and maintained by `Ibraheem ADENIYI`.
