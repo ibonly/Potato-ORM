@@ -35,9 +35,9 @@ class DatabaseQueryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->databaseQuery->checkTableExist('users', $dbConnMocked));
     }
 
-    public function testSelectQuery()
-    {
-        $this->assertInternalType("string", $this->databaseQuery->selectQuery('users'));
-    }
+    // public function testSelectQuery()
+    // {
+    //     $this->assertInternalType("string", $this->databaseQuery->selectQuery('users'));
+    // }
 
 }

@@ -14,7 +14,7 @@ use PDO;
 use Ibonly\SugarORM\DBConfig;
 use Ibonly\SugarORM\DatabaseQueryInterface;
 
-class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
+class DatabaseQuery implements DatabaseQueryInterface
 {
     public function connect()
     {
