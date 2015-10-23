@@ -14,7 +14,7 @@ Potato-ORM is a package that manages the CRUD operation od database
 Via Composer
 
 ```
-$ composer require ibonly/potato-ORM
+$ composer require ibonly/potato-orm
 ```
 
 ```
