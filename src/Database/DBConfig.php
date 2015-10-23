@@ -50,9 +50,7 @@ class DBConfig extends PDO
      */
     protected function loadDotenv()
     {
-        if (! getenv('APP_ENV')) {
-            $dotenv = new \Dotenv\Dotenv(__DIR__ . "../../../");
-            $dotenv->load();
-        }
+        $dotenv = new Dotenv(__DIR__ . "../../../");
+        $dotenv->load();
     }
 }
