@@ -62,7 +62,7 @@ class DatabaseQuery extends DBConfig implements DatabaseQueryInterface
         {
             $con = new DBConfig;
         }
-        $query = $con->query("select 1 from $table LIMIT 1");
+        $query = $con->query("SELECT 1 FROM {$table} LIMIT 1");
         if($query !== false)
         {
             return $table;
