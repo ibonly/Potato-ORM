@@ -114,6 +114,8 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
     `Return type = Boolean`
 
+## Create Database Table
+
 Its is also possible to create Database Table with the `Schema` class. The table name will be specified in the
 `createTable($name)` method.
 
