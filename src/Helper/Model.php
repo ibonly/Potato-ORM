@@ -150,7 +150,7 @@ class Model extends DatabaseQuery implements ModelInterface
     {
         $connection = DatabaseQuery::connect();
         try{
-                if ( ! isset ($this->id)  && ! is_array($this->data) ) {
+                if ( ! isset ($this->id)  && ! isset($this->data) ) {
                     $insertQuery = DatabaseQuery::insertQuery(self::getTableName());
                     $statement = $connection->prepare($insertQuery);
                     $statement->execute();

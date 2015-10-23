@@ -45,14 +45,14 @@ echo $sugar->getAll().PHP_EOL.PHP_EOL;
     // die($sugar);
     //
 
-// $table = new Schema;
-// $table->field('increments', 'id');
-// $table->field('string', 'milk', 30);
-// $table->field('string', 'name');
-// $table->field('text', 'body');
-// $table->field('text', 'cool');
-// $table->field('string', 'email', 100);
-// $table->field('primaryKey', 'id');
-// $table->field('foriegnKey', 'id', 'useers_id');
+$table = new Schema;
+$table->field('increments', 'id');
+$table->field('strings', 'milk', 30);
+$table->field('strings', 'name');
+$table->field('text', 'body');
+$table->field('text', 'cool');
+$table->field('strings', 'email', 100);
+$table->field('primaryKey', 'id');
+$table->field('foreignKey', 'id', 'users_id');
 
-// echo $table->createTable('peoples');
+echo $table->createTable('peopless');

@@ -36,13 +36,44 @@ class ModelTest extends PHPUnit_Framework_TestCase
     }
 
 
-    // public function testGetTableNameException()
-    // {
-    //     $dbConnMocked = Mockery::mock('\Ibonly\SugarORM\DBConfig');
-    //     $statement = Mockery::mock('\PDOStatement');
+    public function testGetTableNameException()
+    {
+        $dbConnMocked = Mockery::mock('\Ibonly\SugarORM\DBConfig');
+        $statement = Mockery::mock('\PDOStatement');
 
-    //     $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn($statement);
+        $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn($statement);
 
-    //     $this->assertTrue($this->databaseQuery->getTableName($dbConnMocked));
-    // }
+        $this->setExpectedException('\PDOException');
+        $this->assertTrue($this->databaseQuery->getTableName($dbConnMocked));
+    }
+
+    public function testGetAll()
+    {
+        $this->setExpectedException('\PDOException');
+        $this->assertTrue($this->databaseQuery->getAll());
+    }
+
+    public function testWhere()
+    {
+        $this->setExpectedException('\PDOException');
+        $this->assertTrue($this->databaseQuery->where('id', 1));
+    }
+
+    public function testFind()
+    {
+        $this->setExpectedException('\PDOException');
+        $this->assertTrue($this->databaseQuery->find(1));
+    }
+
+    public function testSave()
+    {
+        $this->setExpectedException('\Ibonly\SugarORM\SaveUserExistException');
+        $this->assertTrue($this->databaseQuery->save());
+    }
+
+    public function testDestroy()
+    {
+        $this->setExpectedException('\PDOException');
+        $this->assertTrue($this->databaseQuery->destroy(1));
+    }
 }

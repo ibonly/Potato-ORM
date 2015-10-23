@@ -13,42 +13,47 @@ use PDO;
 use PDOException;
 use Dotenv\Dotenv;
 use Ibonly\SugarORM\Inflector;
-use Ibonly\SugarORM\DBConfigInterface;
 use Ibonly\SugarORM\InvalidConnectionException;
 
 class DBConfig extends PDO
 {
     /**
-     *
+     * Define the database connection
      */
     public function __construct()
     {
         $dbConn = "";
-        $this->loadDotenv();
-        $engine = getenv('DATABASE_DRIVER');
+        $this->loadEnv();
+        $driver = getenv('DATABASE_DRIVER');
         $host = getenv('DATABASE_HOST');
         $dbname = getenv('DATABASE_NAME');
         $port= getenv('DATABASE_PORT');
         $user = getenv('DATABASE_USER');
         $password = getenv('DATABASE_PASSWORD');
-        try {
-            if ($engine === 'pgsql') {
-                $dbConn = parent::__construct($engine . ':host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';user=' . $user . ';password=' . $password);
+
+        try
+        {
+            if ($driver === 'pgsql')
+            {
+                $dbConn = parent::__construct($driver . ':host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';user=' . $user . ';password=' . $password);
                 $dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $dbConn->setAttribute(PDO::ATTR_PERSISTENT, false);
-            } elseif ($engine === 'mysql') {
-                $dbConn = parent::__construct($engine . ':host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            }
+            elseif ($driver === 'mysql')
+            {
+                $dbConn = parent::__construct($driver . ':host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                                 PDO::ATTR_PERSISTENT => false]);
             }
-        } catch (\PDOException $e) {
-            return 'Error in connection';
+        } catch (InvalidConnectionException $e) {
+            return $e->errorMessage();
         }
         return $dbConn;
     }
+
     /**
      * Load Dotenv to grant getenv() access to environment variables in .env file
      */
-    protected function loadDotenv()
+    protected function loadEnv()
     {
         $dotenv = new Dotenv(__DIR__ . "../../../");
         $dotenv->load();
