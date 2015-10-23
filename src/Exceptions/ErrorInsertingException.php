@@ -2,7 +2,7 @@
 /**
  * Exception for user already exist
  *
- * @package Ibonly\PotatoORM\UserAlreadyExistException
+ * @package Ibonly\PotatoORM\ErrorInsertingException
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */

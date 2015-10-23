@@ -2,7 +2,7 @@
 /**
  * Exception for user not found
  *
- * @package Ibonly\PotatoORM\UserAlreadyExistException
+ * @package Ibonly\PotatoORM\UserNotFoundException
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */

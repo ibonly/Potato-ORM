@@ -25,6 +25,9 @@ class DatabaseQueryTest extends PHPUnit_Framework_TestCase
         Mockery::close();
     }
 
+    /**
+     * testTableExist
+     */
     public function testTableExist()
     {
         $dbConnMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
@@ -35,6 +38,9 @@ class DatabaseQueryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->databaseQuery->checkTableExist('users', $dbConnMocked));
     }
 
+    /**
+     * testSelectQuery
+     */
     public function testSelectQuery()
     {
         $this->assertInternalType("string", $this->databaseQuery->selectQuery('users'));

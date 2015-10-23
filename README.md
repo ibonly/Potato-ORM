@@ -143,7 +143,9 @@ Its is also possible to create Database Table with the `Schema` class. The table
         $user->field('foreignKey', 'id', 'users_id');
     ```
 
+
     The reference table `(users)` and field `(id)` will be written as `(users_id)`
+
 
     Unique
 

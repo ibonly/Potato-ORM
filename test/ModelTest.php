@@ -25,17 +25,28 @@ class ModelTest extends PHPUnit_Framework_TestCase
         Mockery::close();
     }
 
+    /**
+     * testGetClassName
+     * Test if string is returned
+     */
     public function testGetClassName()
     {
         $this->assertInternalType("string", $this->databaseQuery->getClassName());
     }
 
+    /**
+     * testStripclassName
+     * Test if string is returned
+     */
     public function testStripclassName()
     {
         $this->assertInternalType("string", $this->databaseQuery->stripclassName());
     }
 
-
+    /**
+     * testGetTableNameException
+     * Test if Exception is returned
+     */
     public function testGetTableNameException()
     {
         $dbConnMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
@@ -47,31 +58,51 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->databaseQuery->getTableName($dbConnMocked));
     }
 
-    public function testGetAll()
+    /**
+     * testGetAllException
+     * Test if Exception is returned
+     */
+    public function testGetAllException()
     {
         $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->getAll());
     }
 
-    public function testWhere()
+    /**
+     * testWhereException
+     * Test if Exception is returned
+     */
+    public function testWhereException()
     {
         $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->where('id', 1));
     }
 
-    public function testFind()
+    /**
+     * testFindException
+     * Test if Exception is returned
+     */
+    public function testFindException()
     {
         $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->find(1));
     }
 
-    public function testSave()
+    /**
+     * testSaveException
+     * Test if Exception is returned
+     */
+    public function testSaveException()
     {
         $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->save());
     }
 
-    public function testDestroy()
+    /**
+     * testDestroyException
+     * Test if Exception is returned
+     */
+    public function testDestroyException()
     {
         $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->destroy(1));

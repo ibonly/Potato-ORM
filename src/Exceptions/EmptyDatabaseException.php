@@ -2,7 +2,7 @@
 /**
  * Exception for no records in database
  *
- * @package Ibonly\PotatoORM\UserAlreadyExistException
+ * @package Ibonly\PotatoORM\EmptyDatabaseException
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
