@@ -48,4 +48,15 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertContains(');', $this->schema->sanitizeQuery('email'));
     }
+
+    public function testCreateTable()
+    {
+        $dbConnMocked = Mockery::mock('\Ibonly\SugarORM\DBConfig');
+        $statement = Mockery::mock('\PDOStatement');
+
+        $dbConnMocked->shouldReceive('query')->with("CREATE TABLE IF NOT EXISTS users( id int(11) NOT NULL AUTO_INCREMENT );")->andReturn($statement);
+
+        $this->setExpectedException('\InvalidArgumentException');
+        $this->assertTrue($this->schema->createTable('users', $dbConnMocked));
+    }
 }

@@ -39,7 +39,6 @@ class Schema extends DatabaseQuery implements SchemaInterface
      */
     public function buildQuery($tablename)
     {
-        $i = 0;
         $query = "CREATE TABLE IF NOT EXISTS {$tablename} (".PHP_EOL;
 
         $callback = function($fieldName) use (&$query)
@@ -76,11 +75,14 @@ class Schema extends DatabaseQuery implements SchemaInterface
      *
      * @return bool
      */
-    public function createTable($tablename)
+    public function createTable($tablename, $connection = NULL)
     {
-        try
+        if(is_null($connection))
         {
             $connection = DatabaseQuery::connect();
+        }
+        try
+        {
             $sqlQuery = self::sanitizeQuery($tablename);
             $query = $connection->prepare($sqlQuery);
             if($query->execute())
