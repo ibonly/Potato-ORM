@@ -11,7 +11,7 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Sugar ORM test suites">
-            <directory>tests</directory>
+            <directory>test</directory>
         </testsuite>
     </testsuites>
 </phpunit>
