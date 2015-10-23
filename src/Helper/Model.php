@@ -20,15 +20,8 @@ use Ibonly\PotatoORM\SaveUserExistException;
 
 class Model extends DatabaseQuery implements ModelInterface
 {
-    protected $pluralize;
-
     //Inject the inflector trait
     use Inflector;
-
-    public function __construct()
-    {
-        $this->pluralize = self::pluralize(self::stripclassName());
-    }
 
     /**
      * stripclassName()
@@ -49,7 +42,7 @@ class Model extends DatabaseQuery implements ModelInterface
      */
     public function getClassName()
     {
-        return $this->pluralize;
+        return self::pluralize(self::stripclassName());
     }
 
     /**
@@ -157,7 +150,7 @@ class Model extends DatabaseQuery implements ModelInterface
                     return true;
                 }
         } catch (PDOException $e){
-            throw new  SaveUserExistException($e->errorMessage());
+            throw new  SaveUserExistException($e->getMessage());
         }
         catch(SaveUserExistException $e)
         {
@@ -179,7 +172,7 @@ class Model extends DatabaseQuery implements ModelInterface
                 $query->execute();
                 $check = $query->rowCount();
                 if ($check) {
-                    return $check;
+                    return true;
                 } else {
                     throw new UserNotFoundException;
                 }

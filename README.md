@@ -5,4 +5,101 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/andela-iadeniyi/Potato-ORM.svg?style=flat-square)](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM)
 [![Scruitinizer Code](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM)
 
-ORM
+Potato-ORM is a package that manages the CRUD operation od database
+
+## Installation
+
+[PHP](https://php.net) 5.5+ and [Composer](https://getcomposer.org) are required.
+
+Via Composer
+
+```
+$ composer require ibonly/potato-ORM
+```
+
+```
+$ composer install
+```
+## Usage
+Create a `Class` that correspond to the singular form of the table name in the database. i.e.
+
+```
+<?php
+
+namespace Ibonly\PotatoORM;
+
+class User extends Model
+{
+
+}
+?>
+```
+The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, `save()` and `detroy($id)` methods.
+
+### getAll()
+```<?php
+
+use Ibonly\PotatoORM\User;
+
+echo $sugar->getAll();
+
+?>
+```
+    `Return type = JSON`
+
+### where($field, $value)
+```<?php
+
+use Ibonly\PotatoORM\User;
+
+echo $sugar->where($field, $value);
+
+?>
+```
+    `Return type = JSON`
+
+### find($value)
+```<?php
+
+    use Ibonly\PotatoORM\User;
+
+    $insert = User::find(1);
+    $insert->password = "password";
+    echo $insert->save()
+
+?>
+```
+    To return custom message, wrap the `save()` method in an `if statement`
+    `Return type = Boolean`
+
+### save()
+```<?php
+
+    use Ibonly\PotatoORM\User;
+    use Ibonly\PotatoORM\SaveUserExistException;
+
+     $insert = new User();
+     $insert->id = NULL;
+     $insert->username = "alanxzde";
+     $insert->email = "ikechu@zxzdede.com";
+     $insert->password = "passwxzxxord123";
+     try{
+         echo $insert->save();
+     } catch (SaveUserExistException $e) {
+         echo $e->errorMessage();
+    }
+?>
+```
+    To return custom message, wrap the `save()` method in an `if statement`
+    `Return type = Boolean`
+
+### detroy($value)
+```<?php
+
+use Ibonly\PotatoORM\User;
+
+    $insert = User::destroy(2);
+    die($insert);
+?>
+```
+    `Return type = Boolean`

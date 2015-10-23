@@ -3,22 +3,22 @@
 require 'vendor/autoload.php';
 
 use Ibonly\PotatoORM\User;
-use Ibonly\PotatoORM\Child;
-use Ibonly\PotatoORM\Schema;
-use Ibonly\PotatoORM\Inflector;
+// use Ibonly\PotatoORM\Child;
+// use Ibonly\PotatoORM\Schema;
+// use Ibonly\PotatoORM\Inflector;
 use Ibonly\PotatoORM\UserNotFoundException;
-use Ibonly\PotatoORM\SaveUserExistException;
-use Ibonly\PotatoORM\DBConfig;
+// use Ibonly\PotatoORM\SaveUserExistException;
+// use Ibonly\PotatoORM\DBConfig;
 
 // echo Inflector::pluralize("knife");
 
 
-$sugar = new User();
+// $sugar = new User();
 // $db = new DBConfig;
 // echo $sugar->getTableName();
 // echo $sugar->checkTableExist('uses', $db);
-echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
-echo $sugar->getAll().PHP_EOL.PHP_EOL;
+// echo $sugar->where('id', 3).PHP_EOL.PHP_EOL;
+// echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new User();
@@ -34,15 +34,15 @@ echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new Users();
-// print_r($sugar->find(2));
+// echo print_r($sugar->find(1));
 
 
-// $sugar = Users::find(2);
+// $sugar = User::find(2);
 // $sugar->password = "password";
 // echo $sugar->save();
 
-    // $sugar = Users::destroy(2);
-    // die($sugar);
+    $sugar = User::destroy(14);
+    die($sugar);
     //
 
 // $table = new Schema;
