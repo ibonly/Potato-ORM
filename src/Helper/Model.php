@@ -31,16 +31,6 @@ class Model extends DatabaseQuery implements ModelInterface
     }
 
     /**
-     * getClassName()
-     *
-     * @return [string] Plural form of class name
-     */
-    public function getClassName()
-    {
-        return $this->pluralize;
-    }
-
-    /**
      * stripclassName()
      *
      * @param  get_class_name
@@ -52,6 +42,16 @@ class Model extends DatabaseQuery implements ModelInterface
         $className = strtolower(get_called_class());
         $r = explode("\\", $className);
         return $r[2];
+    }
+
+    /**
+     * getClassName()
+     *
+     * @return [string] Plural form of class name
+     */
+    public function getClassName()
+    {
+        return $this->pluralize;
     }
 
     /**
