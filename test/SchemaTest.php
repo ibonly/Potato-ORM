@@ -56,7 +56,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
 
         $dbConnMocked->shouldReceive('query')->with("CREATE TABLE IF NOT EXISTS users( id int(11) NOT NULL AUTO_INCREMENT );")->andReturn($statement);
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('\BadMethodCallException');
         $this->assertTrue($this->schema->createTable('users', $dbConnMocked));
     }
 }
