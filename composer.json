@@ -18,8 +18,12 @@
             "Ibonly\\SugarORM\\Test\\": "test/"
         }
     },
+    "scripts": {
+        "test": "phpunit"
+    },
     "require": {
-        "vlucas/phpdotenv": "^2.0"
+        "vlucas/phpdotenv": "^2.0",
+        "php": ">=5.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.0",
