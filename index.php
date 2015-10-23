@@ -17,7 +17,7 @@ $sugar = new User();
 // $db = new DBConfig;
 // echo $sugar->getTableName();
 // echo $sugar->checkTableExist('uses', $db);
-// echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
+echo $sugar->where('id', 1).PHP_EOL.PHP_EOL;
 echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
@@ -45,14 +45,14 @@ echo $sugar->getAll().PHP_EOL.PHP_EOL;
     // die($sugar);
     //
 
-$table = new Schema;
-$table->field('increments', 'id');
-$table->field('strings', 'milk', 30);
-$table->field('strings', 'name');
-$table->field('text', 'body');
-$table->field('text', 'cool');
-$table->field('strings', 'email', 100);
-$table->field('primaryKey', 'id');
-$table->field('foreignKey', 'id', 'users_id');
+// $table = new Schema;
+// $table->field('increments', 'id');
+// $table->field('strings', 'milk', 30);
+// $table->field('strings', 'name');
+// $table->field('text', 'body');
+// $table->field('text', 'cool');
+// $table->field('strings', 'email', 100);
+// $table->field('primaryKey', 'id');
+// $table->field('foreignKey', 'id', 'users_id');
 
-echo $table->createTable('peopless');
+// echo $table->createTable('peopless');

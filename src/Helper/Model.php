@@ -99,7 +99,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ($query->rowCount()) {
-                return $query->fetchAll($connection::FETCH_OBJ);
+                return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
             } else {
                 throw new UserNotFoundException();
             }
@@ -157,7 +157,7 @@ class Model extends DatabaseQuery implements ModelInterface
                     return true;
                 }
         } catch (PDOException $e){
-            throw new  SaveUserExistException($e->getMessage());
+            throw new  SaveUserExistException($e->errorMessage());
         }
         catch(SaveUserExistException $e)
         {
