@@ -27,7 +27,6 @@ $ composer install
 
 ```
     namespace Ibonly\PotatoORM
-
 ```
 
 Create a `Class` that correspond to the singular form of the table name in the database. i.e.
@@ -55,7 +54,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 ?>
 ```
 
-    `Return type = JSON`
+    Return type = JSON
 
 ### where($field, $value)
 
@@ -68,7 +67,8 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 ?>
 ```
 
-    `Return type = JSON`
+    Return type = JSON
+    
 
 ### find($value)
 
@@ -84,7 +84,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
     To return custom message, wrap the `save()` method in an `if statement`
 
-    `Return type = Boolean`
+    Return type = Boolean
 
 ### save()
 
@@ -108,7 +108,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
     To return custom message, wrap the `save()` method in an `if statement`
 
-    `Return type = Boolean`
+    Return type = Boolean
 
 ### detroy($value)
 
@@ -121,7 +121,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 ?>
 ```
 
-    `Return type = Boolean`
+    Return type = Boolean
 
 ## Create Database Table
 
@@ -142,18 +142,20 @@ Its is also possible to create Database Table with the `Schema` class. The table
     echo $table->createTable('players');
 ?>
 ```
-    `Return type = Boolean`
+    Return type = Boolean
 
 #### Database Constraint
 
-    Foreign Key
 
+    Foreign Key
+    
     ```
         $user->field('foreignKey', 'id', 'users_id');
     ```
 
 
     The reference table `(users)` and field `(id)` will be written as `(users_id)`
+
 
 
     Unique
