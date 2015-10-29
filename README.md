@@ -5,7 +5,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/andela-iadeniyi/Potato-ORM.svg?style=flat-square)](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM)
 [![Scruitinizer Code](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM)
 
-Potato-ORM is a package that manages the CRUD operation od database
+Potato-ORM is a package that manages the CRUD operation of database
 
 ## Installation
 
@@ -22,6 +22,13 @@ $ composer install
 ```
 
 ## Usage
+
+### App Namespace
+
+```
+    namespace Ibonly\PotatoORM
+
+```
 
 Create a `Class` that correspond to the singular form of the table name in the database. i.e.
 
@@ -43,6 +50,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 <?php
     use Ibonly\PotatoORM\User;
 
+    $sugar = new User();
     echo $sugar->getAll();
 ?>
 ```
@@ -55,6 +63,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 <?php
     use Ibonly\PotatoORM\User;
 
+    $sugar = new User();
     echo $sugar->where($field, $value);
 ?>
 ```
