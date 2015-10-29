@@ -178,4 +178,4 @@ Please check out [CONTRIBUTING](CONTRIBUTING.md) file for detailed contribution 
 
 ## Credits
 
-Open-source-Evangelist is created and maintained by `Ibraheem ADENIYI`.
+Potato-ORM is created and maintained by `Ibraheem ADENIYI`.
