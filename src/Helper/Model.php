@@ -73,7 +73,7 @@ class Model extends DatabaseQuery implements ModelInterface
             } else {
                 throw new EmptyDatabaseException();
             }
-        } catch (EmptyDatabaseException $e){
+        } catch ( EmptyDatabaseException $e ){
             echo $e->errorMessage();
         }
     }
@@ -98,6 +98,9 @@ class Model extends DatabaseQuery implements ModelInterface
             }
         } catch (UserNotFoundException $e){
             echo $e->errorMessage();
+        }
+        catch ( PDOException $e){
+            return "Error: Column name does not exist";
         }
     }
 
@@ -138,22 +141,23 @@ class Model extends DatabaseQuery implements ModelInterface
     {
         $connection = DatabaseQuery::connect();
         try{
-                if ( ! isset ($this->id)  && ! isset($this->data) ) {
-                    $insertQuery = DatabaseQuery::insertQuery(self::getTableName());
-                    $statement = $connection->prepare($insertQuery);
+                if ( ! isset ($this->id)  && ! isset($this->data) )
+                {
+                    $query = DatabaseQuery::insertQuery(self::getTableName());
+                    $statement = $connection->prepare($query);
                     $statement->execute();
                     return true;
-                }else{
+                }
+                else
+                {
                     $updateQuery = DatabaseQuery::updateQuery(self::getTableName());
                     $statement = $connection->prepare($updateQuery);
                     $statement->execute();
                     return true;
                 }
-        } catch (PDOException $e){
+        } catch ( PDOException $e ){
             throw new  SaveUserExistException($e->getMessage());
-        }
-        catch(SaveUserExistException $e)
-        {
+        } catch( SaveUserExistException $e ) {
             echo $e->getMessage();
         }
     }
@@ -171,12 +175,10 @@ class Model extends DatabaseQuery implements ModelInterface
                 $query = $connection->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);
                 $query->execute();
                 $check = $query->rowCount();
-                if ($check) {
+                if ($check)
                     return true;
-                } else {
-                    throw new UserNotFoundException;
-                }
-        } catch (UserNotFoundException $e) {
+                throw new UserNotFoundException;
+        } catch ( UserNotFoundException $e ) {
             return $e->errorMessage();
         }
     }

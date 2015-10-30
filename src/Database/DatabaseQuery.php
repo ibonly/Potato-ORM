@@ -10,10 +10,17 @@
 
 namespace Ibonly\PotatoORM;
 
+use PDOException;
 use Ibonly\PotatoORM\DatabaseQueryInterface;
+use Ibonly\PotatoORM\ColumnNotExistExeption;
 
 class DatabaseQuery implements DatabaseQueryInterface
 {
+    /**
+     * connect Setup database connection
+     *
+     * @return [type] [description]
+     */
     public function connect()
     {
         return new DBConfig();
@@ -21,6 +28,10 @@ class DatabaseQuery implements DatabaseQueryInterface
 
     /**
      * sanitize(argument) Removes unwanted characters
+     *
+     * @param  $value
+     *
+     * @return  string
      */
     public function sanitize($value)
     {
@@ -29,40 +40,134 @@ class DatabaseQuery implements DatabaseQueryInterface
         return $value;
     }
 
+    public function checkConnection($con)
+    {
+        if( is_null($con))
+            $con = self::connect();
+        return $con;
+    }
     /**
-     * checkTableExist
+     * checkTableExist Check if table already in the database
+     *
+     * @param  $tablename
+     * @param  $con
      *
      * @return bool
      */
     public function checkTableExist($table, $con=NULL)
     {
-        if( is_null($con))
-        {
-            $con = new DBConfig;
-        }
-        $query = $con->query("SELECT 1 FROM {$table} LIMIT 1");
+        $connection = $this->checkConnection($con);
+        $query = $connection->query("SELECT 1 FROM {$table} LIMIT 1");
         if($query !== false)
-        {
             return true;
+    }
+
+    /**
+     * checkTableName Return the table name
+     *
+     * @param  $tablename
+     * @param  $con
+     *
+     * @return string
+     */
+    public function checkTableName($tableName, $con=NULL)
+    {
+        $connection = self::checkConnection($con);
+        $query = $connection->query("SELECT 1 FROM {$tableName} LIMIT 1");
+        if($query !== false)
+            return $tableName;
+    }
+
+    /**
+     * checkColumn Check if column exist in table
+     *
+     * @param  $tableName
+     * @param  $columnName
+     * @param  $con
+     *
+     * @return string
+     */
+    public function checkColumn($tableName, $columnName, $con=NULL)
+    {
+        $connection = self::checkConnection($con);
+        try
+        {
+            $result = $connection->query("SHOW COLUMNS FROM {$tableName} LIKE '{$columnName}'");
+            if ( ! $result->rowCount())
+                throw new ColumnNotExistExeption();
+            return $columnName;
+        } catch ( ColumnNotExistExeption $e ) {
+            return $e->errorMessage();
         }
     }
 
     /**
-     * checkTableName
+     * buildColumn  Build the column name
+     *
+     * @param  $data [description]
      *
      * @return string
      */
-    public function checkTableName($table, $con=NULL)
+    public function buildColumn($data)
     {
-        if( is_null($con))
+        $counter = 0;
+        $insertQuery = "";
+        $arraySize = sizeof($data);
+
+        foreach ($data as $key => $value)
         {
-            $con = new DBConfig;
+            $counter++;
+            $insertQuery .= self::sanitize($key);
+            if($arraySize > $counter)
+                $insertQuery .= ", ";
         }
-        $query = $con->query("SELECT 1 FROM {$table} LIMIT 1");
-        if($query !== false)
+        return $insertQuery;
+    }
+
+    /**
+     * buildValues  Build the column values
+     *
+     * @param  $data [description]
+     *
+     * @return string
+     */
+    public function buildValues($data)
+    {
+        $counter = 0;
+        $insertQuery = "";
+        $arraySize = sizeof($data);
+
+        foreach ($data as $key => $value)
         {
-            return $table;
+            $counter++;
+            $insertQuery .= "'".self::sanitize($value) ."'";
+            if($arraySize > $counter)
+                $insertQuery .= ", ";
         }
+        return $insertQuery;
+    }
+
+    /**
+     * buildClause  Build the clause value
+     *
+     * @param  $data [description]
+     *
+     * @return string
+     */
+    public function buildClause($data)
+    {
+        $counter = 0;
+        $updateQuery = "";
+        $arraySize = sizeof($data);
+
+        foreach ($data as $key => $value)
+        {
+            $counter++;
+            $updateQuery .= $key ." = '".self::sanitize($value)."'";
+            if($arraySize > $counter)
+                $updateQuery .= ", ";
+        }
+        return $updateQuery;
     }
 
     /**
@@ -73,11 +178,15 @@ class DatabaseQuery implements DatabaseQueryInterface
     public function selectQuery($tableName, $field = NULL, $value = NULL)
     {
         $query = "";
-        if( is_null ($field)){
-            $query = "SELECT * FROM $tableName";
-        }else{
-            $query =  "SELECT * FROM $tableName WHERE ".self::sanitize($field)." = ".self::sanitize($value);
-        }
+        if ( ! is_null ($field))
+            try
+            {
+                $columnName = self::checkColumn($tableName, self::sanitize($field));
+                $query =  "SELECT * FROM $tableName WHERE $columnName = ".self::sanitize($value);
+            } catch ( PDOException $e ) {
+                return $e->getMessage();
+            }
+        $query = "SELECT * FROM {$tableName}";
 
         return $query;
     }
@@ -89,32 +198,12 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public function insertQuery($tableName)
     {
-        $data = (array)$this;
+        $data = ( array )$this;
         array_shift($data);
-        $arraySize = sizeof($data);
-        $counter = 0;
-        $insertQuery = "INSERT INTO $tableName (";
-        // build the column names
-        foreach ($data as $key => $value)
-        {
-            $counter++;
-            $insertQuery .= self::sanitize($key);
-            if($arraySize > $counter)
-                $insertQuery .= ", ";
-        }
 
-        $counter = 0;
-        $insertQuery .= ") VALUES (";
-        // build the values
-        foreach ($data as $key => $value)
-        {
-             $counter++;
-            $insertQuery .= "'".self::sanitize($value) ."'";
-            if($arraySize > $counter)
-                $insertQuery .= ", ";
-        }
-
-        $insertQuery .= ")";
+        $columnNames = $this->buildColumn($data);
+        $values = $this->buildValues($data);
+        $insertQuery = "INSERT INTO $tableName ({$columnNames}) VALUES ({$values})";
 
         return $insertQuery;
     }
@@ -127,21 +216,11 @@ class DatabaseQuery implements DatabaseQueryInterface
     public function updateQuery($tableName)
     {
         $counter = 0;
-        $data = (array)$this;
-        array_shift($data);
-        array_shift($data);
-        $arraySize = sizeof($data);
-        $updateQuery = "UPDATE $tableName SET ";
-        // build the update field and value
-        foreach ($data as $key => $value)
-        {
-            $counter++;
-            $updateQuery .= $key ." = '".self::sanitize($value)."'";
-            if($arraySize > $counter)
-                $updateQuery .= ", ";
-        }
+        $data = ( array ) $this;
+        $data = array_slice ($data, 2);
 
-        $updateQuery .= " WHERE id = ". self::sanitize($this->id);
+        $values = $this->buildClause($data);
+        $updateQuery = "UPDATE $tableName SET {$values} WHERE id = ". self::sanitize($this->id);
 
         return $updateQuery;
     }

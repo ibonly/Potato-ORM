@@ -54,7 +54,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
 
         $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn($statement);
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('\PDOException');
         $this->assertTrue($this->databaseQuery->getTableName($dbConnMocked));
     }
 
@@ -64,7 +64,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAllException()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('\PDOException');
         $this->assertTrue($this->databaseQuery->getAll());
     }
 
@@ -74,8 +74,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testWhereException()
     {
-        $this->setExpectedException('\InvalidArgumentException');
-        $this->assertTrue($this->databaseQuery->where('id', 1));
+        $this->assertContains('Error:', $this->databaseQuery->where('id', 1));
     }
 
     /**
@@ -84,7 +83,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testFindException()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('\PDOException');
         $this->assertTrue($this->databaseQuery->find(1));
     }
 
@@ -94,7 +93,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveException()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('\Ibonly\PotatoORM\SaveUserExistException');
         $this->assertTrue($this->databaseQuery->save());
     }
 
@@ -104,7 +103,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testDestroyException()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('\PDOException');
         $this->assertTrue($this->databaseQuery->destroy(1));
     }
 }

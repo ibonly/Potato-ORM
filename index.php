@@ -2,30 +2,25 @@
 
 require 'vendor/autoload.php';
 
+use Ibonly\PotatoORM\User;
 use Ibonly\PotatoORM\Schema;
-// use Ibonly\PotatoORM\Child;
-// use Ibonly\PotatoORM\Schema;
-// use Ibonly\PotatoORM\Inflector;
+use Ibonly\PotatoORM\Player;
 use Ibonly\PotatoORM\UserNotFoundException;
-// use Ibonly\PotatoORM\SaveUserExistException;
-// use Ibonly\PotatoORM\DBConfig;
-
-// echo Inflector::pluralize("knife");
+use Ibonly\PotatoORM\SaveUserExistException;
+use Ibonly\PotatoORM\ColumnNotExistExeption;
 
 
 // $sugar = new User();
-// $db = new DBConfig;
-// echo $sugar->getTableName();
-// echo $sugar->checkTableExist('uses', $db);
-// echo $sugar->where('id', 3).PHP_EOL.PHP_EOL;
+// echo $sugar->checkColumn('players', 'iddfdd');
+
+// echo $sugar->where('id', 23).PHP_EOL.PHP_EOL;
 // echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
-// $sugar = new User();
+// $sugar = new Player();
 // $sugar->id = NULL;
-// $sugar->username = "alanxzde";
-// $sugar->email = "ikechu@zxzdede.com";
-// $sugar->password = "passwxzxxord123";
+// $sugar->name = "tunde";
+// $sugar->number = 3;
 // try{
 //     echo $sugar->save();
 // } catch (SaveUserExistException $e) {
@@ -33,23 +28,21 @@ use Ibonly\PotatoORM\UserNotFoundException;
 // }
 
 
-// $sugar = new Users();
-// echo print_r($sugar->find(1));
+// $sugar = new Player();
+// echo print_r($sugar->find(2));
 
 
-// $sugar = User::find(2);
-// $sugar->password = "password";
-// echo $sugar->save();
+$sugar = Player::find(1);
+$sugar->name = "wordeded";
+echo $sugar->save();
 
-    // $sugar = User::destroy(14);
-    // die($sugar);
-    //
+// $sugar = Player::destroy(2);
+// die($sugar);
 
-$table = new Schema;
-$table->field('increments', 'id');
-$table->field('strings', 'name', 30);
-$table->field('integer', 'number');
-$table->field('primaryKey', 'id');
-$table->field('foreignKey', 'id', 'users_id');
 
-echo $table->createTable('players');
+// $table = new Schema;
+// $table->field('increments', 'id');
+// $table->field('strings', 'name', 30);
+// $table->field('integer', 'number');
+// $table->field('primaryKey', 'id');
+// echo $table->createTable('players');
