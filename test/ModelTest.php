@@ -54,7 +54,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
 
         $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn($statement);
 
-        $this->setExpectedException('\PDOException');
+        $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->getTableName($dbConnMocked));
     }
 
@@ -93,7 +93,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveException()
     {
-        $this->setExpectedException('\Ibonly\PotatoORM\SaveUserExistException');
+        $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->save());
     }
 
