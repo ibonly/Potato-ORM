@@ -24,6 +24,7 @@ class DBConfig extends PDO
     protected $user;
     protected $password;
     protected $sqlitePath;
+
     /**
      * Define the database connection
      */
@@ -52,6 +53,7 @@ class DBConfig extends PDO
             {
                 $dbConn = parent::__construct($this->sqlitConnectionString());
             }
+            return $dbConn;
         } catch (InvalidConnectionException $e) {
             return $e->errorMessage();
         }
@@ -60,7 +62,7 @@ class DBConfig extends PDO
     /**
      * pgsqlConnectionString Postgres connection string
      *
-     * @return [string]
+     * @return string
      */
     public function pgsqlConnectionString()
     {
@@ -70,7 +72,7 @@ class DBConfig extends PDO
     /**
      * mysqlConnectionString Mysql connection string
      *
-     * @return [string]
+     * @return string
      */
     public function mysqlConnectionString()
     {

@@ -18,8 +18,6 @@ class DatabaseQuery implements DatabaseQueryInterface
 {
     /**
      * connect Setup database connection
-     *
-     * @return [type] [description]
      */
     public function connect()
     {
@@ -45,7 +43,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @param  $con
      *
-     * @return [string]
+     * @return string
      */
     public function checkConnection($con)
     {
@@ -112,7 +110,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * buildColumn  Build the column name
      *
-     * @param  $data [description]
+     * @param  $data
      *
      * @return string
      */
@@ -135,7 +133,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * buildValues  Build the column values
      *
-     * @param  $data [description]
+     * @param  $data
      *
      * @return string
      */
@@ -158,7 +156,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * buildClause  Build the clause value
      *
-     * @param  $data [description]
+     * @param  $data
      *
      * @return string
      */
@@ -227,7 +225,6 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public function updateQuery($tableName)
     {
-        $counter = 0;
         $data = ( array ) $this;
         $data = array_slice ($data, 2);
 

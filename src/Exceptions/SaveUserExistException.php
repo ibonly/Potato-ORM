@@ -25,6 +25,6 @@ class SaveUserExistException extends Exception
      */
     public function errorMessage()
     {
-        return "Error: User already exist";
+        return "Error: " . $this->getMessage();
     }
 }

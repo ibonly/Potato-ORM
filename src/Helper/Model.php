@@ -39,7 +39,7 @@ class Model extends DatabaseQuery implements ModelInterface
     /**
      * getClassName()
      *
-     * @return [string] Plural form of class name
+     * @return string
      */
     public function getClassName()
     {
@@ -49,7 +49,7 @@ class Model extends DatabaseQuery implements ModelInterface
     /**
      * getTableName()
      *
-     * @return [string] actual tablename from database
+     * @return string
      */
     public function getTableName()
     {
@@ -60,7 +60,7 @@ class Model extends DatabaseQuery implements ModelInterface
      * getALL()
      * Get all record from the database
      *
-     * @return [json]
+     * @return object
      */
     public function getALL()
     {
@@ -83,7 +83,7 @@ class Model extends DatabaseQuery implements ModelInterface
      * where($field, $value)
      * Get data from database where $field = $value
      *
-     * @return array
+     * @return object
      */
     public function where($field, $value)
     {
@@ -145,7 +145,6 @@ class Model extends DatabaseQuery implements ModelInterface
                 if ( ! isset ($this->id)  && ! isset($this->data) )
                 {
                     $query = DatabaseQuery::insertQuery(self::getTableName());
-                    var_dump($query);
                     $statement = $connection->prepare($query);
                     if($statement->execute())
                         return true;
@@ -162,7 +161,7 @@ class Model extends DatabaseQuery implements ModelInterface
         } catch ( PDOException $e ){
             throw new  SaveUserExistException($e->getMessage());
         } catch( SaveUserExistException $e ) {
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 
