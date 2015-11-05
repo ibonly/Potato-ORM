@@ -64,7 +64,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAllException()
     {
-        $this->setExpectedException('\PDOException');
+        $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->getAll());
     }
 
@@ -83,7 +83,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testFindException()
     {
-        $this->setExpectedException('\PDOException');
+        $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->find(1));
     }
 
@@ -103,7 +103,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testDestroyException()
     {
-        $this->setExpectedException('\PDOException');
+        $this->setExpectedException('\InvalidArgumentException');
         $this->assertTrue($this->databaseQuery->destroy(1));
     }
 }
