@@ -74,6 +74,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testWhereException()
     {
+        $this->setExpectedException('\InvalidArgumentException');
         $this->assertContains('Error:', $this->databaseQuery->where('id', 1));
     }
 
