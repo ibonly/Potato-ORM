@@ -9,7 +9,7 @@ use Ibonly\PotatoORM\Player;
 
 // $sugar = new User();
 
-// echo $sugar->where('id', 24).PHP_EOL.PHP_EOL;
+// echo $sugar->where('username', 'tunde').PHP_EOL.PHP_EOL;
 // echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
@@ -25,9 +25,9 @@ use Ibonly\PotatoORM\Player;
 // echo print_r($sugar->find(2));
 
 
-$sugar = User::find(48);
-$sugar->usersname = "wordeded";
-echo $sugar->save();
+// $sugar = User::find(13);
+// $sugar->username = "sscoolio";
+// echo $sugar->save();
 
 // $sugar = User::destroy(23);
 // die($sugar);

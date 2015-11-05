@@ -17,6 +17,7 @@ use Ibonly\PotatoORM\ModelInterface;
 use Ibonly\PotatoORM\UserNotFoundException;
 use Ibonly\PotatoORM\EmptyDatabaseException;
 use Ibonly\PotatoORM\SaveUserExistException;
+use Ibonly\PotatoORM\ColumnNotExistExeption;
 
 class Model extends DatabaseQuery implements ModelInterface
 {

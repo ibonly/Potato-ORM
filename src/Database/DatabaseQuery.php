@@ -100,8 +100,8 @@ class DatabaseQuery implements DatabaseQueryInterface
         $connection = self::checkConnection($con);
         try
         {
-            $result = $connection->query("SHOW COLUMNS FROM {$tableName} LIKE '{$columnName}'");
-            if ( ! $result->rowCount())
+            $result = $connection->prepare("SHOW COLUMNS FROM {$tableName} LIKE '{$columnName}'");
+            if ( ! $result )
                 throw new ColumnNotExistExeption();
             return $columnName;
         } catch ( ColumnNotExistExeption $e ) {
@@ -162,7 +162,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function buildClause($data)
+    public function buildClause($tableName, $data)
     {
         $counter = 0;
         $updateQuery = "";
@@ -171,7 +171,8 @@ class DatabaseQuery implements DatabaseQueryInterface
         foreach ($data as $key => $value)
         {
             $counter++;
-            $updateQuery .= $key ." = '".self::sanitize($value)."'";
+            $columnName = self::checkColumn($tableName, self::sanitize($key));
+            $updateQuery .= $columnName ." = '".self::sanitize($value)."'";
             if($arraySize > $counter)
                 $updateQuery .= ", ";
         }
@@ -230,7 +231,7 @@ class DatabaseQuery implements DatabaseQueryInterface
         $data = ( array ) $this;
         $data = array_slice ($data, 2);
 
-        $values = $this->buildClause($data);
+        $values = $this->buildClause($tableName, $data);
         $updateQuery = "UPDATE $tableName SET {$values} WHERE id = ". self::sanitize($this->id);
 
         return $updateQuery;
