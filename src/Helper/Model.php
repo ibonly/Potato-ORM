@@ -118,7 +118,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), 'id', $value);
         $query = $connection->prepare($sqlQuery);
         $query->execute();
-        if ( $query->rowCount() ) {
+        if ($query->rowCount()) {
             $found = new static;
             $found->id = $value;
             $found->data = $query->fetchAll($connection::FETCH_ASSOC);
@@ -145,20 +145,22 @@ class Model extends DatabaseQuery implements ModelInterface
                 {
                     $query = DatabaseQuery::insertQuery(self::getTableName());
                     $statement = $connection->prepare($query);
-                    $statement->execute();
-                    return true;
+                    if($statement->execute())
+                        return true;
+                    throw new  SaveUserExistException();
                 }
                 else
                 {
                     $updateQuery = DatabaseQuery::updateQuery(self::getTableName());
                     $statement = $connection->prepare($updateQuery);
-                    $statement->execute();
-                    return true;
+                    if($statement->execute())
+                        return true;
+                    throw new  SaveUserExistException();
                 }
         } catch ( PDOException $e ){
-            return SaveUserExistException::errorMessage();
+            throw new  SaveUserExistException($e->getMessage());
         } catch( SaveUserExistException $e ) {
-            return $e->getMessage();
+            echo $e->getMessage();
         }
     }
 

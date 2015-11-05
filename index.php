@@ -9,28 +9,28 @@ use Ibonly\PotatoORM\Player;
 
 // $sugar = new User();
 
-// echo $sugar->where('id', 'qqq').PHP_EOL.PHP_EOL;
+// echo $sugar->where('id', 24).PHP_EOL.PHP_EOL;
 // echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new User();
 // $sugar->id = NULL;
-// $sugar->username = "tunde";
-// $sugar->email = "tunde";
+// $sugar->username = "tsunsde1";
+// $sugar->email = "tundses1";
 // $sugar->password = 3;
-// echo $sugar->save();
+// echo $sugar->save().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new Player();
 // echo print_r($sugar->find(2));
 
 
-// $sugar = User::find(13);
-// $sugar->username = "wordeded";
-// echo $sugar->save();
+$sugar = User::find(48);
+$sugar->usersname = "wordeded";
+echo $sugar->save();
 
-$sugar = User::destroy(23);
-die($sugar);
+// $sugar = User::destroy(23);
+// die($sugar);
 
 
 // $table = new Schema;

@@ -17,6 +17,12 @@ use Ibonly\PotatoORM\InvalidConnectionException;
 
 class DBConfig extends PDO
 {
+    protected $driver;
+    protected $host;
+    protected $dbname;
+    protected $port;
+    protected $user;
+    protected $password;
     /**
      * Define the database connection
      */
@@ -24,29 +30,45 @@ class DBConfig extends PDO
     {
         $dbConn = "";
         $this->loadEnv();
-        $driver = getenv('DATABASE_DRIVER');
-        $host = getenv('DATABASE_HOST');
-        $dbname = getenv('DATABASE_NAME');
-        $port= getenv('DATABASE_PORT');
-        $user = getenv('DATABASE_USER');
-        $password = getenv('DATABASE_PASSWORD');
-
+        $this->driver = getenv('DATABASE_DRIVER');
+        $this->host = getenv('DATABASE_HOST');
+        $this->dbname = getenv('DATABASE_NAME');
+        $this->port= getenv('DATABASE_PORT');
+        $this->user = getenv('DATABASE_USER');
+        $this->password = getenv('DATABASE_PASSWORD');
         try
         {
-            if ($driver === 'pgsql')
+            if ($this->driver === 'pgsql')
             {
-                $dbConn = parent::__construct($driver . ':host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';user=' . $user . ';password=' . $password);
-                $dbConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $dbConn->setAttribute(PDO::ATTR_PERSISTENT, false);
+                $dbConn = parent::__construct($this->pgsqlConnectionString());
             }
-            elseif ($driver === 'mysql')
+            elseif ($this->driver === 'mysql')
             {
-                $dbConn = parent::__construct($driver . ':host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                                PDO::ATTR_PERSISTENT => false]);
+                $dbConn = parent::__construct($this->mysqlConnectionString(), $this->user, $this->password);
             }
         } catch (InvalidConnectionException $e) {
             return $e->errorMessage();
         }
+    }
+
+    /**
+     * pgsqlConnectionString Postgres connection string
+     *
+     * @return [string]
+     */
+    public function pgsqlConnectionString()
+    {
+        return $this->driver . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->dbname . ';user=' . $this->user . ';password=' . $this->password;
+    }
+
+    /**
+     * mysqlConnectionString Mysql connection string
+     *
+     * @return [string]
+     */
+    public function mysqlConnectionString()
+    {
+        return $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
     }
 
     /**

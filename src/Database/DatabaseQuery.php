@@ -190,7 +190,7 @@ class DatabaseQuery implements DatabaseQueryInterface
             try
             {
                 $columnName = self::checkColumn($tableName, self::sanitize($field));
-                $query =  "SELECT * FROM $tableName WHERE $columnName = ".self::sanitize($value);
+                $query =  "SELECT * FROM $tableName WHERE $columnName = '".self::sanitize($value)."'";
             } catch ( PDOException $e ) {
                 return $e->getMessage();
             }
