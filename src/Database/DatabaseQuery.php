@@ -13,6 +13,8 @@ namespace Ibonly\PotatoORM;
 use PDOException;
 use Ibonly\PotatoORM\DatabaseQueryInterface;
 use Ibonly\PotatoORM\ColumnNotExistExeption;
+use Ibonly\PotatoORM\InvalidConnectionException;
+use Ibonly\PotatoORM\TableDoesNotExistException;
 
 class DatabaseQuery implements DatabaseQueryInterface
 {
@@ -47,8 +49,10 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public function checkConnection($con)
     {
-        if( is_null($con))
+        if( is_null($con) )
+        {
             $con = self::connect();
+        }
         return $con;
     }
 
@@ -64,8 +68,10 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         $connection = $this->checkConnection($con);
         $query = $connection->query("SELECT 1 FROM {$table} LIMIT 1");
-        if($query !== false)
+        if( $query !== false )
+        {
             return true;
+        }
     }
 
     /**
@@ -79,9 +85,16 @@ class DatabaseQuery implements DatabaseQueryInterface
     public function checkTableName($tableName, $con=NULL)
     {
         $connection = self::checkConnection($con);
-        $query = $connection->query("SELECT 1 FROM {$tableName} LIMIT 1");
-        if($query !== false)
-            return $tableName;
+        if( ! is_null($connection) )
+        {
+            $query = $connection->query("SELECT 1 FROM {$tableName} LIMIT 1");
+            if( $query !== false )
+            {
+                return $tableName;
+            }
+            throw new TableDoesNotExistException();
+        }
+        throw new InvalidConnectionException();
     }
 
     /**
@@ -96,15 +109,14 @@ class DatabaseQuery implements DatabaseQueryInterface
     public function checkColumn($tableName, $columnName, $con=NULL)
     {
         $connection = self::checkConnection($con);
-        try
-        {
-            $result = $connection->prepare("SHOW COLUMNS FROM {$tableName} LIKE '{$columnName}'");
-            if ( ! $result )
+
+            $result = $connection->prepare("SELECT {$columnName} FROM {$tableName}");
+            $result->execute();
+            if ( ! $result->columnCount() )
+            {
                 throw new ColumnNotExistExeption();
+            }
             return $columnName;
-        } catch ( ColumnNotExistExeption $e ) {
-            return $e->errorMessage();
-        }
     }
 
     /**
@@ -120,11 +132,11 @@ class DatabaseQuery implements DatabaseQueryInterface
         $insertQuery = "";
         $arraySize = sizeof($data);
 
-        foreach ($data as $key => $value)
+        foreach ( $data as $key => $value )
         {
             $counter++;
             $insertQuery .= self::sanitize($key);
-            if($arraySize > $counter)
+            if( $arraySize > $counter )
                 $insertQuery .= ", ";
         }
         return $insertQuery;
@@ -143,11 +155,11 @@ class DatabaseQuery implements DatabaseQueryInterface
         $insertQuery = "";
         $arraySize = sizeof($data);
 
-        foreach ($data as $key => $value)
+        foreach ( $data as $key => $value )
         {
             $counter++;
             $insertQuery .= "'".self::sanitize($value) ."'";
-            if($arraySize > $counter)
+            if( $arraySize > $counter )
                 $insertQuery .= ", ";
         }
         return $insertQuery;
@@ -166,13 +178,15 @@ class DatabaseQuery implements DatabaseQueryInterface
         $updateQuery = "";
         $arraySize = sizeof($data);
 
-        foreach ($data as $key => $value)
+        foreach ( $data as $key => $value )
         {
             $counter++;
             $columnName = self::checkColumn($tableName, self::sanitize($key));
             $updateQuery .= $columnName ." = '".self::sanitize($value)."'";
-            if($arraySize > $counter)
+            if ( $arraySize > $counter )
+            {
                 $updateQuery .= ", ";
+            }
         }
         return $updateQuery;
     }
@@ -185,7 +199,8 @@ class DatabaseQuery implements DatabaseQueryInterface
     public function selectQuery($tableName, $field = NULL, $value = NULL)
     {
         $query = "";
-        if ( ! is_null ($field))
+        if ( ! is_null ($field) )
+        {
             try
             {
                 $columnName = self::checkColumn($tableName, self::sanitize($field));
@@ -193,6 +208,7 @@ class DatabaseQuery implements DatabaseQueryInterface
             } catch ( PDOException $e ) {
                 return $e->getMessage();
             }
+        }
         else
         {
             $query = "SELECT * FROM {$tableName}";

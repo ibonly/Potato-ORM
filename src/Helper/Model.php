@@ -18,6 +18,7 @@ use Ibonly\PotatoORM\UserNotFoundException;
 use Ibonly\PotatoORM\EmptyDatabaseException;
 use Ibonly\PotatoORM\SaveUserExistException;
 use Ibonly\PotatoORM\ColumnNotExistExeption;
+use Ibonly\PotatoORM\InvalidConnectionException;
 
 class Model extends DatabaseQuery implements ModelInterface
 {
@@ -65,16 +66,21 @@ class Model extends DatabaseQuery implements ModelInterface
     public function getALL()
     {
         $connection = DatabaseQuery::connect();
-        try{
+        try
+        {
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName());
             $query = $connection->prepare($sqlQuery);
             $query->execute();
-            if ($query->rowCount()) {
+            if ( $query->rowCount() )
+            {
                 return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
-            } else {
-                throw new EmptyDatabaseException();
             }
+            throw new EmptyDatabaseException();
         } catch ( EmptyDatabaseException $e ){
+            echo $e->errorMessage();
+        } catch ( TableDoesNotExistException $e ){
+            echo $e->errorMessage();
+        } catch ( InvalidConnectionException $e ){
             echo $e->errorMessage();
         }
     }
@@ -88,20 +94,24 @@ class Model extends DatabaseQuery implements ModelInterface
     public function where($field, $value)
     {
         $connection = DatabaseQuery::connect();
-        try{
+        try
+        {
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), $field, $value);
             $query = $connection->prepare($sqlQuery);
             $query->execute();
-            if ($query->rowCount()) {
+            if ( $query->rowCount() )
+            {
                 return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
-            } else {
-                throw new UserNotFoundException();
             }
-        } catch (UserNotFoundException $e){
+            throw new UserNotFoundException();
+        } catch ( UserNotFoundException $e ){
             echo $e->errorMessage();
-        }
-        catch ( PDOException $e){
-            return "Error: Column name does not exist";
+        } catch ( TableDoesNotExistException $e ){
+            echo $e->errorMessage();
+        }  catch ( InvalidConnectionException $e ){
+            echo $e->errorMessage();
+        }  catch ( ColumnNotExistExeption $e ){
+            echo $e->errorMessage();
         }
     }
 
@@ -116,18 +126,24 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::connect();
         try
         {
-        $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), 'id', $value);
-        $query = $connection->prepare($sqlQuery);
-        $query->execute();
-        if ($query->rowCount()) {
-            $found = new static;
-            $found->id = $value;
-            $found->data = $query->fetchAll($connection::FETCH_ASSOC);
-            return $found;
-        } else {
-                throw new UserNotFoundException();
+            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), 'id', $value);
+            $query = $connection->prepare($sqlQuery);
+            $query->execute();
+            if ( $query->rowCount() )
+            {
+                $found = new static;
+                $found->id = $value;
+                $found->data = $query->fetchAll($connection::FETCH_ASSOC);
+                return $found;
             }
-        } catch (UserNotFoundException $e){
+            throw new UserNotFoundException();
+        } catch ( UserNotFoundException $e ){
+            echo $e->errorMessage();
+        } catch ( TableDoesNotExistException $e ){
+            echo $e->errorMessage();
+        }  catch ( InvalidConnectionException $e ){
+            echo $e->errorMessage();
+        }  catch ( ColumnNotExistExeption $e ){
             echo $e->errorMessage();
         }
     }
@@ -141,27 +157,35 @@ class Model extends DatabaseQuery implements ModelInterface
     public function save()
     {
         $connection = DatabaseQuery::connect();
-        try{
-                if ( ! isset ($this->id)  && ! isset($this->data) )
+        try
+        {
+            if ( ! isset ($this->id)  && ! isset($this->data) )
+            {
+                $query = DatabaseQuery::insertQuery(self::getTableName());
+                $statement = $connection->prepare($query);
+                if( $statement->execute() )
                 {
-                    $query = DatabaseQuery::insertQuery(self::getTableName());
-                    $statement = $connection->prepare($query);
-                    if($statement->execute())
-                        return true;
-                    throw new  SaveUserExistException();
+                    return true;
                 }
-                else
-                {
-                    $updateQuery = DatabaseQuery::updateQuery(self::getTableName());
-                    $statement = $connection->prepare($updateQuery);
-                    if($statement->execute())
-                        return true;
-                    throw new  SaveUserExistException();
-                }
+                throw new  SaveUserExistException();
+            }
+            $updateQuery = DatabaseQuery::updateQuery(self::getTableName());
+            $statement = $connection->prepare($updateQuery);
+            if( $statement->execute() )
+            {
+                return true;
+            }
+            throw new  SaveUserExistException();
         } catch ( PDOException $e ){
             throw new  SaveUserExistException($e->getMessage());
         } catch( SaveUserExistException $e ) {
             return $e->getMessage();
+        } catch ( TableDoesNotExistException $e ){
+            echo $e->errorMessage();
+        }  catch ( InvalidConnectionException $e ){
+            echo $e->errorMessage();
+        }  catch ( ColumnNotExistExeption $e ){
+            echo $e->errorMessage();
         }
     }
 
@@ -174,15 +198,24 @@ class Model extends DatabaseQuery implements ModelInterface
     public function destroy($value)
     {
         $connection = DatabaseQuery::connect();
-        try{
-                $query = $connection->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);
-                $query->execute();
-                $check = $query->rowCount();
-                if ($check)
-                    return true;
-                throw new UserNotFoundException;
+        try
+        {
+            $query = $connection->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);
+            $query->execute();
+            $check = $query->rowCount();
+            if ($check)
+            {
+                return true;
+            }
+            throw new UserNotFoundException;
         } catch ( UserNotFoundException $e ) {
             return $e->errorMessage();
+        } catch ( TableDoesNotExistException $e ){
+            echo $e->errorMessage();
+        }  catch ( InvalidConnectionException $e ){
+            echo $e->errorMessage();
+        }  catch ( ColumnNotExistExeption $e ){
+            echo $e->errorMessage();
         }
     }
 

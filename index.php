@@ -9,7 +9,7 @@ require 'vendor/autoload.php';
 
 // $sugar = new User();
 
-// echo $sugar->where('username', 'sscoolio').PHP_EOL.PHP_EOL;
+// echo $sugar->where('id', '17').PHP_EOL.PHP_EOL;
 // echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
@@ -25,8 +25,8 @@ require 'vendor/autoload.php';
 // echo print_r($sugar->find(2));
 
 
-// $sugar = User::find(13);
-// $sugar->username = "sscoolio";
+// $sugar = User::find(48);
+// $sugar->password = "sscoolio";
 // echo $sugar->save();
 
 // $sugar = User::destroy(13);

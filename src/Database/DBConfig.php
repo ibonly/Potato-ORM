@@ -13,7 +13,6 @@ use PDO;
 use PDOException;
 use Dotenv\Dotenv;
 use Ibonly\PotatoORM\Inflector;
-use Ibonly\PotatoORM\InvalidConnectionException;
 
 class DBConfig extends PDO
 {
@@ -43,19 +42,18 @@ class DBConfig extends PDO
         {
             if ($this->driver === 'pgsql')
             {
-                $dbConn = parent::__construct($this->pgsqlConnectionString());
+                parent::__construct($this->pgsqlConnectionString());
             }
             elseif ($this->driver === 'mysql')
             {
-                $dbConn = parent::__construct($this->mysqlConnectionString(), $this->user, $this->password);
+                parent::__construct($this->mysqlConnectionString(), $this->user, $this->password);
             }
             elseif($this->driver === 'sqlite')
             {
-                $dbConn = parent::__construct($this->sqlitConnectionString());
+                parent::__construct($this->sqlitConnectionString());
             }
-            return $dbConn;
-        } catch (InvalidConnectionException $e) {
-            return $e->errorMessage();
+        } catch (PDOException $e) {
+            return $e->getMessage();
         }
     }
 
@@ -79,10 +77,16 @@ class DBConfig extends PDO
         return $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
     }
 
+    /**
+     * sqliteConnectionString Sqlite connection string
+     *
+     * @return string
+     */
     public function sqlitConnectionString()
     {
         return $this->driver . ':' . $this->sqlitePath;
     }
+
     /**
      * Load Dotenv to grant getenv() access to environment variables in .env file
      */
