@@ -23,6 +23,7 @@ class DBConfig extends PDO
     protected $port;
     protected $user;
     protected $password;
+    protected $sqlitePath;
     /**
      * Define the database connection
      */
@@ -36,6 +37,7 @@ class DBConfig extends PDO
         $this->port= getenv('DATABASE_PORT');
         $this->user = getenv('DATABASE_USER');
         $this->password = getenv('DATABASE_PASSWORD');
+        $this->sqlitePath = getenv('SQLITE_PATH');
         try
         {
             if ($this->driver === 'pgsql')
@@ -45,6 +47,10 @@ class DBConfig extends PDO
             elseif ($this->driver === 'mysql')
             {
                 $dbConn = parent::__construct($this->mysqlConnectionString(), $this->user, $this->password);
+            }
+            elseif($this->driver === 'sqlite')
+            {
+                $dbConn = parent::__construct($this->sqlitConnectionString());
             }
         } catch (InvalidConnectionException $e) {
             return $e->errorMessage();
@@ -71,6 +77,10 @@ class DBConfig extends PDO
         return $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
     }
 
+    public function sqlitConnectionString()
+    {
+        return $this->driver . ':' . $this->sqlitePath;
+    }
     /**
      * Load Dotenv to grant getenv() access to environment variables in .env file
      */

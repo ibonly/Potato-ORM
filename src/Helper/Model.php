@@ -145,6 +145,7 @@ class Model extends DatabaseQuery implements ModelInterface
                 if ( ! isset ($this->id)  && ! isset($this->data) )
                 {
                     $query = DatabaseQuery::insertQuery(self::getTableName());
+                    var_dump($query);
                     $statement = $connection->prepare($query);
                     if($statement->execute())
                         return true;
