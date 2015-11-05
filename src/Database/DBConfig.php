@@ -47,7 +47,6 @@ class DBConfig extends PDO
         } catch (InvalidConnectionException $e) {
             return $e->errorMessage();
         }
-        // return $dbConn;
     }
 
     /**

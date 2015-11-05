@@ -16,6 +16,7 @@ use Ibonly\PotatoORM\SchemaInterface;
 class Schema extends DatabaseQuery implements SchemaInterface
 {
     protected $fieldDescription = [];
+
     /**
      * field(arguments) contains the sql field statement
      *

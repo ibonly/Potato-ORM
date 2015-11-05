@@ -40,12 +40,20 @@ class DatabaseQuery implements DatabaseQueryInterface
         return $value;
     }
 
+    /**
+     * checkConnection
+     *
+     * @param  $con
+     *
+     * @return [string]
+     */
     public function checkConnection($con)
     {
         if( is_null($con))
             $con = self::connect();
         return $con;
     }
+
     /**
      * checkTableExist Check if table already in the database
      *
@@ -186,7 +194,10 @@ class DatabaseQuery implements DatabaseQueryInterface
             } catch ( PDOException $e ) {
                 return $e->getMessage();
             }
-        $query = "SELECT * FROM {$tableName}";
+        else
+        {
+            $query = "SELECT * FROM {$tableName}";
+        }
 
         return $query;
     }

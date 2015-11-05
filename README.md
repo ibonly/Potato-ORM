@@ -68,7 +68,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 ```
 
     Return type = JSON
-    
+
 
 ### find($value)
 
@@ -91,18 +91,13 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 ```
 <?php
     use Ibonly\PotatoORM\User;
-    use Ibonly\PotatoORM\SaveUserExistException;
 
-     $insert = new User();
-     $insert->id = NULL;
-     $insert->username = "alanxzde";
-     $insert->email = "ikechu@zxzdede.com";
-     $insert->password = "passwxzxxord123";
-     try{
-         echo $insert->save();
-     } catch (SaveUserExistException $e) {
-         echo $e->errorMessage();
-    }
+    $insert = new User();
+    $insert->id = NULL;
+    $insert->username = "username";
+    $insert->email = "example@example.com";
+    $insert->password = "password";
+    echo $insert->save();
 ?>
 ```
 
@@ -148,7 +143,7 @@ Its is also possible to create Database Table with the `Schema` class. The table
 
 
     Foreign Key
-    
+
     ```
         $user->field('foreignKey', 'id', 'users_id');
     ```
