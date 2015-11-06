@@ -21,7 +21,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * connect Setup database connection
      */
-    public function connect()
+    protected function connect()
     {
         return new DBConfig();
     }
@@ -33,7 +33,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return  string
      */
-    public function sanitize($value)
+    protected function sanitize($value)
     {
         $value = trim($value);
         $value = htmlentities($value);
@@ -47,7 +47,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function checkConnection($con)
+    protected function checkConnection($con)
     {
         if( is_null($con) )
         {
@@ -106,7 +106,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function checkColumn($tableName, $columnName, $con=NULL)
+    protected function checkColumn($tableName, $columnName, $con=NULL)
     {
         $connection = self::checkConnection($con);
 
@@ -126,7 +126,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function buildColumn($data)
+    protected function buildColumn($data)
     {
         $counter = 0;
         $insertQuery = "";
@@ -149,7 +149,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function buildValues($data)
+    protected function buildValues($data)
     {
         $counter = 0;
         $insertQuery = "";
@@ -172,7 +172,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function buildClause($tableName, $data)
+    protected function buildClause($tableName, $data)
     {
         $counter = 0;
         $updateQuery = "";

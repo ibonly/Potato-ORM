@@ -30,7 +30,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public function stripclassName()
+    protected function stripclassName()
     {
         $className = strtolower(get_called_class());
         $r = explode("\\", $className);
@@ -42,7 +42,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public function getClassName()
+    protected function getClassName()
     {
         return self::pluralize(self::stripclassName());
     }
@@ -52,7 +52,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public function getTableName()
+    protected function getTableName()
     {
         return DatabaseQuery::checkTableName(self::getClassName());
     }
@@ -63,9 +63,9 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return object
      */
-    public function getALL($con=NULL)
+    public function getALL($dbConnection = NULL)
     {
-        $connection = DatabaseQuery::checkConnection($con);
+        $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName());
@@ -91,9 +91,9 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return object
      */
-    public function where($field, $value)
+    public function where($field, $value, $dbConnection = NULL)
     {
-        $connection = DatabaseQuery::connect();
+        $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), $field, $value);
@@ -121,9 +121,9 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return array
      */
-    public function find($value)
+    public function find($value, $dbConnection = NULL)
     {
-        $connection = DatabaseQuery::connect();
+        $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), 'id', $value);
@@ -154,9 +154,9 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return bool
      */
-    public function save()
+    public function save($dbConnection = NULL)
     {
-        $connection = DatabaseQuery::connect();
+        $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
             if ( ! isset ($this->id)  && ! isset($this->data) )
@@ -195,9 +195,9 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return bool
      */
-    public function destroy($value)
+    public function destroy($value, $dbConnection = NULL)
     {
-        $connection = DatabaseQuery::connect();
+        $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
             $query = $connection->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);

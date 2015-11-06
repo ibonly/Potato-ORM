@@ -62,7 +62,7 @@ class DBConfig extends PDO
      *
      * @return string
      */
-    public function pgsqlConnectionString()
+    protected function pgsqlConnectionString()
     {
         return $this->driver . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->dbname . ';user=' . $this->user . ';password=' . $this->password;
     }
@@ -72,7 +72,7 @@ class DBConfig extends PDO
      *
      * @return string
      */
-    public function mysqlConnectionString()
+    protected function mysqlConnectionString()
     {
         return $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
     }
@@ -82,7 +82,7 @@ class DBConfig extends PDO
      *
      * @return string
      */
-    public function sqlitConnectionString()
+    protected function sqlitConnectionString()
     {
         return $this->driver . ':' . $this->sqlitePath;
     }

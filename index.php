@@ -9,8 +9,8 @@ use Ibonly\PotatoORM\User;
 
 $sugar = new User();
 
-// echo $sugar->where('id', '17').PHP_EOL.PHP_EOL;
-echo $sugar->getAll().PHP_EOL.PHP_EOL;
+echo $sugar->where('id', '24').PHP_EOL.PHP_EOL;
+// echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new User();

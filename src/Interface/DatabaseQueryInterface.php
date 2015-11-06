@@ -11,9 +11,7 @@ namespace Ibonly\PotatoORM;
 
 interface DatabaseQueryInterface
 {
-    public function connect();
-
-    public function checkTableExist($table, $dbConnection=NULL);
+    public function checkTableExist($table, $con=NULL);
 
     public function checkTableName($table, $dbConnection=NULL);
 
@@ -22,5 +20,4 @@ interface DatabaseQueryInterface
     public function insertQuery($tableName);
 
     public function updateQuery($tableName);
-
 }

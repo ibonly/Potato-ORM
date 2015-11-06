@@ -22,7 +22,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      *
      * @return array
      */
-    public function field($type, $fieldName, $length=NULL)
+    protected function field($type, $fieldName, $length=NULL)
     {
         if(is_null($length)){
              $this->fieldDescription[] = $type ." ".$fieldName;
@@ -38,7 +38,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      *
      * @return string
      */
-    public function buildQuery($tablename)
+    protected function buildQuery($tablename)
     {
         $query = "CREATE TABLE IF NOT EXISTS {$tablename} (".PHP_EOL;
 
@@ -64,7 +64,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      *
      * @return string
      */
-    public function sanitizeQuery($query)
+    protected function sanitizeQuery($query)
     {
         $q = substr_replace($this->buildQuery($query), "", -6);
         $q .= ");";

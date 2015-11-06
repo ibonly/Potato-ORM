@@ -11,12 +11,6 @@ namespace Ibonly\PotatoORM;
 
 interface SchemaInterface
 {
-    public function field($type, $fieldName, $length);
-
-    public function buildQuery($tablename);
-
-    public function sanitizeQuery($query);
-
     public function createTable($tablename);
 
     public function increments($value);
