@@ -63,9 +63,9 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return object
      */
-    public function getALL()
+    public function getALL($con=NULL)
     {
-        $connection = DatabaseQuery::connect();
+        $connection = DatabaseQuery::checkConnection($con);
         try
         {
             $sqlQuery = DatabaseQuery::selectQuery(self::getTableName());

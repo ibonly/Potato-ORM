@@ -4,6 +4,8 @@
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/andela-iadeniyi/Potato-ORM/blob/master/LICENCE)
 [![Quality Score](https://img.shields.io/scrutinizer/g/andela-iadeniyi/Potato-ORM.svg?style=flat-square)](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM)
 [![Scruitinizer Code](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM)
+[![Code Climate](https://codeclimate.com/github/andela-iadeniyi/Potato-ORM/badges/gpa.svg)](https://codeclimate.com/github/andela-iadeniyi/Potato-ORM)
+[![Test Coverage](https://codeclimate.com/github/andela-iadeniyi/Potato-ORM/badges/coverage.svg)](https://codeclimate.com/github/andela-iadeniyi/Potato-ORM/coverage)
 
 Potato-ORM is a package that manages the CRUD operation of database
 

@@ -2,15 +2,15 @@
 
 require 'vendor/autoload.php';
 
-// use Ibonly\PotatoORM\User;
+use Ibonly\PotatoORM\User;
 // use Ibonly\PotatoORM\Schema;
 // use Ibonly\PotatoORM\Player;
 
 
-// $sugar = new User();
+$sugar = new User();
 
 // echo $sugar->where('id', '17').PHP_EOL.PHP_EOL;
-// echo $sugar->getAll().PHP_EOL.PHP_EOL;
+echo $sugar->getAll().PHP_EOL.PHP_EOL;
 
 
 // $sugar = new User();
