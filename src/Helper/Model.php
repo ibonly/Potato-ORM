@@ -34,7 +34,7 @@ class Model extends DatabaseQuery implements ModelInterface
     {
         $className = strtolower(get_called_class());
         $r = explode("\\", $className);
-        return $r[2];
+        return end($r);
     }
 
     /**

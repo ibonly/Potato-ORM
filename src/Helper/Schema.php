@@ -22,7 +22,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      *
      * @return array
      */
-    protected function field($type, $fieldName, $length=NULL)
+    public function field($type, $fieldName, $length=NULL)
     {
         if(is_null($length)){
              $this->fieldDescription[] = $type ." ".$fieldName;
@@ -155,6 +155,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
     {
         return "UNIQUE KEY {$value} ({$value})";
     }
+
     /**
      * foreignKey(argument)
      *

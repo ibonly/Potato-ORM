@@ -34,7 +34,7 @@ class DBConfig extends PDO
         $this->driver = getenv('DATABASE_DRIVER');
         $this->host = getenv('DATABASE_HOST');
         $this->dbname = getenv('DATABASE_NAME');
-        $this->port= getenv('DATABASE_PORT');
+        $this->port = getenv('DATABASE_PORT');
         $this->user = getenv('DATABASE_USER');
         $this->password = getenv('DATABASE_PASSWORD');
         $this->sqlitePath = getenv('SQLITE_PATH');
@@ -53,7 +53,7 @@ class DBConfig extends PDO
                 parent::__construct($this->sqlitConnectionString());
             }
         } catch (PDOException $e) {
-            return $e->getMessage();
+            $e->getMessage();
         }
     }
 
@@ -92,7 +92,7 @@ class DBConfig extends PDO
      */
     protected function loadEnv()
     {
-        $dotenv = new Dotenv(__DIR__ . "../../../");
+        $dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
         $dotenv->load();
     }
 }
