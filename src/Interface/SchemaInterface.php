@@ -23,4 +23,6 @@ interface SchemaInterface
 
     public function foreignKey($value, $length);
 
+    public function dateTime($value, $length);
+
 }

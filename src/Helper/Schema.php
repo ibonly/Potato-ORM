@@ -166,4 +166,37 @@ class Schema extends DatabaseQuery implements SchemaInterface
         $r = explode("_", $length);
         return "FOREIGN KEY ({$value}) REFERENCES ".$r[0]."(".$r[1].")";
     }
+
+    /**
+     * dateTime description]
+     *
+     * @param  [type] $value [description]
+     * @param  [type] $type  [description]
+     * @return [type]        [description]
+     */
+    public function dateTime($value, $type = NULL)
+    {
+        $apend = "";
+        switch ($type) {
+            case 'time':
+                    $apend = 'time';
+                break;
+            case 'timestamp':
+                    $apend = 'timestamp';
+                break;
+            case 'date':
+                    $apend = 'date';
+                break;
+            case 'datetime':
+                    $apend = 'datetime';
+                break;
+            case 'year':
+                    $apend = 'year(4)';
+                break;
+            default:
+                    $apend = 'timestamp';
+                break;
+        }
+        return $value . " " . $apend . " NOT NULL";
+    }
 }
