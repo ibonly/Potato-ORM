@@ -123,29 +123,7 @@ class Model extends DatabaseQuery implements ModelInterface
      */
     public function find($value, $dbConnection = NULL)
     {
-        $connection = DatabaseQuery::checkConnection($dbConnection);
-        try
-        {
-            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), 'id', $value);
-            $query = $connection->prepare($sqlQuery);
-            $query->execute();
-            if ( $query->rowCount() )
-            {
-                $found = new static;
-                $found->id = $value;
-                $found->data = $query->fetchAll($connection::FETCH_ASSOC);
-                return $found;
-            }
-            throw new UserNotFoundException();
-        } catch ( UserNotFoundException $e ){
-            echo $e->errorMessage();
-        } catch ( TableDoesNotExistException $e ){
-            echo $e->errorMessage();
-        }  catch ( InvalidConnectionException $e ){
-            echo $e->errorMessage();
-        }  catch ( ColumnNotExistExeption $e ){
-            echo $e->errorMessage();
-        }
+        return self::where('id', $value, $dbConnection);
     }
 
     /**

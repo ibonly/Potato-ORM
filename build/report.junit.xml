@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="test" tests="16" assertions="15" failures="0" errors="0" time="0.151009">
+    <testsuite name="Ibonly\PotatoORM\Test\DatabaseQueryTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\DatabaseQueryTest.php" tests="1" assertions="1" failures="0" errors="0" time="0.003000">
+      <testcase name="testSelectQuery" class="Ibonly\PotatoORM\Test\DatabaseQueryTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\DatabaseQueryTest.php" line="44" assertions="1" time="0.003000"/>
+    </testsuite>
+    <testsuite name="Ibonly\PotatoORM\Test\ModelTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\ModelTest.php" tests="5" assertions="5" failures="0" errors="0" time="0.145009">
+      <testcase name="testGetClassName" class="Ibonly\PotatoORM\Test\ModelTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\ModelTest.php" line="46" assertions="1" time="0.034002"/>
+      <testcase name="testStripclassName" class="Ibonly\PotatoORM\Test\ModelTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\ModelTest.php" line="55" assertions="1" time="0.001000"/>
+      <testcase name="testWhere" class="Ibonly\PotatoORM\Test\ModelTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\ModelTest.php" line="64" assertions="1" time="0.021001">
+        <system-out>Table does not exist in the database</system-out>
+      </testcase>
+      <testcase name="testGetAll" class="Ibonly\PotatoORM\Test\ModelTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\ModelTest.php" line="75" assertions="1" time="0.078005">
+        <system-out>Table does not exist in the database</system-out>
+      </testcase>
+      <testcase name="testFind" class="Ibonly\PotatoORM\Test\ModelTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\ModelTest.php" line="89" assertions="1" time="0.011001">
+        <system-out>Table does not exist in the database</system-out>
+      </testcase>
+    </testsuite>
+    <testsuite name="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" tests="10" assertions="9" failures="0" errors="0" time="0.003000">
+      <testcase name="testIncrements" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="23" assertions="1" time="0.002000"/>
+      <testcase name="testStrings" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="32" assertions="1" time="0.000000"/>
+      <testcase name="testText" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="41" assertions="1" time="0.000000"/>
+      <testcase name="testInteger" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="50" assertions="1" time="0.000000"/>
+      <testcase name="testPrimaryKey" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="59" assertions="1" time="0.000000"/>
+      <testcase name="testUnique" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="68" assertions="1" time="0.001000"/>
+      <testcase name="testForeignKey" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="77" assertions="1" time="0.000000"/>
+      <testcase name="testBuildQuery" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="86" assertions="1" time="0.000000"/>
+      <testcase name="testSanitizeQuery" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="95" assertions="1" time="0.000000"/>
+      <testcase name="testCreateTableException" class="Ibonly\PotatoORM\Test\SchemaTest" file="C:\Users\ebuka\Documents\Workspace\package\SugarORM\test\SchemaTest.php" line="104" assertions="0" time="0.000000"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
