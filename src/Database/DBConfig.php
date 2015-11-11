@@ -29,14 +29,13 @@ class DBConfig extends PDO
      */
     public function __construct()
     {
-        $dbConn = "";
         $this->loadEnv();
-        $this->driver = getenv('DATABASE_DRIVER');
-        $this->host = getenv('DATABASE_HOST');
-        $this->dbname = getenv('DATABASE_NAME');
-        $this->port = getenv('DATABASE_PORT');
-        $this->user = getenv('DATABASE_USER');
-        $this->password = getenv('DATABASE_PASSWORD');
+        $this->driver     = getenv('DATABASE_DRIVER');
+        $this->host       = getenv('DATABASE_HOST');
+        $this->dbname     = getenv('DATABASE_NAME');
+        $this->port       = getenv('DATABASE_PORT');
+        $this->user       = getenv('DATABASE_USER');
+        $this->password   = getenv('DATABASE_PASSWORD');
         $this->sqlitePath = getenv('SQLITE_PATH');
         try
         {

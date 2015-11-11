@@ -30,7 +30,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    protected function stripclassName()
+    public function stripclassName()
     {
         $className = strtolower(get_called_class());
         $r = explode("\\", $className);
@@ -42,7 +42,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    protected function getClassName()
+    public function getClassName()
     {
         return self::pluralize(self::stripclassName());
     }
@@ -52,7 +52,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    protected function getTableName()
+    public function getTableName($connection = NULL)
     {
         return DatabaseQuery::checkTableName(self::getClassName());
     }

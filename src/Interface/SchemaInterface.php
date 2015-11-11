@@ -25,4 +25,8 @@ interface SchemaInterface
 
     public function dateTime($value, $length);
 
+    public function buildQuery($tablename);
+
+    public function sanitizeQuery($query);
+
 }

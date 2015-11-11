@@ -36,7 +36,7 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
 
         $dbConnMocked->shouldReceive('checkTableName')->with('SELECT 1 FROM users')->andReturn('users');
 
-        $this->setExpectedException('\Ibonly\PotatoORM\TableDoesNotExistException');
+        // $this->setExpectedException('\Ibonly\PotatoORM\TableDoesNotExistException');
         $this->assertTrue($this->databaseQuery->getTableName($dbConnMocked));
     }
 

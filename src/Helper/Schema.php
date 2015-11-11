@@ -38,7 +38,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      *
      * @return string
      */
-    protected function buildQuery($tablename)
+    public function buildQuery($tablename)
     {
         $query = "CREATE TABLE IF NOT EXISTS {$tablename} (".PHP_EOL;
 
@@ -64,7 +64,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      *
      * @return string
      */
-    protected function sanitizeQuery($query)
+    public function sanitizeQuery($query)
     {
         $q = substr_replace($this->buildQuery($query), "", -6);
         $q .= ");";
