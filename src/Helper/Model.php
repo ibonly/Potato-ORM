@@ -33,8 +33,8 @@ class Model extends DatabaseQuery implements ModelInterface
     public function stripclassName()
     {
         $className = strtolower(get_called_class());
-        $r = explode("\\", $className);
-        return end($r);
+        $nameOfClass = explode("\\", $className);
+        return end($nameOfClass);
     }
 
     /**
