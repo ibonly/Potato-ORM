@@ -85,16 +85,16 @@ class DatabaseQuery implements DatabaseQueryInterface
     public function checkTableName($tableName, $con=NULL)
     {
         $connection = self::checkConnection($con);
-        if( ! is_null($connection) )
-        {
+        // if( ! is_null($connection) )
+        // {
             $query = $connection->query("SELECT 1 FROM {$tableName} LIMIT 1");
             if( $query !== false )
             {
                 return $tableName;
             }
             throw new TableDoesNotExistException();
-        }
-        throw new InvalidConnectionException();
+        // }
+        // throw new InvalidConnectionException();
     }
 
     /**
@@ -196,14 +196,14 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function selectQuery($tableName, $field = NULL, $value = NULL)
+    public function selectQuery($tableName, $field = NULL, $value = NULL, $connection = NULL)
     {
         $query = "";
         if ( ! is_null ($field) )
         {
             try
             {
-                $columnName = self::checkColumn($tableName, self::sanitize($field));
+                $columnName = self::checkColumn($tableName, self::sanitize($field), $connection);
                 $query =  "SELECT * FROM $tableName WHERE $columnName = '".self::sanitize($value)."'";
             } catch ( PDOException $e ) {
                 return $e->getMessage();

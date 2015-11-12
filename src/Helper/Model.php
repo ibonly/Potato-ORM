@@ -54,7 +54,7 @@ class Model extends DatabaseQuery implements ModelInterface
      */
     public function getTableName($connection = NULL)
     {
-        return DatabaseQuery::checkTableName(self::getClassName());
+        return DatabaseQuery::checkTableName(self::getClassName(), $connection);
     }
 
     /**
@@ -68,12 +68,12 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
-            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName());
+            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName($connection));
             $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ( $query->rowCount() )
             {
-                return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
+                return $query->fetchAll($connection::FETCH_ASSOC);
             }
             throw new EmptyDatabaseException();
         } catch ( EmptyDatabaseException $e ){
@@ -96,7 +96,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
-            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName(), $field, $value);
+            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName($connection), $field, $value, $connection);
             $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ( $query->rowCount() )
