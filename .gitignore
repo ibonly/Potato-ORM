@@ -2,5 +2,4 @@
 vendor
 .env
 create.php
-src/Schema.php
-build
+/build
