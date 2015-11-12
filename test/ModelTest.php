@@ -3,7 +3,6 @@
 namespace Ibonly\PotatoORM\Test;
 
 use Mockery;
-use Ibonly\PotatoORM\User;
 use Ibonly\PotatoORM\Model;
 use Ibonly\PotatoORM\DBConfig;
 use PHPUnit_Framework_TestCase;
@@ -72,7 +71,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
 
-        $this->assertEquals(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com'], User::where('id', 1, $this->dbConnectionMocked));
+        $this->assertEquals(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com'], StubTest::where('id', 1, $this->dbConnectionMocked));
     }
 
     /**
