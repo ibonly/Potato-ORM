@@ -3,32 +3,36 @@
 require 'vendor/autoload.php';
 
 use Ibonly\PotatoORM\User;
-// use Ibonly\PotatoORM\Schema;
+use Ibonly\PotatoORM\Schema;
 // use Ibonly\PotatoORM\Player;
 
 
-$sugar = new User();
+// $sugar = new User();
 
-var_dump($sugar->where('id', '24'));
-var_dump($sugar->getAll());
+$result = User::where('id', '1000');
+print_r($result);
+
+
+// $result = $sugar->getAll();
+// print_r($result);
 
 
 
 // $sugar->id = NULL;
-// $sugar->username = "ibonly1";
-// $sugar->email = "ibonl1y@yahoo.com";
+// $sugar->username = "ibraheem";
+// $sugar->email = "ibon@yahoo.com";
 // $sugar->password = "1111111";
 // echo $sugar->save().PHP_EOL.PHP_EOL;
 
 
-print_r($sugar->find(50));
+// print_r($sugar->find(50));
 
 
-// $sugar = User::find(57);
-// $sugar->password = "ddddddd";
+// $sugar = User::find(100);
+// $sugar->password = "password";
 // echo $sugar->save();
 
-// $sugar = User::destroy(51);
+// $sugar = User::destroy(63);
 // die($sugar);
 
 // var_dump($suga->getAll());

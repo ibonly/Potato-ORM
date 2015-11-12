@@ -149,7 +149,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    protected function buildValues($data)
+    public function buildValues($data)
     {
         $counter = 0;
         $insertQuery = "";

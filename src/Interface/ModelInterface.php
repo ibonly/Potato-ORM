@@ -14,7 +14,7 @@ interface ModelInterface
 
     public function getALL();
 
-    public function where($field, $value);
+    public static function where($field, $value);
 
     public function find($value);
 

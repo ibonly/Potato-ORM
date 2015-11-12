@@ -91,12 +91,13 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return object
      */
-    public function where($field, $value, $dbConnection = NULL)
+    public static function where($field, $value, $dbConnection = NULL)
     {
-        $connection = DatabaseQuery::checkConnection($dbConnection);
+        $databaseQuery = new DatabaseQuery();
+        $connection = $databaseQuery->checkConnection($dbConnection);
         try
         {
-            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName($connection), $field, $value, $connection);
+            $sqlQuery = $databaseQuery->selectQuery(self::getTableName($connection), $field, $value, $connection);
             $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ( $query->rowCount() )
