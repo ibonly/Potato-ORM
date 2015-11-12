@@ -2,7 +2,6 @@
 
 namespace Ibonly\PotatoORM\Test;
 
-use PDO;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use Ibonly\PotatoORM\DatabaseQuery;
@@ -28,22 +27,24 @@ class DatabaseQueryTest extends PHPUnit_Framework_TestCase
     /**
      * testTableExist
      */
-    // public function testTableExist()
-    // {
-    //     $dbConnMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
-    //     $statement = Mockery::mock('\PDOStatement');
+    public function testTableExist()
+    {
+        $dbConnMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
+        $statement = Mockery::mock('\PDOStatement');
 
-    //     $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users')->andReturn($statement);
+        $dbConnMocked->shouldReceive('query')->with('SELECT 1 FROM users LIMIT 1')->andReturn($statement);
 
-    //     $this->assertTrue($this->databaseQuery->checkTableExist('users', $dbConnMocked));
-    // }
+        $this->assertTrue($this->databaseQuery->checkTableExist('users', $dbConnMocked));
+    }
 
     /**
      * testSelectQuery
      */
     public function testSelectQuery()
     {
-        $this->assertInternalType("string", $this->databaseQuery->selectQuery('users'));
-    }
+        $this->dbConnectionMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
+        $this->statement = Mockery::mock('\PDOStatement');
 
+        $this->assertInternalType("string", $this->databaseQuery->selectQuery('users' , NULL,NULL, $this->dbConnectionMocked));
+    }
 }

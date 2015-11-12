@@ -1,17 +1,7 @@
 TAP version 13
-ok 1 - Ibonly\PotatoORM\Test\DatabaseQueryTest::testSelectQuery
-ok 2 - ModelTest::testGetClassName
-ok 3 - ModelTest::testStripclassName
-ok 4 - ModelTest::testGetAll
-not ok 5 - Error: ModelTest::testFind
-ok 6 - Ibonly\PotatoORM\Test\SchemaTest::testIncrements
-ok 7 - Ibonly\PotatoORM\Test\SchemaTest::testStrings
-ok 8 - Ibonly\PotatoORM\Test\SchemaTest::testText
-ok 9 - Ibonly\PotatoORM\Test\SchemaTest::testInteger
-ok 10 - Ibonly\PotatoORM\Test\SchemaTest::testPrimaryKey
-ok 11 - Ibonly\PotatoORM\Test\SchemaTest::testUnique
-ok 12 - Ibonly\PotatoORM\Test\SchemaTest::testForeignKey
-ok 13 - Ibonly\PotatoORM\Test\SchemaTest::testBuildQuery
-ok 14 - Ibonly\PotatoORM\Test\SchemaTest::testSanitizeQuery
-ok 15 - Ibonly\PotatoORM\Test\SchemaTest::testCreateTableException
-1..15
+ok 1 - Ibonly\PotatoORM\Test\DatabaseQueryTest::testTableExist
+ok 2 - Ibonly\PotatoORM\Test\DatabaseQueryTest::testSelectQuery
+ok 3 - Ibonly\PotatoORM\Test\ModelTest::testGetClassName
+ok 4 - Ibonly\PotatoORM\Test\ModelTest::testStripclassName
+ok 5 - Ibonly\PotatoORM\Test\ModelTest::testWhere
+ok 6 - Ibonly\PotatoORM\Test\ModelTest::testGetAll

@@ -126,7 +126,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    protected function buildColumn($data)
+    public function buildColumn($data)
     {
         $counter = 0;
         $insertQuery = "";
@@ -192,11 +192,21 @@ class DatabaseQuery implements DatabaseQueryInterface
     }
 
     /**
+     * selectAllQuery
+     *
+     * @return string
+     */
+    public function selectAllQuery($tableName)
+    {
+        return "SELECT * FROM {$tableName}";
+    }
+
+    /**
      * selectQuery
      *
      * @return string
      */
-    public function selectQuery($tableName, $field = NULL, $value = NULL, $connection = NULL)
+    public function selectQuery($tableName, $field = NULL, $value = NULL, $connection)
     {
         $query = "";
         if ( ! is_null ($field) )

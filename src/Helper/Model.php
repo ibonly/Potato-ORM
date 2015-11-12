@@ -52,7 +52,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public function getTableName($connection = NULL)
+    public function getTableName($connection)
     {
         return DatabaseQuery::checkTableName(self::getClassName(), $connection);
     }
@@ -68,7 +68,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
-            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName($connection));
+            $sqlQuery = DatabaseQuery::selectAllQuery(self::getTableName($connection));
             $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ( $query->rowCount() )
@@ -101,7 +101,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $query->execute();
             if ( $query->rowCount() )
             {
-                return json_encode($query->fetchAll($connection::FETCH_OBJ), JSON_FORCE_OBJECT);
+                return $query->fetchAll($connection::FETCH_ASSOC);
             }
             throw new UserNotFoundException();
         } catch ( UserNotFoundException $e ){
@@ -123,7 +123,29 @@ class Model extends DatabaseQuery implements ModelInterface
      */
     public function find($value, $dbConnection = NULL)
     {
-        return self::where('id', $value, $dbConnection);
+        $connection = DatabaseQuery::checkConnection($dbConnection);
+        try
+        {
+            $sqlQuery = DatabaseQuery::selectQuery(self::getTableName($connection), 'id', $value, $connection);
+            $query = $connection->prepare($sqlQuery);
+            $query->execute();
+            if ( $query->rowCount() )
+            {
+                $found = new static;
+                $found->id = $value;
+                $found->data = $query->fetchAll($connection::FETCH_ASSOC);
+                return $found;
+            }
+            throw new UserNotFoundException();
+        } catch ( UserNotFoundException $e ){
+            echo $e->errorMessage();
+        } catch ( TableDoesNotExistException $e ){
+            echo $e->errorMessage();
+        }  catch ( InvalidConnectionException $e ){
+            echo $e->errorMessage();
+        }  catch ( ColumnNotExistExeption $e ){
+            echo $e->errorMessage();
+        }
     }
 
     /**
@@ -139,7 +161,7 @@ class Model extends DatabaseQuery implements ModelInterface
         {
             if ( ! isset ($this->id)  && ! isset($this->data) )
             {
-                $query = DatabaseQuery::insertQuery(self::getTableName());
+                $query = DatabaseQuery::insertQuery(self::getTableName($connection));
                 $statement = $connection->prepare($query);
                 if( $statement->execute() )
                 {
@@ -147,7 +169,7 @@ class Model extends DatabaseQuery implements ModelInterface
                 }
                 throw new  SaveUserExistException();
             }
-            $updateQuery = DatabaseQuery::updateQuery(self::getTableName());
+            $updateQuery = DatabaseQuery::updateQuery(self::getTableName($connection));
             $statement = $connection->prepare($updateQuery);
             if( $statement->execute() )
             {
@@ -178,7 +200,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
-            $query = $connection->prepare('DELETE FROM ' . self::getTableName() . ' WHERE id = '.$value);
+            $query = $connection->prepare('DELETE FROM ' . self::getTableName($connection) . ' WHERE id = '.$value);
             $query->execute();
             $check = $query->rowCount();
             if ($check)
@@ -196,5 +218,4 @@ class Model extends DatabaseQuery implements ModelInterface
             echo $e->errorMessage();
         }
     }
-
 }

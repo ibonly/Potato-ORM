@@ -1,9 +1,9 @@
 <?php
 
-//namespace Ibonly\PotatoORM\Test;
+namespace Ibonly\PotatoORM\Test;
 
-use PDO;
 use Mockery;
+use Ibonly\PotatoORM\User;
 use Ibonly\PotatoORM\Model;
 use Ibonly\PotatoORM\DBConfig;
 use PHPUnit_Framework_TestCase;
@@ -22,8 +22,6 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->dbConnectionMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
         $this->statement = Mockery::mock('\PDOStatement');
 
-        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM modeltests LIMIT 1')->andReturn($this->statement);
-        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT id FROM modeltests')->andReturn($this->statement);
         $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM modeltests LIMIT 1')->andReturn($this->statement);
     }
 
@@ -62,24 +60,27 @@ class ModelTest extends PHPUnit_Framework_TestCase
      * testGetAll
      * Test the getAll() method
      */
-    // public function testWhere()
-    // {
-    //     $this->dbConnectionMocked->shouldReceive('query')->with('SELECT id FROM modeltests')->andReturn($this->statement);
-    //     $this->statement->shouldReceive('execute');
-    //     $this->statement->shouldReceive('columnCount')->andReturn(1);
-    //     $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT * FROM modeltests WHERE id = 1')->andReturn($this->statement);
-    //     $this->statement->shouldReceive('execute');
-    //     $this->statement->shouldReceive('rowCount')->andReturn(1);
-    //     $this->statement->shouldReceive('fetch')->with(DBConfig::FETCH_OBJ)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
+    public function testWhere()
+    {
+        $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT id FROM modeltests')->andReturn($this->statement);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('columnCount')->andReturn(1);
+
+        $this->dbConnectionMocked->shouldReceive('prepare')->with("SELECT * FROM modeltests WHERE id = '1'")->andReturn($this->statement);
+        $this->statement->shouldReceive('execute');
+        $this->statement->shouldReceive('rowCount')->andReturn(1);
+        $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
 
-    //     $this->assertEquals(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com'], StubTest::where('id', 1, $this->dbConnectionMocked));
-    // }
+        $this->assertEquals(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com'], User::where('id', 1, $this->dbConnectionMocked));
+    }
+
     /**
      * Test method getAll of Model class
      */
     public function testGetAll()
     {
+        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM modeltests LIMIT 1')->andReturn($this->statement);
         $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT * FROM modeltests')->andReturn($this->statement);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('rowCount')->andReturn(1);
@@ -87,19 +88,4 @@ class ModelTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com'], StubTest::getAll($this->dbConnectionMocked));
     }
-
-
-    /**
-     * Test method find of Model class
-     */
-    // public function testFind()
-    // {
-    //     $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT * FROM modeltests WHERE id = 1')->andReturn($this->statement);
-    //     $this->statement->shouldReceive('execute')->with([1]);
-    //     $this->statement->shouldReceive('rowCount')->andReturn(1);
-    //     $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
-
-    //     $this->assertNull(StubTest::find(1, $this->dbConnectionMocked));
-    // }
-
 }

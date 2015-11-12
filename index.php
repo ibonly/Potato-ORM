@@ -7,31 +7,31 @@ use Ibonly\PotatoORM\User;
 // use Ibonly\PotatoORM\Player;
 
 
-$suga = new User();
+$sugar = new User();
 
-// echo $sugar->where('id', '24').PHP_EOL.PHP_EOL;
+var_dump($sugar->where('id', '24'));
+var_dump($sugar->getAll());
 
 
-// $sugar = new User();
+
 // $sugar->id = NULL;
-// $sugar->username = "ibonly";
-// $sugar->email = "ibonly@yahoo.com";
-// $sugar->password = "ibonly";
+// $sugar->username = "ibonly1";
+// $sugar->email = "ibonl1y@yahoo.com";
+// $sugar->password = "1111111";
 // echo $sugar->save().PHP_EOL.PHP_EOL;
 
 
-// $sugar = new User();
-// echo print_r($sugar->find(2));
+print_r($sugar->find(50));
 
 
-// $sugar = User::find(48);
-// $sugar->password = "sscoolio";
+// $sugar = User::find(57);
+// $sugar->password = "ddddddd";
 // echo $sugar->save();
 
-$sugar = User::destroy(51);
+// $sugar = User::destroy(51);
 // die($sugar);
 
-echo $suga->getAll().PHP_EOL.PHP_EOL;
+// var_dump($suga->getAll());
 
 // $table = new Schema;
 // $table->field('increments', 'id');

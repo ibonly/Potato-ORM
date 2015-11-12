@@ -15,7 +15,7 @@ interface DatabaseQueryInterface
 
     public function checkTableName($table, $dbConnection=NULL);
 
-    public function selectQuery($tableName, $field = NULL, $value = NULL);
+    public function selectQuery($tableName, $field = NULL, $value = NULL, $connection);
 
     public function insertQuery($tableName);
 
