@@ -39,7 +39,7 @@ class DBConfig extends PDO
         $this->sqlitePath = getenv('SQLITE_PATH');
         try
         {
-            if ($this->driver === 'pgsql')
+            if ($this->driver === 'pgsql' || $this->driver === 'postgres')
             {
                 parent::__construct($this->pgsqlConnectionString());
             }
@@ -91,7 +91,7 @@ class DBConfig extends PDO
      */
     protected function loadEnv()
     {
-        if(getenv("APP_ENV" !== "production"))
+        if( ! getenv("APP_ENV" !== "production"))
         {
             $dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
             $dotenv->load();
