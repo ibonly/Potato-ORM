@@ -15,6 +15,9 @@ use Ibonly\PotatoORM\SchemaInterface;
 
 class Schema extends DatabaseQuery implements SchemaInterface
 {
+    //Inject the inflector trait
+    use Inflector;
+
     protected $fieldDescription = [];
 
     /**
@@ -40,7 +43,8 @@ class Schema extends DatabaseQuery implements SchemaInterface
      */
     public function buildQuery($tablename)
     {
-        $query = "CREATE TABLE IF NOT EXISTS {$tablename} (".PHP_EOL;
+        $pluralTableName = self::pluralize($tablename);
+        $query = "CREATE TABLE IF NOT EXISTS {$pluralTableName} (".PHP_EOL;
 
         $callback = function($fieldName) use (&$query)
         {

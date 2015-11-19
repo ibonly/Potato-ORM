@@ -91,7 +91,10 @@ class DBConfig extends PDO
      */
     protected function loadEnv()
     {
-        $dotenv = new Dotenv(__DIR__."/../../");
-        $dotenv->load();
+        if(getenv("APP_ENV" !== "production"))
+        {
+            $dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
+            $dotenv->load();
+        }
     }
 }
