@@ -12,7 +12,7 @@ namespace Ibonly\PotatoORM;
 interface ModelInterface
 {
 
-    public function stripclassName();
+    public static function stripclassName();
 
     public static function getClassName();
 

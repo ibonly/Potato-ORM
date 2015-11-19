@@ -33,7 +33,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return  string
      */
-    protected function sanitize($value)
+    protected static function sanitize($value)
     {
         $value = trim($value);
         $value = htmlentities($value);
@@ -47,7 +47,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    protected function checkConnection($con)
+    protected static function checkConnection($con)
     {
         if( is_null($con) )
         {
@@ -82,7 +82,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function checkTableName($tableName, $con=NULL)
+    public static function checkTableName($tableName, $con=NULL)
     {
         $connection = self::checkConnection($con);
         // if( ! is_null($connection) )
@@ -106,7 +106,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    protected function checkColumn($tableName, $columnName, $con=NULL)
+    protected static function checkColumn($tableName, $columnName, $con=NULL)
     {
         $connection = self::checkConnection($con);
 
