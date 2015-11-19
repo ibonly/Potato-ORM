@@ -126,7 +126,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function buildColumn($data)
+    public static function buildColumn($data)
     {
         $counter = 0;
         $insertQuery = "";
@@ -149,7 +149,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function buildValues($data)
+    public static function buildValues($data)
     {
         $counter = 0;
         $insertQuery = "";
@@ -172,7 +172,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    protected function buildClause($tableName, $data)
+    protected static function buildClause($tableName, $data)
     {
         $counter = 0;
         $updateQuery = "";
@@ -237,8 +237,8 @@ class DatabaseQuery implements DatabaseQueryInterface
         $data = ( array )$this;
         array_shift($data);
 
-        $columnNames = $this->buildColumn($data);
-        $values = $this->buildValues($data);
+        $columnNames = self::buildColumn($data);
+        $values = self::buildValues($data);
         $insertQuery = "INSERT INTO $tableName ({$columnNames}) VALUES ({$values})";
 
         return $insertQuery;
@@ -254,7 +254,7 @@ class DatabaseQuery implements DatabaseQueryInterface
         $data = ( array ) $this;
         $data = array_slice ($data, 2);
 
-        $values = $this->buildClause($tableName, $data);
+        $values = self::buildClause($tableName, $data);
         $updateQuery = "UPDATE $tableName SET {$values} WHERE id = ". self::sanitize($this->id);
 
         return $updateQuery;
