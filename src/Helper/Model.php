@@ -160,16 +160,38 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
-            if ( ! isset ($this->id)  && ! isset($this->data) )
+            $query = DatabaseQuery::insertQuery(self::getTableName($connection));
+            $statement = $connection->prepare($query);
+            if( $statement->execute() )
             {
-                $query = DatabaseQuery::insertQuery(self::getTableName($connection));
-                $statement = $connection->prepare($query);
-                if( $statement->execute() )
-                {
-                    return true;
-                }
-                throw new  SaveUserExistException();
+                return true;
             }
+            throw new  SaveUserExistException();
+
+        } catch ( PDOException $e ){
+            throw new  SaveUserExistException($e->getMessage());
+        } catch( SaveUserExistException $e ) {
+            return $e->getMessage();
+        } catch ( TableDoesNotExistException $e ){
+            echo $e->errorMessage();
+        }  catch ( InvalidConnectionException $e ){
+            echo $e->errorMessage();
+        }  catch ( ColumnNotExistExeption $e ){
+            echo $e->errorMessage();
+        }
+    }
+
+    /**
+     * update()
+     * Update details in database after ::find(2)
+     *
+     * @return bool
+     */
+    public function update($dbConnection = NULL)
+    {
+        $connection = DatabaseQuery::checkConnection($dbConnection);
+        try
+        {
             $updateQuery = DatabaseQuery::updateQuery(self::getTableName($connection));
             $statement = $connection->prepare($updateQuery);
             if( $statement->execute() )
@@ -177,6 +199,7 @@ class Model extends DatabaseQuery implements ModelInterface
                 return true;
             }
             throw new  SaveUserExistException();
+
         } catch ( PDOException $e ){
             throw new  SaveUserExistException($e->getMessage());
         } catch( SaveUserExistException $e ) {
