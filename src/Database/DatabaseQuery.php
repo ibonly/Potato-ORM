@@ -21,7 +21,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     /**
      * connect Setup database connection
      */
-    protected function connect()
+    protected static function connect()
     {
         return new DBConfig();
     }
