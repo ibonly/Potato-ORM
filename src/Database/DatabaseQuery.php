@@ -196,7 +196,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function selectAllQuery($tableName)
+    public static function selectAllQuery($tableName)
     {
         return "SELECT * FROM {$tableName}";
     }
@@ -206,7 +206,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function selectQuery($tableName, $field = NULL, $value = NULL, $connection)
+    public static function selectQuery($tableName, $field = NULL, $value = NULL, $connection)
     {
         $query = "";
         if ( ! is_null ($field) )
@@ -232,7 +232,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function insertQuery($tableName)
+    public static function insertQuery($tableName)
     {
         $data = ( array )$this;
         array_shift($data);
@@ -249,7 +249,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function updateQuery($tableName)
+    public static function updateQuery($tableName)
     {
         $data = ( array ) $this;
         $data = array_slice ($data, 2);

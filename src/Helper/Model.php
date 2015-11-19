@@ -42,7 +42,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public function getClassName()
+    public static function getClassName()
     {
         return self::pluralize(self::stripclassName());
     }
@@ -52,7 +52,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public function getTableName($connection)
+    public static function getTableName($connection)
     {
         return DatabaseQuery::checkTableName(self::getClassName(), $connection);
     }
@@ -91,7 +91,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return object
      */
-    public static function where($field, $value, $dbConnection = NULL)
+    public function where($field, $value, $dbConnection = NULL)
     {
         $databaseQuery = new DatabaseQuery();
         $connection = $databaseQuery->checkConnection($dbConnection);
@@ -122,7 +122,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return array
      */
-    public function find($value, $dbConnection = NULL)
+    public static function find($value, $dbConnection = NULL)
     {
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
