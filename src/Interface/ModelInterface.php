@@ -14,15 +14,15 @@ interface ModelInterface
 
     public function stripclassName();
 
-    public function getClassName();
+    public static function getClassName();
 
-    public function getTableName($connection);
+    public static function getTableName($connection);
 
     public function getALL();
 
-    public static function where($field, $value);
+    public function where($field, $value);
 
-    public function find($value);
+    public static function find($value);
 
     public function save();
 

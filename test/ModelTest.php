@@ -62,17 +62,18 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testWhere()
     {
-        $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT id FROM stubtests')->andReturn($this->statement);
+        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM modeltests LIMIT 1')->andReturn($this->statement);
+        $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT id FROM modeltests')->andReturn($this->statement);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('columnCount')->andReturn(1);
 
-        $this->dbConnectionMocked->shouldReceive('prepare')->with("SELECT * FROM stubtests WHERE id = '1'")->andReturn($this->statement);
+        $this->dbConnectionMocked->shouldReceive('prepare')->with("SELECT * FROM modeltests WHERE id = '1'")->andReturn($this->statement);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('rowCount')->andReturn(1);
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
 
-        $this->assertEquals(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com'], StubTest::where('id', 1, $this->dbConnectionMocked));
+        $this->assertJsonStringEqualsJsonString(json_encode(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']), StubTest::where('id', 1, $this->dbConnectionMocked));
     }
 
     /**
@@ -86,7 +87,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('rowCount')->andReturn(1);
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
-        $this->assertEquals(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com'], StubTest::getAll($this->dbConnectionMocked));
+        $this->assertJsonStringEqualsJsonString(json_encode(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']), StubTest::getAll($this->dbConnectionMocked));
     }
 
     public function testSaveUserAlreadyExist()
@@ -96,7 +97,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $mock->username = 'james';
         $mock->email = 'johndoe@email.com';
 
-        $this->setExpectedException('\Ibonly\PotatoORM\SaveUserExistException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->assertTrue($this->getStubClass()->save());
     }
 
