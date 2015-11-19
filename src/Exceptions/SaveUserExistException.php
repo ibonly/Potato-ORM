@@ -15,7 +15,7 @@ class SaveUserExistException extends Exception
 {
     public function __construct()
     {
-        parent::__construct("User already exist in database");
+        parent::__construct("Data already exist in database");
     }
 
     /**
