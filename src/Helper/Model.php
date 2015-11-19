@@ -73,7 +73,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $query->execute();
             if ( $query->rowCount() )
             {
-                return $query->fetchAll($connection::FETCH_ASSOC);
+                return json_encode($query->fetchAll($connection::FETCH_ASSOC));
             }
             throw new EmptyDatabaseException();
         } catch ( EmptyDatabaseException $e ){
@@ -102,7 +102,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $query->execute();
             if ( $query->rowCount() )
             {
-                return $query->fetchAll($connection::FETCH_ASSOC);
+                return json_encode($query->fetchAll($connection::FETCH_ASSOC));
             }
             throw new UserNotFoundException();
         } catch ( UserNotFoundException $e ){
