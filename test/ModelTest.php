@@ -73,7 +73,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
 
-        $this->assertJsonStringEqualsJsonString(json_encode(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']), StubTest::where('id', 1, $this->dbConnectionMocked));
+        $this->assertInternalType("object", StubTest::where('id', 1, $this->dbConnectionMocked));
     }
 
     /**
@@ -87,7 +87,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('rowCount')->andReturn(1);
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
-        $this->assertJsonStringEqualsJsonString(json_encode(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']), StubTest::getAll($this->dbConnectionMocked));
+        $this->assertInternalType("object", StubTest::getAll($this->dbConnectionMocked));
     }
 
     public function testSaveUserAlreadyExist()

@@ -12,6 +12,7 @@ namespace Ibonly\PotatoORM;
 use PDO;
 use Exception;
 use PDOException;
+use Ibonly\PotatoORM\GetData;
 use Ibonly\PotatoORM\DatabaseQuery;
 use Ibonly\PotatoORM\ModelInterface;
 use Ibonly\PotatoORM\UserNotFoundException;
@@ -73,7 +74,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $query->execute();
             if ( $query->rowCount() )
             {
-                return json_encode($query->fetchAll($connection::FETCH_ASSOC));
+                return new GetData($query->fetchAll($connection::FETCH_ASSOC));
             }
             throw new EmptyDatabaseException();
         } catch ( EmptyDatabaseException $e ){
@@ -102,7 +103,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $query->execute();
             if ( $query->rowCount() )
             {
-                return json_encode($query->fetchAll($connection::FETCH_ASSOC));
+                return new GetData($query->fetchAll($connection::FETCH_ASSOC));
             }
             throw new UserNotFoundException();
         } catch ( UserNotFoundException $e ){
