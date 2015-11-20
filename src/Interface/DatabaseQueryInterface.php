@@ -17,7 +17,7 @@ interface DatabaseQueryInterface
 
     public static function selectQuery($tableName, $field = NULL, $value = NULL, $connection);
 
-    public static function insertQuery($tableName);
+    public function insertQuery($tableName);
 
-    public static function updateQuery($tableName);
+    public function updateQuery($tableName);
 }

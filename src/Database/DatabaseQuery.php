@@ -232,7 +232,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function insertQuery($tableName)
+    public function insertQuery($tableName)
     {
         $data = ( array )$this;
         array_shift($data);
@@ -249,7 +249,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function updateQuery($tableName)
+    public function updateQuery($tableName)
     {
         $data = ( array ) $this;
         $data = array_slice ($data, 2);
