@@ -160,7 +160,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
-            $query = DatabaseQuery::insertQuery(self::getTableName($connection));
+            $query = $this->insertQuery(self::getTableName($connection));
             $statement = $connection->prepare($query);
             if( $statement->execute() )
             {
@@ -192,7 +192,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
         try
         {
-            $updateQuery = DatabaseQuery::updateQuery(self::getTableName($connection));
+            $updateQuery = $this->updateQuery(self::getTableName($connection));
             $statement = $connection->prepare($updateQuery);
             if( $statement->execute() )
             {
