@@ -93,7 +93,7 @@ class DBConfig extends PDO
     {
         if( ! getenv("APP_ENV" !== "production"))
         {
-            $dotenv = new Dotenv($_SERVER['DOCUMENT_ROOT']);
+            $dotenv = new Dotenv(__DIR__ . "/../../");
             $dotenv->load();
         }
     }
