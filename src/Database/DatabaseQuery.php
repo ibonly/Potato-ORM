@@ -202,26 +202,52 @@ class DatabaseQuery implements DatabaseQueryInterface
     }
 
     /**
+     * whereAndClause
+     *
+     * @return string
+     */
+    public static function whereAndClause($tableName, $data, $condition)
+    {
+        $where = "";
+        $counter = 0;
+        $arraySize = sizeof($data);
+
+        foreach ( $data as $key => $value )
+        {
+            $counter++;
+            $columnName = self::checkColumn($tableName, self::sanitize($key));
+            $where .= $columnName ." = '".self::sanitize($value)."'";
+            if ( $arraySize > $counter )
+            {
+                $where .= " " . $condition . " ";
+            }
+        }
+
+        return $where;
+    }
+
+    /**
      * selectQuery
      *
      * @return string
      */
-    public static function selectQuery($tableName, $field = NULL, $value = NULL, $connection)
+    public static function selectQuery($tableName, $data, $condition, $connection)
     {
         $query = "";
-        if ( ! is_null ($field) )
+        try
         {
-            try
+            $arraySize = sizeof($data);
+            if( $arraySize > 1 && $condition == NULL)
             {
-                $columnName = self::checkColumn($tableName, self::sanitize($field), $connection);
-                $query =  "SELECT * FROM $tableName WHERE $columnName = '".self::sanitize($value)."'";
-            } catch ( PDOException $e ) {
-                return $e->getMessage();
+                $query = "Please Supply the condition";
             }
-        }
-        else
-        {
-            $query = "SELECT * FROM {$tableName}";
+            else
+            {
+                $columnName = self::whereAndClause($tableName, $data, $condition);
+                $query =  "SELECT * FROM $tableName WHERE $columnName";
+            }
+        } catch ( PDOException $e ) {
+            $query = $e->getMessage();
         }
 
         return $query;

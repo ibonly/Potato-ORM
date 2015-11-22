@@ -87,18 +87,18 @@ class Model extends DatabaseQuery implements ModelInterface
     }
 
     /**
-     * where($field, $value)
-     * Get data from database where $field = $value
+     * where($data, $condition)
+     * Get data from database where $data = $condition
      *
      * @return object
      */
-    public function where($field, $value, $dbConnection = NULL)
+    public function where($data, $condition = NULL, $dbConnection = NULL)
     {
         $databaseQuery = new DatabaseQuery();
         $connection = $databaseQuery->checkConnection($dbConnection);
         try
         {
-            $sqlQuery = $databaseQuery->selectQuery(self::getTableName($connection), $field, $value, $connection);
+            $sqlQuery = $databaseQuery->selectQuery(self::getTableName($connection), $data, $condition, $connection);
             $query = $connection->prepare($sqlQuery);
             $query->execute();
             if ( $query->rowCount() )

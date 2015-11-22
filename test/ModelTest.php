@@ -72,8 +72,8 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('rowCount')->andReturn(1);
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
-
-        $this->assertInternalType("object", StubTest::where('id', 1, $this->dbConnectionMocked));
+         $this->setExpectedException('\Ibonly\PotatoORM\TableDoesNotExistException');
+        $this->assertInternalType("object", StubTest::where('users', [], NULL, $this->dbConnectionMocked));
     }
 
     /**
@@ -97,7 +97,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $mock->username = 'james';
         $mock->email = 'johndoe@email.com';
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('\Ibonly\PotatoORM\SaveUserExistException');
         $this->assertTrue($this->getStubClass()->save());
     }
 

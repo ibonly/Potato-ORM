@@ -45,6 +45,6 @@ class DatabaseQueryTest extends PHPUnit_Framework_TestCase
         $this->dbConnectionMocked = Mockery::mock('\Ibonly\PotatoORM\DBConfig');
         $this->statement = Mockery::mock('\PDOStatement');
 
-        $this->assertInternalType("string", $this->databaseQuery->selectQuery('users' , NULL,NULL, $this->dbConnectionMocked));
+        $this->assertInternalType("string", $this->databaseQuery->selectQuery('users' , [],NULL, $this->dbConnectionMocked));
     }
 }

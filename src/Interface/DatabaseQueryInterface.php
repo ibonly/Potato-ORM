@@ -15,7 +15,9 @@ interface DatabaseQueryInterface
 
     public static function checkTableName($table, $dbConnection=NULL);
 
-    public static function selectQuery($tableName, $field = NULL, $value = NULL, $connection);
+    public static function selectQuery($tableName, $field, $value, $connection);
+
+    public static function whereAndClause($tableName, $data, $condition);
 
     public function insertQuery($tableName);
 
