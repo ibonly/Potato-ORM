@@ -133,12 +133,13 @@ class Model extends DatabaseQuery implements ModelInterface
         $connection = DatabaseQuery::checkConnection($dbConnection);
 
         $query = $this->insertQuery(self::getTableName($connection));
-        $statement = $connection->prepare($query);
-        if( $statement->execute() )
-        {
-            return true;
-        }
-        throw new  SaveUserExistException();
+        // $statement = $connection->prepare($query);
+        // if( $statement->execute() )
+        // {
+        //     return true;
+        // }
+        // throw new  SaveUserExistException();
+        return $query;
 
     }
 
