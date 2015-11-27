@@ -2,7 +2,7 @@
 /**
  * Exception for user not found
  *
- * @package Ibonly\PotatoORM\UserNotFoundException
+ * @package Ibonly\PotatoORM\DataNotFoundException
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
@@ -11,7 +11,7 @@ namespace Ibonly\PotatoORM;
 
 use Exception;
 
-class UserNotFoundException extends Exception
+class DataNotFoundException extends Exception
 {
     public function __construct()
     {

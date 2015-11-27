@@ -2,7 +2,7 @@
 /**
  * Exception for user already exist
  *
- * @package Ibonly\PotatoORM\SaveUserExistException
+ * @package Ibonly\PotatoORM\DataAlreadyExistException
  * @author  Ibraheem ADENIYI <ibonly01@gmail.com>
  * @license MIT <https://opensource.org/licenses/MIT>
  */
@@ -11,7 +11,7 @@ namespace Ibonly\PotatoORM;
 
 use Exception;
 
-class SaveUserExistException extends Exception
+class DataAlreadyExistException extends Exception
 {
     public function __construct()
     {
