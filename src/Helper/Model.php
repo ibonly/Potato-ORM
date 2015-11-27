@@ -15,10 +15,10 @@ use PDOException;
 use Ibonly\PotatoORM\GetData;
 use Ibonly\PotatoORM\DatabaseQuery;
 use Ibonly\PotatoORM\ModelInterface;
-use Ibonly\PotatoORM\UserNotFoundException;
+use Ibonly\PotatoORM\DataNotFoundException;
 use Ibonly\PotatoORM\EmptyDatabaseException;
-use Ibonly\PotatoORM\SaveUserExistException;
 use Ibonly\PotatoORM\ColumnNotExistExeption;
+use Ibonly\PotatoORM\DataAlreadyExistException;
 use Ibonly\PotatoORM\InvalidConnectionException;
 
 class Model extends DatabaseQuery implements ModelInterface
@@ -96,7 +96,7 @@ class Model extends DatabaseQuery implements ModelInterface
         {
             return new GetData($query->fetchAll($connection::FETCH_ASSOC));
         }
-        throw new UserNotFoundException();
+        throw new DataNotFoundException();
     }
 
     /**
@@ -119,7 +119,7 @@ class Model extends DatabaseQuery implements ModelInterface
             $found->data = $query->fetchAll($connection::FETCH_ASSOC);
             return $found;
         }
-        throw new UserNotFoundException();
+        throw new DataNotFoundException();
     }
 
     /**
@@ -138,7 +138,7 @@ class Model extends DatabaseQuery implements ModelInterface
         {
             return true;
         }
-        throw new  SaveUserExistException();
+        throw new  DataAlreadyExistException();
 
     }
 
@@ -158,7 +158,7 @@ class Model extends DatabaseQuery implements ModelInterface
         {
             return true;
         }
-        throw new  SaveUserExistException();
+        throw new  DataAlreadyExistException();
     }
 
     /**
@@ -178,6 +178,6 @@ class Model extends DatabaseQuery implements ModelInterface
         {
             return true;
         }
-        throw new UserNotFoundException;
+        throw new DataNotFoundException;
     }
 }

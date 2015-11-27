@@ -11,7 +11,9 @@ namespace Ibonly\PotatoORM;
 
 interface GetDataInterface
 {
-    public function all();
+    public function toArray();
+
+    public function toJson();
 
     public function getData($name);
 

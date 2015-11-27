@@ -97,7 +97,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $mock->username = 'james';
         $mock->email = 'johndoe@email.com';
 
-        $this->setExpectedException('\Ibonly\PotatoORM\SaveUserExistException');
+        $this->setExpectedException('\Ibonly\PotatoORM\DataAlreadyExistException');
         $this->assertTrue($this->getStubClass()->save());
     }
 
