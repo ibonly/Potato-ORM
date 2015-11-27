@@ -13,7 +13,12 @@ class GetData implements GetDataInterface
         $this->value = $value;
     }
 
-    public function all()
+    public function toArray()
+    {
+        return $this->value;
+    }
+
+    public function toJson()
     {
         return json_encode($this->value);
     }
@@ -21,7 +26,7 @@ class GetData implements GetDataInterface
     public function getData($name)
     {
         foreach (json_decode($this->all()) as $key) {
-             return $key->$name;
+            return $key->$name;
         }
    }
 
