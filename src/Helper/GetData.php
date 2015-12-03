@@ -30,7 +30,7 @@ class GetData implements GetDataInterface
 
     public function getData($name)
     {
-        foreach (json_decode($this->all()) as $key) {
+        foreach (json_decode($this->toJson()) as $key) {
             return $key->$name;
         }
    }
