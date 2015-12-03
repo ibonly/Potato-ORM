@@ -23,6 +23,11 @@ class GetData implements GetDataInterface
         return json_encode($this->value);
     }
 
+    public function toJsonDecode()
+    {
+        return json_decode( json_encode($this->value) );
+    }
+
     public function getData($name)
     {
         foreach (json_decode($this->all()) as $key) {
