@@ -11,10 +11,10 @@ matrix:
         - php: 7.0
         - php: hhvm
 
-install: travis_retry composer install --no-interaction --prefer-source
+install: travis_retry composer install --no-interaction
 
 script:
-    "phpunit --testsuite=unit --coverage-text --coverage-clover build/logs/clover.xml"
+    "phpunit --coverage-text --coverage-clover build/logs/clover.xml"
 
 after_script:
 - CODECLIMATE_REPO_TOKEN=71406ec7ca6926d2e437e65a25b63456e89bb7deedd363ccebd56dd80cd551a5 ./vendor/bin/test-reporter --stdout > codeclimate.json
