@@ -55,6 +55,6 @@ class GetData implements GetDataInterface
      */
    public function getCount()
    {
-        return sizeof($this->value);
+        return count($this->value);
    }
 }

@@ -28,5 +28,4 @@ interface SchemaInterface
     public function buildQuery($tablename);
 
     public function sanitizeQuery($query);
-
 }
