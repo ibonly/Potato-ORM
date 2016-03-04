@@ -3,6 +3,7 @@
 namespace Ibonly\PotatoORM\Test;
 
 use Mockery;
+use Exception;
 use Ibonly\PotatoORM\User;
 use Ibonly\PotatoORM\Model;
 use Ibonly\PotatoORM\DBConfig;
@@ -72,8 +73,8 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $this->statement->shouldReceive('rowCount')->andReturn(1);
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
-         $this->setExpectedException('\Ibonly\PotatoORM\TableDoesNotExistException');
-        $this->assertInternalType("object", StubTest::where('users', [], NULL, $this->dbConnectionMocked));
+         $this->setExpectedException('InvalidArgumentException');
+        $this->assertInternalType("object", $this->getStubClass()->where('users', [], NULL, $this->dbConnectionMocked));
     }
 
     /**
@@ -81,13 +82,13 @@ class ModelTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAll()
     {
-        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM modeltests LIMIT 1')->andReturn($this->statement);
-        $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT * FROM modeltests')->andReturn($this->statement);
+        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM stubtests LIMIT 1')->andReturn($this->statement);
+        $this->dbConnectionMocked->shouldReceive('prepare')->with('SELECT * FROM stubtests')->andReturn($this->statement);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('rowCount')->andReturn(1);
         $this->statement->shouldReceive('fetchAll')->with(DBConfig::FETCH_ASSOC)->andReturn(['id' => 1, 'username' => 'ibonly', 'email' => 'ibonly@yahoo.com']);
 
-        $this->assertInternalType("object", StubTest::getAll($this->dbConnectionMocked));
+        $this->assertInternalType("object", $this->getStubClass()->getAll($this->dbConnectionMocked));
     }
 
     public function testSaveUserAlreadyExist()
@@ -97,17 +98,17 @@ class ModelTest extends PHPUnit_Framework_TestCase
         $mock->username = 'james';
         $mock->email = 'johndoe@email.com';
 
-        $this->setExpectedException('\Ibonly\PotatoORM\DataAlreadyExistException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->assertTrue($this->getStubClass()->save());
     }
 
     public function testDestroy()
     {
-        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM modeltests LIMIT 1')->andReturn($this->statement);
-        $this->dbConnectionMocked->shouldReceive('prepare')->with("DELETE FROM modeltests WHERE id = 1")->andReturn($this->statement);
+        $this->dbConnectionMocked->shouldReceive('query')->with('SELECT 1 FROM stubtests LIMIT 1')->andReturn($this->statement);
+        $this->dbConnectionMocked->shouldReceive('prepare')->with("DELETE FROM stubtests WHERE id = 1")->andReturn($this->statement);
         $this->statement->shouldReceive('execute');
         $this->statement->shouldReceive('rowCount')->andReturn(1);
 
-        $this->assertEquals(1, StubTest::destroy(1, $this->dbConnectionMocked));
+        $this->assertEquals(1, $this->getStubClass()->destroy(1, $this->dbConnectionMocked));
     }
 }

@@ -27,7 +27,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      */
     public function field($type, $fieldName, $length=NULL)
     {
-        if(is_null($length)){
+        if($length === null){
              $this->fieldDescription[] = $type ." ".$fieldName;
         }else
         {
@@ -49,7 +49,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
         $callback = function($fieldName) use (&$query)
         {
             $e = explode(" ", $fieldName);
-            if(sizeof($e) == 2)
+            if(count($e) == 2)
             {
                 $query .= $this->$e[0]($e[1], 20) .", ".PHP_EOL;
             }else
@@ -82,10 +82,7 @@ class Schema extends DatabaseQuery implements SchemaInterface
      */
     public function createTable($tablename, $connection = NULL)
     {
-        if(is_null($connection))
-        {
-            $connection = DatabaseQuery::connect();
-        }
+        $connection = DatabaseQuery::connect();
         try
         {
             $sqlQuery = self::sanitizeQuery($tablename);
