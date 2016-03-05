@@ -11,11 +11,15 @@ namespace Ibonly\PotatoORM;
 
 interface GetDataInterface
 {
+    public function allDESC($limit);
+
+    public function all();
+
     public function toArray();
 
     public function toJson();
 
-    public function getData($name);
+    public function first();
 
     public function getCount();
 }

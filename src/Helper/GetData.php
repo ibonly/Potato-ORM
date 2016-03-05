@@ -8,35 +8,68 @@ class GetData implements GetDataInterface
 {
     protected $value;
 
-    function __construct($value)
+    public function __construct($value)
     {
         $this->value = $value;
     }
 
-    public function toArray()
+    /**
+     * get all the data in the table as an array
+     */
+    protected function getAllData()
     {
         return $this->value;
     }
 
+    protected function DESC($limit = NULL)
+    {
+        $value = array_reverse($this->value);
+        if ($limit === NULL) {
+            return $value;
+        } else {
+            return array_slice($value, 0, $limit);
+        }
+    }
+
+    public function allDESC($limit = NULL)
+    {
+        return json_encode($this->DESC($limit));
+    }
+
+    public function all()
+    {
+        return json_encode($this->getAllData());
+    }
+
+    /**
+     * Get the actual fetched row and return an array
+     */
+    public function toArray()
+    {
+        return current($this->value);
+    }
+
+    /**
+     * Convert the fetched row to json
+     */
     public function toJson()
     {
-        return json_encode($this->value);
+        return json_encode($this->toArray());
     }
 
-    public function toJsonDecode()
+    /**
+     * Get the output of the first jsondecoded element
+     */
+    public function first()
     {
-        return json_decode( json_encode($this->value) );
+        return json_decode( $this->toJson() );
     }
 
-    public function getData($name)
-    {
-        foreach (json_decode($this->toJson()) as $key) {
-            return $key->$name;
-        }
-   }
-
+    /**
+     * Get the count of the fetch element
+     */
    public function getCount()
    {
-        return sizeof($this->value);
+        return count($this->value);
    }
 }
