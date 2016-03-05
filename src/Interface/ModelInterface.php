@@ -12,11 +12,15 @@ namespace Ibonly\PotatoORM;
 interface ModelInterface
 {
 
+    public function tableName();
+    
+    public function fields();
+
     public static function stripclassName();
 
-    public static function getClassName();
+    public function getClassName();
 
-    public static function getTableName($connection);
+    public function getTableName($connection);
 
     public function getALL();
 

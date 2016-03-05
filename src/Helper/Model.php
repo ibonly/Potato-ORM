@@ -35,7 +35,37 @@ class Model extends DatabaseQuery implements ModelInterface
     {
         $className = strtolower(get_called_class());
         $nameOfClass = explode("\\", $className);
+
         return end($nameOfClass);
+    }
+
+    /**
+     * Get the table name if defined in the model
+     * 
+     * @return string
+     */
+    public function tableName()
+    {
+        if(isset($this->table)) {
+            return $this->table;
+        }
+        return null;
+    }
+
+    /**
+     * Get the fields to be fillables defined in the model
+     * 
+     * @return string
+     */
+    public function fields()
+    {
+        if (isset($this->fillables)) {
+            if (sizeof($this->fillables) > 0) {
+                return implode(", ", $this->fillables);
+            }
+            return '*';
+        }
+        return '*';
     }
 
     /**
@@ -43,9 +73,13 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public static function getClassName()
+    public function getClassName()
     {
-        return self::pluralize(self::stripclassName());
+        if ($this->tableName() === null) {
+            return self::pluralize(self::stripclassName());
+        } else {
+            return $this->tableName();
+        }
     }
 
     /**
@@ -53,9 +87,9 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return string
      */
-    public static function getTableName($connection)
+    public function getTableName($connection)
     {
-        return DatabaseQuery::checkTableName(self::getClassName(), $connection);
+        return DatabaseQuery::checkTableName($this->getClassName(), $connection);
     }
 
     /**
@@ -68,7 +102,7 @@ class Model extends DatabaseQuery implements ModelInterface
     {
         $connection = DatabaseQuery::checkConnection($dbConnection);
 
-        $sqlQuery = DatabaseQuery::selectAllQuery(self::getTableName($connection));
+        $sqlQuery = DatabaseQuery::selectAllQuery(self::getTableName($connection), self::fields());
         $query = $connection->prepare($sqlQuery);
         $query->execute();
         if ( $query->rowCount() )

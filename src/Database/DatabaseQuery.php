@@ -193,9 +193,9 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function selectAllQuery($tableName)
+    public static function selectAllQuery($tableName, $field)
     {
-        return "SELECT * FROM {$tableName}";
+        return "SELECT {$field} FROM {$tableName}";
     }
 
     /**

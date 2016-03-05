@@ -4,3 +4,5 @@ vendor
 create.php
 /build
 composer.lock
+.phpintel
+src/Car.php

@@ -8,7 +8,7 @@ class GetData implements GetDataInterface
 {
     protected $value;
 
-    function __construct($value)
+    public function __construct($value)
     {
         $this->value = $value;
     }
@@ -21,15 +21,30 @@ class GetData implements GetDataInterface
         return $this->value;
     }
 
+    protected function DESC($limit = NULL)
+    {
+        $value = array_reverse($this->value);
+        if ($limit === NULL) {
+            return $value;
+        } else {
+            return array_slice($value, 0, $limit);
+        }
+    }
+
+    public function allDESC($limit = NULL)
+    {
+        return json_encode($this->DESC($limit));
+    }
+
     public function all()
     {
-        return json_decode( json_encode( $this->getAllData() ) );
+        return json_encode($this->getAllData());
     }
 
     /**
      * Get the actual fetched row and return an array
      */
-    protected function toArray()
+    public function toArray()
     {
         return current($this->value);
     }
@@ -37,7 +52,7 @@ class GetData implements GetDataInterface
     /**
      * Convert the fetched row to json
      */
-    protected function toJson()
+    public function toJson()
     {
         return json_encode($this->toArray());
     }
