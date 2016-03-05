@@ -17,7 +17,7 @@ interface GetDataInterface
 
     public function toArray();
 
-    public function toJson();
+    public function all();
 
     public function first();
 

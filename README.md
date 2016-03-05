@@ -52,11 +52,15 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
     use Ibonly\PotatoORM\User;
 
     $sugar = new User();
-    echo $sugar->getAll();
+    $data = $sugar->getAll()->all();
+
+    foreach ($data as $key => $value) {
+        echo $value->id, $value->username."<br />";
+    }
 ?>
 ```
 
-    Return type = JSON
+    Return type = JSON DECODE OBJECT (Pass into a foreac() to access the values)
 
 ### where($field, $value)
 
@@ -65,11 +69,12 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
     use Ibonly\PotatoORM\User;
 
     $sugar = new User();
-    echo $sugar->where($field, $value);
+    $data = $sugar->where($field, $value)->first();
+    echo $data->username, $data->id;
 ?>
 ```
 
-    Return type = JSON
+    Return type = JSON DECODE OBJECT (Pass in the field name to access the value)
 
 
 ### find($value)

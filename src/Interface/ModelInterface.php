@@ -33,5 +33,4 @@ interface ModelInterface
     public function update();
 
     public function destroy($value);
-
 }

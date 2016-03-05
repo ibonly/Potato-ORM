@@ -49,7 +49,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     protected static function checkConnection($con)
     {
-        if( is_null($con) )
+        if( $con === null )
         {
             $con = self::connect();
         }
@@ -85,16 +85,13 @@ class DatabaseQuery implements DatabaseQueryInterface
     public static function checkTableName($tableName, $con=NULL)
     {
         $connection = self::checkConnection($con);
-        // if( ! is_null($connection) )
-        // {
-            $query = $connection->query("SELECT 1 FROM {$tableName} LIMIT 1");
-            if( $query !== false )
-            {
-                return $tableName;
-            }
-            throw new TableDoesNotExistException();
-        // }
-        // throw new InvalidConnectionException();
+
+        $query = $connection->query("SELECT 1 FROM {$tableName} LIMIT 1");
+        if( $query !== false )
+        {
+            return $tableName;
+        }
+        throw new TableDoesNotExistException();
     }
 
     /**
@@ -130,7 +127,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         $counter = 0;
         $insertQuery = "";
-        $arraySize = sizeof($data);
+        $arraySize = count($data);
 
         foreach ( $data as $key => $value )
         {
@@ -153,7 +150,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         $counter = 0;
         $insertQuery = "";
-        $arraySize = sizeof($data);
+        $arraySize = count($data);
 
         foreach ( $data as $key => $value )
         {
@@ -176,7 +173,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         $counter = 0;
         $updateQuery = "";
-        $arraySize = sizeof($data);
+        $arraySize = count($data);
 
         foreach ( $data as $key => $value )
         {
@@ -210,7 +207,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         $where = "";
         $counter = 0;
-        $arraySize = sizeof($data);
+        $arraySize = count($data);
 
         foreach ( $data as $key => $value )
         {
@@ -236,7 +233,7 @@ class DatabaseQuery implements DatabaseQueryInterface
         $query = "";
         try
         {
-            $arraySize = sizeof($data);
+            $arraySize = count($data);
             if( $arraySize > 1 && $condition == NULL)
             {
                 $query = "Please Supply the condition";
