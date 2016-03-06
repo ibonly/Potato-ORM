@@ -26,6 +26,8 @@ class Model extends DatabaseQuery implements ModelInterface
     //Inject the inflector trait
     use Inflector;
 
+    protected $ouput;
+
     /**
      * stripclassName()
      *
@@ -47,9 +49,12 @@ class Model extends DatabaseQuery implements ModelInterface
     public function tableName()
     {
         if(isset($this->table)) {
-            return $this->table;
+            $this->output = $this->table;
+        } else {
+            $this->output = null;
         }
-        return null;
+
+        return $this->output;
     }
 
     /**
@@ -61,11 +66,14 @@ class Model extends DatabaseQuery implements ModelInterface
     {
         if (isset($this->fillables)) {
             if (sizeof($this->fillables) > 0) {
-                return implode(", ", $this->fillables);
+                $this->output = implode(", ", $this->fillables);
             }
-            return '*';
+            $this->output = '*';
+        } else {
+            $this->output = '*';
         }
-        return '*';
+
+        return $this->output;
     }
 
     /**
@@ -76,10 +84,12 @@ class Model extends DatabaseQuery implements ModelInterface
     public function getClassName()
     {
         if ($this->tableName() === null) {
-            return self::pluralize(self::stripclassName());
+            $this->output = self::pluralize(self::stripclassName());
         } else {
-            return $this->tableName();
+            $this->output = $this->tableName();
         }
+
+        return $this->output;
     }
 
     /**
