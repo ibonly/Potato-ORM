@@ -134,7 +134,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $databaseQuery = new DatabaseQuery();
         $connection = $databaseQuery->checkConnection($dbConnection);
 
-        $sqlQuery = $databaseQuery->selectQuery(self::getTableName($connection), $data, $condition, $connection);
+        $sqlQuery = $databaseQuery->selectQuery(self::getTableName($connection), self::fields(), $data, $condition, $connection);
         $query = $connection->prepare($sqlQuery);
         $query->execute();
         if ( $query->rowCount() )
@@ -154,7 +154,7 @@ class Model extends DatabaseQuery implements ModelInterface
     {
         $connection = DatabaseQuery::checkConnection($dbConnection);
 
-        $sqlQuery = DatabaseQuery::selectQuery(self::getTableName($connection), ['id' => $value], NULL, $connection);
+        $sqlQuery = DatabaseQuery::selectQuery(self::getTableName($connection), self::fields(), ['id' => $value], NULL, $connection);
         $query = $connection->prepare($sqlQuery);
         $query->execute();
         if ( $query->rowCount() )
