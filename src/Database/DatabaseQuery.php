@@ -228,7 +228,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function selectQuery($tableName, $data, $condition, $connection)
+    public static function selectQuery($tableName, $fields, $data, $condition, $connection)
     {
         $query = "";
         try
@@ -241,7 +241,7 @@ class DatabaseQuery implements DatabaseQueryInterface
             else
             {
                 $columnName = self::whereAndClause($tableName, $data, $condition);
-                $query =  "SELECT * FROM $tableName WHERE $columnName";
+                $query =  "SELECT $fields FROM $tableName WHERE $columnName";
             }
         } catch ( PDOException $e ) {
             $query = $e->getMessage();
