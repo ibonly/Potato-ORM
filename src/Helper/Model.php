@@ -67,8 +67,9 @@ class Model extends DatabaseQuery implements ModelInterface
         if (isset($this->fillables)) {
             if (sizeof($this->fillables) > 0) {
                 $this->output = implode(", ", $this->fillables);
+            } else {
+                $this->output = '*';
             }
-            $this->output = '*';
         } else {
             $this->output = '*';
         }
@@ -108,7 +109,7 @@ class Model extends DatabaseQuery implements ModelInterface
      *
      * @return object
      */
-    public function getALL($dbConnection = NULL)
+    public function getAll($dbConnection = NULL)
     {
         $connection = DatabaseQuery::checkConnection($dbConnection);
 
