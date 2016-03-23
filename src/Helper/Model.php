@@ -24,7 +24,7 @@ use Ibonly\PotatoORM\InvalidConnectionException;
 class Model extends DatabaseQuery implements ModelInterface
 {
     //Inject the inflector trait
-    use Inflector;
+    use Inflector, Upload;
 
     protected $ouput;
 

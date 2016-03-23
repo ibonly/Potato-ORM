@@ -6,3 +6,5 @@ create.php
 composer.lock
 .phpintel
 src/Car.php
+.DS_Store
+/upload

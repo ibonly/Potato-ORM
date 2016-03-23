@@ -167,7 +167,8 @@ class Schema extends DatabaseQuery implements SchemaInterface
      */
     public function foreignKey($value, $length)
     {
-        $r = explode("_", $length);
+        $r = explode("-", $length);
+        
         return "FOREIGN KEY ({$value}) REFERENCES ".$r[0]."(".$r[1].")";
     }
 

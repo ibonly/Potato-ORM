@@ -117,25 +117,49 @@ class DatabaseQuery implements DatabaseQueryInterface
     }
 
     /**
+     * Get the variables declared in the Model
+     * 
+     * @return Array
+     */
+    public static function getParentClassVar()
+    {
+        return get_class_vars(get_called_class());
+    }
+
+    /**
+     * Get the difference in variables between model and column definition
+     * 
+     * @param  $getClassVars
+     * 
+     * @return Array
+     */
+    public static function getColumns($getClassVars)
+    {
+        return array_diff($getClassVars, self::getParentClassVar());
+    }
+
+    /**
      * buildColumn  Build the column name
      *
      * @param  $data
      *
      * @return string
      */
-    public static function buildColumn($data)
+    public static function buildColumn($getClassVars)
     {
         $counter = 0;
         $insertQuery = "";
-        $arraySize = count($data);
+        $columnNames = self::getColumns($getClassVars);
+        $arraySize = count($columnNames);
 
-        foreach ( $data as $key => $value )
+        foreach ( $columnNames as $key => $value )
         {
             $counter++;
             $insertQuery .= self::sanitize($key);
             if( $arraySize > $counter )
                 $insertQuery .= ", ";
         }
+
         return $insertQuery;
     }
 
@@ -146,13 +170,14 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function buildValues($data)
+    public static function buildValues($getClassVars)
     {
         $counter = 0;
         $insertQuery = "";
-        $arraySize = count($data);
+        $columnNames = self::getColumns($getClassVars);
+        $arraySize = count($columnNames);
 
-        foreach ( $data as $key => $value )
+        foreach ( $columnNames as $key => $value )
         {
             $counter++;
             $insertQuery .= "'".self::sanitize($value) ."'";
@@ -243,7 +268,7 @@ class DatabaseQuery implements DatabaseQueryInterface
                 $columnName = self::whereAndClause($tableName, $data, $condition);
                 $query =  "SELECT $fields FROM $tableName WHERE $columnName";
             }
-        } catch ( PDOException $e ) {
+        } catch (PDOException $e) {
             $query = $e->getMessage();
         }
 
@@ -262,9 +287,8 @@ class DatabaseQuery implements DatabaseQueryInterface
 
         $columnNames = self::buildColumn($data);
         $values = self::buildValues($data);
-        $insertQuery = "INSERT INTO $tableName ({$columnNames}) VALUES ({$values})";
 
-        return $insertQuery;
+        return "INSERT INTO $tableName ({$columnNames}) VALUES ({$values})";
     }
 
     /**
@@ -275,7 +299,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     public function updateQuery($tableName)
     {
         $data = ( array ) $this;
-        $data = array_slice ($data, 2);
+        $data = array_slice($data, 2);
 
         $values = self::buildClause($tableName, $data);
         $updateQuery = "UPDATE $tableName SET {$values} WHERE id = ". self::sanitize($this->id);

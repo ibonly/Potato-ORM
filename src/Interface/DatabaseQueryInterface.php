@@ -11,13 +11,23 @@ namespace Ibonly\PotatoORM;
 
 interface DatabaseQueryInterface
 {
-    public function checkTableExist($table, $con=NULL);
+    public function checkTableExist($table, $con);
 
-    public static function checkTableName($table, $dbConnection=NULL);
+    public static function checkTableName($tableName, $con);
 
-    public static function selectQuery($tableName, $fields, $data, $condition, $connection);
+    public static function getParentClassVar();
+
+    public static function getColumns($getClassVars);
+
+    public static function buildColumn($getClassVars);
+
+    public static function buildValues($getClassVars);
+
+    public static function selectAllQuery($tableName, $field);
 
     public static function whereAndClause($tableName, $data, $condition);
+
+    public static function selectQuery($tableName, $fields, $data, $condition, $connection);
 
     public function insertQuery($tableName);
 
