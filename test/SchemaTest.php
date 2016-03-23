@@ -76,7 +76,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
      */
     public function testForeignKey()
     {
-        $this->assertContains('FOREIGN', $this->schema->foreignKey('id', 'user_id'));
+        $this->assertContains('FOREIGN', $this->schema->foreignKey('id', 'user-id'));
     }
 
     /**

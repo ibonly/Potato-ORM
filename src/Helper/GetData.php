@@ -38,7 +38,7 @@ class GetData implements GetDataInterface
 
     public function all()
     {
-        return json_encode($this->getAllData());
+        return json_decode(json_encode($this->getAllData()));
     }
 
     /**
@@ -58,11 +58,19 @@ class GetData implements GetDataInterface
     }
 
     /**
+     * Convert the fetched row to json
+     */
+    public function toJsonDecode()
+    {
+        return json_decode($this->toJson());
+    }
+
+    /**
      * Get the output of the first jsondecoded element
      */
     public function first()
     {
-        return json_decode( $this->toJson() );
+        return json_decode($this->toJson());
     }
 
     /**

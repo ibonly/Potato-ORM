@@ -48,17 +48,20 @@ class Schema extends DatabaseQuery implements SchemaInterface
 
         $callback = function($fieldName) use (&$query)
         {
-            $e = explode(" ", $fieldName);
-            if(count($e) == 2)
+            $fields = explode(" ", $fieldName);
+         
+            $constrain = $fields[0];
+            if(count($fields) == 2)
             {
-                $query .= $this->$e[0]($e[1], 20) .", ".PHP_EOL;
+                $query .= $this->$constrain($fields[1], 20) .", ".PHP_EOL;
             }else
             {
-                    $query .= $this->$e[0]($e[1], $e[2]) .", ".PHP_EOL;
+                    $query .= $this->$constrain($fields[1], $fields[2]) .", ".PHP_EOL;
             }
         };
         array_walk($this->fieldDescription, $callback);
-        $query .= ');';
+        $query .= ');)';
+
         return $query;
     }
 
@@ -164,7 +167,8 @@ class Schema extends DatabaseQuery implements SchemaInterface
      */
     public function foreignKey($value, $length)
     {
-        $r = explode("_", $length);
+        $r = explode("-", $length);
+        
         return "FOREIGN KEY ({$value}) REFERENCES ".$r[0]."(".$r[1].")";
     }
 

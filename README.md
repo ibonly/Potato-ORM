@@ -33,48 +33,45 @@ $ composer install
 
 Create a `Class` that correspond to the singular form of the table name in the database. i.e.
 
-```
-<?php
+```php
     namespace Ibonly\PotatoORM;
 
     class User extends Model
     {
+        protected $table = 'tableName';
 
+        protected fillables = ['name', 'email'];
     }
-?>
 ```
-The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, `save()` and `detroy($id)` methods.
+The table name can also be defined in the model if the user wants it to be specified.
+
+The fields that is to be output can also be specified as `protected $fillables = []`. 
+
+The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, `save()`, update() and `detroy($id)` methods.
 
 ### getAll()
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\User;
 
     $sugar = new User();
-    $data = $sugar->getAll()->all();
 
-    foreach ($data as $key => $value) {
-        echo $value->id, $value->username."<br />";
-    }
-?>
+    return $sugar->getAll()->all();
 ```
 
-    Return type = JSON DECODE OBJECT (Pass into a foreac() to access the values)
+    Return type = JSON
 
 ### where($field, $value)
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\User;
 
     $sugar = new User();
-    $data = $sugar->where($field, $value)->first();
-    echo $data->username, $data->id;
-?>
+
+    return $sugar->where($field, $value)->first()->username;
 ```
 
-    Return type = JSON DECODE OBJECT (Pass in the field name to access the value)
+    Return type = String
 
 
 ### find($value)
