@@ -280,7 +280,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public static function selectAllQuery($tableName, $field)
     {
-        return "SELECT {$field} FROM {$tableName}";
+        return "SELE3CT {$field} FROM {$tableName}";
     }
 
     /**
@@ -294,15 +294,19 @@ class DatabaseQuery implements DatabaseQueryInterface
         $counter = 0;
         $arraySize = count($data);
 
-        foreach ($data as $key => $value)
-        {
-            $counter++;
-            $columnName = self::checkColumn($tableName, self::sanitize($key));
-            $where .= $tableName.'.'.$columnName ." = '".self::sanitize($value)."'";
-            if ($arraySize > $counter)
+        if ($data !== null) {
+            foreach ($data as $key => $value)
             {
-                $where .= " " . $condition . " ";
+                $counter++;
+                $columnName = self::checkColumn($tableName, self::sanitize($key));
+                $where .= $tableName.'.'.$columnName ." = '".self::sanitize($value)."'";
+                if ($arraySize > $counter)
+                {
+                    $where .= " " . $condition . " ";
+                }
             }
+        } else {
+            $where = "";
         }
 
         return $where;

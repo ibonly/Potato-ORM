@@ -47,7 +47,7 @@ The table name can also be defined in the model if the user wants it to be speci
 
 The fields that is to be output can also be specified as `protected $fillables = []`. 
 
-The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, `save()`, update() and `detroy($id)` methods.
+The `Model` class contains `getAll()`, `where([$field => $value])`, `find($value)`, `save()`, update() and `detroy($id)` methods.
 
 ### getAll()
 
@@ -68,22 +68,27 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
     $sugar = new User();
 
-    return $sugar->where($field, $value)->first()->username;
+    return $sugar->where([$field => $value])->first()->username;
+```
+Passing conditions to where
+
+```php
+
+    return $sugar->where([$field => $value, $field2 => $value2], 'AND')->first()->username;
 ```
 
     Return type = String
 
 
-### find($value)
+### Update($value): 
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\User;
+    $update = new User();
 
-    $insert = User::find(1);
-    $insert->password = "password";
-    echo $insert->save()
-?>
+    $update->password = "password";
+    echo $insert->update(1)
+
 ```
 
     To return custom message, wrap the `save()` method in an `if statement`
@@ -92,8 +97,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
 ### save()
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\User;
 
     $insert = new User();
@@ -102,7 +106,6 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
     $insert->email = "example@example.com";
     $insert->password = "password";
     echo $insert->save();
-?>
 ```
 
     To return custom message, wrap the `save()` method in an `if statement`
@@ -128,13 +131,11 @@ This method is used to upload file, it can only be used along side `save()` and 
 
 ### detroy($value)
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\User;
 
     $insert = User::destroy(2);
     die($insert);
-?>
 ```
 
     Return type = Boolean
@@ -144,8 +145,7 @@ This method is used to upload file, it can only be used along side `save()` and 
 Its is also possible to create Database Table with the `Schema` class. The table name will be specified in the
 `createTable($name)` method.
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\Schema;
 
     $user = new Schema;
@@ -156,7 +156,6 @@ Its is also possible to create Database Table with the `Schema` class. The table
     $user->field('primaryKey', 'id');
 
     echo $table->createTable('players');
-?>
 ```
     Return type = Boolean
 

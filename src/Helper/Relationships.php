@@ -41,7 +41,7 @@ class Relationships extends DatabaseQuery implements RelationshipsInterface
         return $output;
     }
 
-    public function whereClause($data, $condition = null, $con = null)
+    public function whereClause($data = null, $condition = null, $con = null)
     {
     	$joinClause = self::joinClause();
         $connection = self::checkConnection($con);
@@ -53,7 +53,7 @@ class Relationships extends DatabaseQuery implements RelationshipsInterface
     	if (! $joinClause) {
     		$query .= ' WHERE '.$columnName;
     	} else {
-    		$query .= $joinClause .' AND '.$columnName;
+    		$query .= ($data === null) ? $joinClause : $joinClause .' AND '.$columnName;
     	}
     	return $query;
     }
