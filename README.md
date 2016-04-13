@@ -47,7 +47,7 @@ The table name can also be defined in the model if the user wants it to be speci
 
 The fields that is to be output can also be specified as `protected $fillables = []`. 
 
-The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, `save()`, update() and `detroy($id)` methods.
+The `Model` class contains `getAll()`, `where([$field => $value])`, `find($value)`, `save()`, update() and `detroy($id)` methods.
 
 ### getAll()
 
@@ -68,22 +68,27 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
     $sugar = new User();
 
-    return $sugar->where($field, $value)->first()->username;
+    return $sugar->where([$field => $value])->first()->username;
+```
+Passing conditions to where
+
+```php
+
+    return $sugar->where([$field => $value, $field2 => $value2], 'AND')->first()->username;
 ```
 
     Return type = String
 
 
-### find($value)
+### Update($value): 
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\User;
+    $update = new User();
 
-    $insert = User::find(1);
-    $insert->password = "password";
-    echo $insert->save()
-?>
+    $update->password = "password";
+    echo $insert->update(1)
+
 ```
 
     To return custom message, wrap the `save()` method in an `if statement`
@@ -92,8 +97,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
 ### save()
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\User;
 
     $insert = new User();
@@ -102,22 +106,36 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
     $insert->email = "example@example.com";
     $insert->password = "password";
     echo $insert->save();
-?>
 ```
 
     To return custom message, wrap the `save()` method in an `if statement`
 
     Return type = Boolean
 
-### detroy($value)
+### file($fileName)->uploadFile()
+
+This method is used to upload file, it can only be used along side `save()` and `update($id)`
+
+```php
+    use Ibonly\PotatoORM\User;
+
+    $insert = new User();
+    $insert->id = NULL;
+    $insert->username = "username";
+    $insert->email = "example@example.com";
+    $insert->avatar = $this->content->file($_FILES['image'])->uploadFile($uploadDirectory);
+    $insert->password = "password";
+    echo $insert->save();
 
 ```
-<?php
+
+### detroy($value)
+
+```php
     use Ibonly\PotatoORM\User;
 
     $insert = User::destroy(2);
     die($insert);
-?>
 ```
 
     Return type = Boolean
@@ -127,8 +145,7 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 Its is also possible to create Database Table with the `Schema` class. The table name will be specified in the
 `createTable($name)` method.
 
-```
-<?php
+```php
     use Ibonly\PotatoORM\Schema;
 
     $user = new Schema;
@@ -139,29 +156,26 @@ Its is also possible to create Database Table with the `Schema` class. The table
     $user->field('primaryKey', 'id');
 
     echo $table->createTable('players');
-?>
 ```
     Return type = Boolean
 
 #### Database Constraint
 
 
-    Foreign Key
+Foreign Key
 
-    ```
-        $user->field('foreignKey', 'id', 'users_id');
-    ```
+```php
+    $user->field('foreignKey', 'id', 'users-id');
+```
 
-
-    The reference table `(users)` and field `(id)` will be written as `(users_id)`
-
+The reference table `(users)` and field `(id)` will be written as `(users-id)`
 
 
-    Unique
+Unique Key
 
-    ```
-        $user->field('unique', 'email')
-    ```
+```php
+    $user->field('unique', 'email')
+```
 
 
 ## Testing

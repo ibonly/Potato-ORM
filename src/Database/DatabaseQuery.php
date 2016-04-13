@@ -11,6 +11,7 @@
 namespace Ibonly\PotatoORM;
 
 use PDOException;
+use Ibonly\PotatoORM\DataNotFoundException;
 use Ibonly\PotatoORM\DatabaseQueryInterface;
 use Ibonly\PotatoORM\ColumnNotExistExeption;
 use Ibonly\PotatoORM\InvalidConnectionException;
@@ -18,6 +19,9 @@ use Ibonly\PotatoORM\TableDoesNotExistException;
 
 class DatabaseQuery implements DatabaseQueryInterface
 {
+    //Inject the inflector trait, file upload trait
+    use Inflector, Upload;
+
     /**
      * connect Setup database connection
      */
@@ -25,6 +29,66 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         return new DBConfig();
     }
+
+    /**
+     * stripclassName()
+     *
+     * @return string
+     */
+    public static function stripclassName()
+    {
+        $className = strtolower(get_called_class());
+        $nameOfClass = explode("\\", $className);
+
+        return end($nameOfClass);
+    }
+
+    /**
+     * Get the table name if defined in the model
+     * 
+     * @return string
+     */
+    public function tableName()
+    {
+        return (isset($this->table)) ? $this->table : null;
+    }
+
+    /**
+     * Get the fields to be fillables defined in the model
+     * 
+     * @return string
+     */
+    public function fields()
+    {
+        if (isset($this->fillables)) {
+            $this->output = (sizeof($this->fillables) > 0) ? implode(", ", $this->fillables) : '*';
+        } else {
+            $this->output = '*';
+        }
+
+        return $this->output;
+    }
+
+    /**
+     * getClassName()
+     *
+     * @return string
+     */
+    public function getClassName()
+    {
+        return ($this->tableName() === null) ? self::pluralize(self::stripclassName()) : $this->tableName();
+    }
+
+    /**
+     * getTableName()
+     *
+     * @return string
+     */
+    protected function getTableName($connection)
+    {
+        return DatabaseQuery::checkTableName($this->getClassName(), $connection);
+    }
+
 
     /**
      * sanitize(argument) Removes unwanted characters
@@ -49,11 +113,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     protected static function checkConnection($con)
     {
-        if( $con === null )
-        {
-            $con = self::connect();
-        }
-        return $con;
+        return ($con === null) ? self::connect() : $con;
     }
 
     /**
@@ -68,7 +128,7 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         $connection = $this->checkConnection($con);
         $query = $connection->query("SELECT 1 FROM {$table} LIMIT 1");
-        if( $query !== false )
+        if($query !== false)
         {
             return true;
         }
@@ -82,12 +142,12 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function checkTableName($tableName, $con=NULL)
+    protected static function checkTableName($tableName, $con=NULL)
     {
         $connection = self::checkConnection($con);
 
         $query = $connection->query("SELECT 1 FROM {$tableName} LIMIT 1");
-        if( $query !== false )
+        if($query !== false)
         {
             return $tableName;
         }
@@ -109,7 +169,7 @@ class DatabaseQuery implements DatabaseQueryInterface
 
             $result = $connection->prepare("SELECT {$columnName} FROM {$tableName}");
             $result->execute();
-            if ( ! $result->columnCount() )
+            if (! $result->columnCount())
             {
                 throw new ColumnNotExistExeption();
             }
@@ -121,7 +181,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      * 
      * @return Array
      */
-    public static function getParentClassVar()
+    protected static function getParentClassVar()
     {
         return get_class_vars(get_called_class());
     }
@@ -133,7 +193,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      * 
      * @return Array
      */
-    public static function getColumns($getClassVars)
+    protected static function getColumns($getClassVars)
     {
         return array_diff($getClassVars, self::getParentClassVar());
     }
@@ -145,18 +205,18 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function buildColumn($getClassVars)
+    protected static function buildColumn($getClassVars)
     {
         $counter = 0;
         $insertQuery = "";
         $columnNames = self::getColumns($getClassVars);
         $arraySize = count($columnNames);
 
-        foreach ( $columnNames as $key => $value )
+        foreach ($columnNames as $key => $value)
         {
             $counter++;
             $insertQuery .= self::sanitize($key);
-            if( $arraySize > $counter )
+            if($arraySize > $counter)
                 $insertQuery .= ", ";
         }
 
@@ -170,18 +230,18 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public static function buildValues($getClassVars)
+    protected static function buildValues($getClassVars)
     {
         $counter = 0;
         $insertQuery = "";
         $columnNames = self::getColumns($getClassVars);
         $arraySize = count($columnNames);
 
-        foreach ( $columnNames as $key => $value )
+        foreach ($columnNames as $key => $value)
         {
             $counter++;
             $insertQuery .= "'".self::sanitize($value) ."'";
-            if( $arraySize > $counter )
+            if($arraySize > $counter)
                 $insertQuery .= ", ";
         }
         return $insertQuery;
@@ -200,12 +260,12 @@ class DatabaseQuery implements DatabaseQueryInterface
         $updateQuery = "";
         $arraySize = count($data);
 
-        foreach ( $data as $key => $value )
+        foreach ($data as $key => $value)
         {
             $counter++;
             $columnName = self::checkColumn($tableName, self::sanitize($key));
             $updateQuery .= $columnName ." = '".self::sanitize($value)."'";
-            if ( $arraySize > $counter )
+            if ($arraySize > $counter)
             {
                 $updateQuery .= ", ";
             }
@@ -220,7 +280,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public static function selectAllQuery($tableName, $field)
     {
-        return "SELECT {$field} FROM {$tableName}";
+        return "SELE3CT {$field} FROM {$tableName}";
     }
 
     /**
@@ -234,15 +294,19 @@ class DatabaseQuery implements DatabaseQueryInterface
         $counter = 0;
         $arraySize = count($data);
 
-        foreach ( $data as $key => $value )
-        {
-            $counter++;
-            $columnName = self::checkColumn($tableName, self::sanitize($key));
-            $where .= $columnName ." = '".self::sanitize($value)."'";
-            if ( $arraySize > $counter )
+        if ($data !== null) {
+            foreach ($data as $key => $value)
             {
-                $where .= " " . $condition . " ";
+                $counter++;
+                $columnName = self::checkColumn($tableName, self::sanitize($key));
+                $where .= $tableName.'.'.$columnName ." = '".self::sanitize($value)."'";
+                if ($arraySize > $counter)
+                {
+                    $where .= " " . $condition . " ";
+                }
             }
+        } else {
+            $where = "";
         }
 
         return $where;
@@ -259,7 +323,7 @@ class DatabaseQuery implements DatabaseQueryInterface
         try
         {
             $arraySize = count($data);
-            if( $arraySize > 1 && $condition == NULL)
+            if($arraySize > 1 && $condition == NULL)
             {
                 $query = "Please Supply the condition";
             }
@@ -282,7 +346,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public function insertQuery($tableName)
     {
-        $data = ( array )$this;
+        $data = (array)$this;
         array_shift($data);
 
         $columnNames = self::buildColumn($data);
@@ -298,12 +362,31 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public function updateQuery($tableName)
     {
-        $data = ( array ) $this;
+        $data = (array) $this;
         $data = array_slice($data, 2);
 
         $values = self::buildClause($tableName, $data);
         $updateQuery = "UPDATE $tableName SET {$values} WHERE id = ". self::sanitize($this->id);
 
         return $updateQuery;
+    }
+
+    /**
+     * query($query, $dbCOnnection)
+     * Raw sql query
+     *
+     * @return object
+     */
+    public function query($query, $con = NULL)
+    {
+        $connection = self::checkConnection($con);
+
+        $query = $connection->prepare($query);
+        $query->execute();
+        if ($query->rowCount())
+        {
+            return new GetData($query->fetchAll($connection::FETCH_ASSOC));
+        }
+        throw new DataNotFoundException();
     }
 }

@@ -13,18 +13,7 @@ namespace Ibonly\PotatoORM;
  */
 trait Upload {
     
-    /**
-     *@var string contains the name of the file to be uploaded.
-     */
-    protected $FileName;
-    /**
-     *@var string contains the temporary name of the file to be uploaded.
-     */
-    protected $TempFileName;
-    /**
-     *@var string contains directory where the files should be uploaded.
-     */
-    protected $UploadDirectory;
+    protected $file;
     /**
      *@var string contains an array of valid extensions which are allowed to be uploaded.
      */
@@ -54,10 +43,42 @@ trait Upload {
      */
     protected $MaximumHeight;
 
-    public function upload()
+    // public function upload()
+    // {
+
+    // }
+
+    public function file($file)
     {
-        return 123445;
+        $this->output = $file;
+
+        return $this;
     }
+
+    // public function fileSize()
+    // {
+    //     return $this->output['size'];
+    // }
+
+    // public function fileTmp()
+    // {
+    //     return $this->output['tmp_name'];
+    // }
+
+    // public function fileName()
+    // {
+    //     return $this->output;
+    // }
+
+    // public function fileMove($destination, $fileName = NULL)
+    // {
+    //     $file_name = ($fileName == null) ? $this->fileName() : $fileName;
+    //     if (move_uploaded_file($this->fileTmp(), $destination.'/'.$file_name)) {
+    //         return 333;
+    //     } else {
+    //         return 000;
+    //     }
+    // }
 
     /**
      *@method bool ValidateExtension() returns whether the extension of file to be uploaded
@@ -68,7 +89,7 @@ trait Upload {
     public function ValidateExtension()
     {
 
-        $FileName = trim($this->FileName);
+        $FileName = trim($this->GetFileName());
         $FileParts = pathinfo($FileName);
         $Extension = strtolower($FileParts['extension']);
         $ValidExtensions = $this->ValidExtensions;
@@ -90,7 +111,6 @@ trait Upload {
             $this->SetMessage("Error: The extension '$Extension' is invalid.");
             return false;  
         }
-
     }
 
     /**
@@ -123,17 +143,16 @@ trait Upload {
      *@return true can never be returned as all file names must be unique.
      *@return false the file name does not exist.
      */
-    public function ValidateExistance()
+    public function ValidateExistance($uploadDirectory)
     {
-        $FileName = $this->FileName;
-        $UploadDirectory = $this->UploadDirectory;
-        $File = $UploadDirectory . $FileName;
+        $FileName = $this->GetFileName();
+        $File = $uploadDirectory . $FileName;
 
         if (file_exists($File)) {
             $this->SetMessage("Message: The file '$FileName' already exist.");
             $UniqueName = rand() . $FileName;
             $this->SetFileName($UniqueName);
-            $this->ValidateExistance();
+            $this->ValidateExistance($uploadDirectory);
         } else {
             $this->SetMessage("Message: The file name '$FileName' does not exist.");
             return false;
@@ -145,30 +164,28 @@ trait Upload {
      *@return true the UploadDirectory exists, writable, and has a traling slash.
      *@return false the directory was never set, does not exist, or is not writable.
      */
-    public function ValidateDirectory()
+    public function ValidateDirectory($uploadDirectory)
     {
-        $UploadDirectory = $this->UploadDirectory;
-
-        if (!$UploadDirectory) {
+        if (! $uploadDirectory) {
             $this->SetMessage("ERROR: The directory variable is empty.");
             return false;
         }
 
-        if (!is_dir($UploadDirectory)) {
-            $this->SetMessage("ERROR: The directory '$UploadDirectory' does not exist.");
+        if (!is_dir($uploadDirectory)) {
+            $this->SetMessage("ERROR: The directory '$uploadDirectory' does not exist.");
             return false;
         }
 
-        if (!is_writable($UploadDirectory)) {
-            $this->SetMessage("ERROR: The directory '$UploadDirectory' does not writable.");
+        if (!is_writable($uploadDirectory)) {
+            $this->SetMessage("ERROR: The directory '$uploadDirectory' does not writable.");
             return false;
         }
 
-        if (substr($UploadDirectory, -1) != "/") {
+        if (substr($uploadDirectory, -1) != "/") {
             $this->SetMessage("ERROR: The traling slash does not exist.");
-            $NewDirectory = $UploadDirectory . "/";
+            $NewDirectory = $uploadDirectory . "/";
             $this->SetUploadDirectory($NewDirectory);
-            $this->ValidateDirectory();
+            $this->ValidateDirectory($uploadDirectory);
         } else {
             $this->SetMessage("MESSAGE: The traling slash exist.");
             return true;
@@ -183,12 +200,12 @@ trait Upload {
     public function ValidateImage() {
         $MaximumWidth = $this->MaximumWidth;
         $MaximumHeight = $this->MaximumHeight;
-        $TempFileName = $this->TempFileName;
+        $TempFileName = $this->GetTempName();
 
-    if($Size = @getimagesize($TempFileName)) {
-        $Width = $Size[0];   //$Width is the width in pixels of the image uploaded to the server.
-        $Height = $Size[1];  //$Height is the height in pixels of the image uploaded to the server.
-    }
+        if($Size = @getimagesize($TempFileName)) {
+            $Width = $Size[0];   //$Width is the width in pixels of the image uploaded to the server.
+            $Height = $Size[1];  //$Height is the height in pixels of the image uploaded to the server.
+        }
 
         if ($Width > $MaximumWidth) {
             $this->SetMessage("The width of the image [$Width] exceeds the maximum amount [$MaximumWidth].");
@@ -209,63 +226,47 @@ trait Upload {
      *@return true the file was uploaded.
      *@return false the upload failed.
      */
-    public function uploadFile()
+    public function uploadFile($uploadDirectory)
     {
 
-        if (!$this->ValidateExtension()) {
-            die($this->GetMessage());
-        } 
+        // if (!$this->ValidateExtension()) {
+        //     die($this->GetMessage());
+        // } 
 
-        else if (!$this->ValidateSize()) {
-            die($this->GetMessage());
-        }
+        // else if (!$this->ValidateSize()) {
+        //     die($this->GetMessage());
+        // }
 
-        else if ($this->ValidateExistance()) {
-            die($this->GetMessage());
-        }
+        // else if ($this->ValidateExistance($uploadDirectory)) {
+        //     die($this->GetMessage());
+        // }
 
-        else if (!$this->ValidateDirectory()) {
-            die($this->GetMessage());
-        }
+        // elseif (!$this->ValidateDirectory($uploadDirectory)) {
+        //     die($this->GetMessage());
+        // }
 
-        else if ($this->IsImage && !$this->ValidateImage()) {
-            die($this->GetMessage());
-        }
+        // else if ($this->IsImage && !$this->ValidateImage()) {
+        //     die($this->GetMessage());
+        // }
 
-        else {
+        // else {
 
-            $FileName = $this->FileName;
-            $TempFileName = $this->TempFileName;
-            $UploadDirectory = $this->UploadDirectory;
+            $FileName = time()."_".str_replace(' ', '_', $this->GetFileName());
+            $TempFileName = $this->GetTempName();
 
             if (is_uploaded_file($TempFileName)) { 
-                move_uploaded_file($TempFileName, $UploadDirectory . $FileName);
-                return true;
+                move_uploaded_file($TempFileName, $_SERVER['DOCUMENT_ROOT'].'/'.$uploadDirectory.'/'.$FileName);
+                return $FileName;
             } else {
-                return false;
+                return 4444;
             }
 
-        }
+        // }
 
     }
 
     #Accessors and Mutators beyond this point.
     #Siginificant documentation is not needed.
-    public function SetFileName($argv)
-    {
-        $this->FileName = $argv;
-    }
-
-    public function SetUploadDirectory($argv)
-    {
-        $this->UploadDirectory = $argv;
-    }
-
-    public function SetTempName($argv)
-    {
-        $this->TempFileName = $argv;
-    }
-
     public function SetValidExtensions($argv)
     {
         $this->ValidExtensions = $argv;
@@ -302,7 +303,7 @@ trait Upload {
     }   
     public function GetFileName()
     {
-        return $this->FileName;
+        return $this->output['name'];
     }
 
     public function GetUploadDirectory()
@@ -312,7 +313,7 @@ trait Upload {
 
     public function GetTempName()
     {
-        return $this->TempFileName;
+        return $this->output['tmp_name'];
     }
 
     public function GetValidExtensions()
@@ -332,11 +333,6 @@ trait Upload {
     public function GetMaximumFileSize()
     {
         return $this->MaximumFileSize;
-    }
-
-    public function GetEmail()
-    {
-        return $this->Email;
     }
 
     public function GetIsImage()

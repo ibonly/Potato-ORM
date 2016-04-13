@@ -21,6 +21,10 @@ class GetData implements GetDataInterface
         return $this->value;
     }
 
+    /**
+     * Reverse the json data
+     * @param [int] $limit
+     */
     protected function DESC($limit = NULL)
     {
         $value = array_reverse($this->value);
@@ -31,11 +35,18 @@ class GetData implements GetDataInterface
         }
     }
 
+    /**
+     * Return data in descending order
+     * @param  [int] $limit
+     */
     public function allDESC($limit = NULL)
     {
-        return json_encode($this->DESC($limit));
+        return json_decode(json_encode($this->DESC($limit)));
     }
 
+    /**
+     * Get all data in json_decoded format
+     */
     public function all()
     {
         return json_decode(json_encode($this->getAllData()));
