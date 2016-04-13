@@ -13,96 +13,14 @@ use PDO;
 use Exception;
 use PDOException;
 use Ibonly\PotatoORM\GetData;
-use Ibonly\PotatoORM\DatabaseQuery;
-use Ibonly\PotatoORM\ModelInterface;
 use Ibonly\PotatoORM\DataNotFoundException;
 use Ibonly\PotatoORM\EmptyDatabaseException;
 use Ibonly\PotatoORM\ColumnNotExistExeption;
 use Ibonly\PotatoORM\DataAlreadyExistException;
 use Ibonly\PotatoORM\InvalidConnectionException;
 
-class Model extends DatabaseQuery implements ModelInterface
+class Model extends Relationships implements ModelInterface, RelationshipsInterface
 {
-    //Inject the inflector trait
-    use Inflector, Upload;
-
-    protected $ouput;
-
-    /**
-     * stripclassName()
-     *
-     * @return string
-     */
-    public static function stripclassName()
-    {
-        $className = strtolower(get_called_class());
-        $nameOfClass = explode("\\", $className);
-
-        return end($nameOfClass);
-    }
-
-    /**
-     * Get the table name if defined in the model
-     * 
-     * @return string
-     */
-    public function tableName()
-    {
-        if(isset($this->table)) {
-            $this->output = $this->table;
-        } else {
-            $this->output = null;
-        }
-
-        return $this->output;
-    }
-
-    /**
-     * Get the fields to be fillables defined in the model
-     * 
-     * @return string
-     */
-    public function fields()
-    {
-        if (isset($this->fillables)) {
-            if (sizeof($this->fillables) > 0) {
-                $this->output = implode(", ", $this->fillables);
-            } else {
-                $this->output = '*';
-            }
-        } else {
-            $this->output = '*';
-        }
-
-        return $this->output;
-    }
-
-    /**
-     * getClassName()
-     *
-     * @return string
-     */
-    public function getClassName()
-    {
-        if ($this->tableName() === null) {
-            $this->output = self::pluralize(self::stripclassName());
-        } else {
-            $this->output = $this->tableName();
-        }
-
-        return $this->output;
-    }
-
-    /**
-     * getTableName()
-     *
-     * @return string
-     */
-    public function getTableName($connection)
-    {
-        return DatabaseQuery::checkTableName($this->getClassName(), $connection);
-    }
-
     /**
      * getALL()
      * Get all record from the database
@@ -134,7 +52,7 @@ class Model extends DatabaseQuery implements ModelInterface
         $databaseQuery = new DatabaseQuery();
         $connection = $databaseQuery->checkConnection($dbConnection);
 
-        $sqlQuery = $databaseQuery->selectQuery(self::getTableName($connection), self::fields(), $data, $condition, $connection);
+        $sqlQuery = self::whereClause($data, $condition, $connection);
         $query = $connection->prepare($sqlQuery);
         $query->execute();
         if ( $query->rowCount() )

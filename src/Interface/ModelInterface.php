@@ -11,16 +11,8 @@ namespace Ibonly\PotatoORM;
 
 interface ModelInterface
 {
-
-    public function tableName();
     
     public function fields();
-
-    public static function stripclassName();
-
-    public function getClassName();
-
-    public function getTableName($connection);
 
     public function getALL();
 
@@ -33,4 +25,6 @@ interface ModelInterface
     public function update();
 
     public function destroy($value);
+
+    public function query($query);
 }

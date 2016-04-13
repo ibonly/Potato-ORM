@@ -109,6 +109,23 @@ The `Model` class contains `getAll()`, `where($field, $value)`, `find($value)`, 
 
     Return type = Boolean
 
+### file($fileName)->uploadFile()
+
+This method is used to upload file, it can only be used along side `save()` and `update($id)`
+
+```php
+    use Ibonly\PotatoORM\User;
+
+    $insert = new User();
+    $insert->id = NULL;
+    $insert->username = "username";
+    $insert->email = "example@example.com";
+    $insert->avatar = $this->content->file($_FILES['image'])->uploadFile($uploadDirectory);
+    $insert->password = "password";
+    echo $insert->save();
+
+```
+
 ### detroy($value)
 
 ```
