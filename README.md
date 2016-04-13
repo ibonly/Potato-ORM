@@ -162,22 +162,20 @@ Its is also possible to create Database Table with the `Schema` class. The table
 #### Database Constraint
 
 
-    Foreign Key
+Foreign Key
 
-    ```
-        $user->field('foreignKey', 'id', 'users_id');
-    ```
+```php
+    $user->field('foreignKey', 'id', 'users-id');
+```
 
-
-    The reference table `(users)` and field `(id)` will be written as `(users_id)`
-
+The reference table `(users)` and field `(id)` will be written as `(users-id)`
 
 
-    Unique
+Unique Key
 
-    ```
-        $user->field('unique', 'email')
-    ```
+```php
+    $user->field('unique', 'email')
+```
 
 
 ## Testing
