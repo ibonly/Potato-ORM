@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Potato-orm by andela-iadeniyi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Potato-orm</h1>
+      <h2 class="project-tagline">Object Relational Mapper</h2>
+      <a href="https://github.com/andela-iadeniyi/Potato-ORM" class="btn">View on GitHub</a>
+      <a href="https://github.com/andela-iadeniyi/Potato-ORM/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/andela-iadeniyi/Potato-ORM/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="potato-orm" class="anchor" href="#potato-orm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Potato-ORM</h1>
+
+<p><a href="https://travis-ci.org/andela-iadeniyi/Potato-ORM"><img src="https://travis-ci.org/andela-iadeniyi/Potato-ORM.svg" alt="Build Status"></a>
+<a href="https://github.com/andela-iadeniyi/Potato-ORM/blob/master/LICENCE"><img src="http://img.shields.io/:license-mit-blue.svg" alt="License"></a>
+<a href="https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM"><img src="https://img.shields.io/scrutinizer/g/andela-iadeniyi/Potato-ORM.svg?style=flat-square" alt="Quality Score"></a>
+<a href="https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM"><img src="https://scrutinizer-ci.com/g/andela-iadeniyi/Potato-ORM/badges/quality-score.png?b=master" alt="Scruitinizer Code"></a>
+<a href="https://codeclimate.com/github/andela-iadeniyi/Potato-ORM"><img src="https://codeclimate.com/github/andela-iadeniyi/Potato-ORM/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/andela-iadeniyi/Potato-ORM/coverage"><img src="https://codeclimate.com/github/andela-iadeniyi/Potato-ORM/badges/coverage.svg" alt="Test Coverage"></a></p>
+
+<p>Potato-ORM is a package that manages the CRUD operation of database. Potato-ORM currently supports <code>MYSQL</code>, <code>POSTGRES</code> and <code>SQLITE</code> Database.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p><a href="https://php.net">PHP</a> 5.5+ and <a href="https://getcomposer.org">Composer</a> are required.</p>
+
+<p>Via Composer</p>
+
+<pre><code>$ composer require ibonly/potato-orm
+</code></pre>
+
+<pre><code>$ composer install
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="app-namespace" class="anchor" href="#app-namespace" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>App Namespace</h3>
+
+<pre><code>    namespace Ibonly\PotatoORM
+</code></pre>
+
+<p>Create a <code>Class</code> that correspond to the singular form of the table name in the database. i.e.</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">namespace</span> <span class="pl-en">Ibonly\PotatoORM</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">class</span> <span class="pl-en">User</span> <span class="pl-k">extends</span> <span class="pl-e">Model</span></span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-k">protected</span> <span class="pl-smi">$table</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>tableName<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-k">protected</span> <span class="pl-c1">fillables</span> <span class="pl-k">=</span> [<span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>email<span class="pl-pds">'</span></span>];</span>
+<span class="pl-s1">    }</span></pre></div>
+
+<p>The table name can also be defined in the model if the user wants it to be specified.</p>
+
+<p>The fields that is to be output can also be specified as <code>protected $fillables = []</code>. </p>
+
+<p>The <code>Model</code> class contains <code>getAll()</code>, <code>where([$field =&gt; $value])</code>, <code>find($value)</code>, <code>save()</code>, update() and <code>detroy($id)</code> methods.</p>
+
+<h3>
+<a id="getall" class="anchor" href="#getall" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>getAll()</h3>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">Ibonly\PotatoORM\User</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$sugar</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">User</span>();</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">return</span> <span class="pl-smi">$sugar</span><span class="pl-k">-&gt;</span>getAll()<span class="pl-k">-&gt;</span>all();</span></pre></div>
+
+<pre><code>Return type = JSON
+</code></pre>
+
+<h3>
+<a id="wherefield-value" class="anchor" href="#wherefield-value" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>where($field, $value)</h3>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">Ibonly\PotatoORM\User</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$sugar</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">User</span>();</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">return</span> <span class="pl-smi">$sugar</span><span class="pl-k">-&gt;</span>where([<span class="pl-smi">$field</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$value</span>])<span class="pl-k">-&gt;</span>first()<span class="pl-k">-&gt;</span><span class="pl-smi">username</span>;</span></pre></div>
+
+<p>Passing conditions to where</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">return</span> <span class="pl-smi">$sugar</span><span class="pl-k">-&gt;</span>where([<span class="pl-smi">$field</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$value</span>, <span class="pl-smi">$field2</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">$value2</span>], <span class="pl-s"><span class="pl-pds">'</span>AND<span class="pl-pds">'</span></span>)<span class="pl-k">-&gt;</span>first()<span class="pl-k">-&gt;</span><span class="pl-smi">username</span>;</span></pre></div>
+
+<pre><code>Return type = String
+</code></pre>
+
+<h3>
+<a id="updatevalue" class="anchor" href="#updatevalue" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update($value):</h3>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">Ibonly\PotatoORM\User</span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$update</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">User</span>();</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$update</span><span class="pl-k">-&gt;</span><span class="pl-smi">password</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1">    <span class="pl-c1">echo</span> <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span>update(<span class="pl-c1">1</span>)</span>
+<span class="pl-s1"></span></pre></div>
+
+<pre><code>To return custom message, wrap the `save()` method in an `if statement`
+
+Return type = Boolean
+</code></pre>
+
+<h3>
+<a id="save" class="anchor" href="#save" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>save()</h3>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">Ibonly\PotatoORM\User</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">User</span>();</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">id</span> <span class="pl-k">=</span> <span class="pl-c1">NULL</span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">username</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>username<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">email</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>example@example.com<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">password</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1">    <span class="pl-c1">echo</span> <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span>save();</span></pre></div>
+
+<pre><code>To return custom message, wrap the `save()` method in an `if statement`
+
+Return type = Boolean
+</code></pre>
+
+<h3>
+<a id="filefilename-uploadfile" class="anchor" href="#filefilename-uploadfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>file($fileName)-&gt;uploadFile()</h3>
+
+<p>This method is used to upload file, it can only be used along side <code>save()</code> and <code>update($id)</code></p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">Ibonly\PotatoORM\User</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">User</span>();</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">id</span> <span class="pl-k">=</span> <span class="pl-c1">NULL</span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">username</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>username<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">email</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>example@example.com<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">avatar</span> <span class="pl-k">=</span> <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">content</span><span class="pl-k">-&gt;</span>file(<span class="pl-smi">$_FILES</span>[<span class="pl-s"><span class="pl-pds">'</span>image<span class="pl-pds">'</span></span>])<span class="pl-k">-&gt;</span>uploadFile(<span class="pl-smi">$uploadDirectory</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span><span class="pl-smi">password</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s1">    <span class="pl-c1">echo</span> <span class="pl-smi">$insert</span><span class="pl-k">-&gt;</span>save();</span>
+<span class="pl-s1"></span></pre></div>
+
+<h3>
+<a id="detroyvalue" class="anchor" href="#detroyvalue" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>detroy($value)</h3>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">Ibonly\PotatoORM\User</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$insert</span> <span class="pl-k">=</span> <span class="pl-c1">User</span><span class="pl-k">::</span>destroy(<span class="pl-c1">2</span>);</span>
+<span class="pl-s1">    <span class="pl-k">die</span>(<span class="pl-smi">$insert</span>);</span></pre></div>
+
+<pre><code>Return type = Boolean
+</code></pre>
+
+<h2>
+<a id="create-database-table" class="anchor" href="#create-database-table" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create Database Table</h2>
+
+<p>Its is also possible to create Database Table with the <code>Schema</code> class. The table name will be specified in the
+<code>createTable($name)</code> method.</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-k">use</span> <span class="pl-c1">Ibonly\PotatoORM\Schema</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$user</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">Schema</span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$user</span><span class="pl-k">-&gt;</span>field(<span class="pl-s"><span class="pl-pds">'</span>increments<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$user</span><span class="pl-k">-&gt;</span>field(<span class="pl-s"><span class="pl-pds">'</span>strings<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>username<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$user</span><span class="pl-k">-&gt;</span>field(<span class="pl-s"><span class="pl-pds">'</span>strings<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>name<span class="pl-pds">'</span></span>, <span class="pl-c1">50</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$user</span><span class="pl-k">-&gt;</span>field(<span class="pl-s"><span class="pl-pds">'</span>integer<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>age<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$user</span><span class="pl-k">-&gt;</span>field(<span class="pl-s"><span class="pl-pds">'</span>primaryKey<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-c1">echo</span> <span class="pl-smi">$table</span><span class="pl-k">-&gt;</span>createTable(<span class="pl-s"><span class="pl-pds">'</span>players<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<pre><code>Return type = Boolean
+</code></pre>
+
+<h4>
+<a id="database-constraint" class="anchor" href="#database-constraint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database Constraint</h4>
+
+<p>Foreign Key</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$user</span><span class="pl-k">-&gt;</span>field(<span class="pl-s"><span class="pl-pds">'</span>foreignKey<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>users-id<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>The reference table <code>(users)</code> and field <code>(id)</code> will be written as <code>(users-id)</code></p>
+
+<p>Unique Key</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$user</span><span class="pl-k">-&gt;</span>field(<span class="pl-s"><span class="pl-pds">'</span>unique<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>email<span class="pl-pds">'</span></span>)</span></pre></div>
+
+<h2>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing</h2>
+
+<pre><code>$ vendor/bin/phpunit test
+</code></pre>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>To contribute and extend the scope of this package,
+Please check out <a href="CONTRIBUTING.md">CONTRIBUTING</a> file for detailed contribution guidelines.</p>
+
+<h2>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Credits</h2>
+
+<p>Potato-ORM is created and maintained by <code>Ibraheem ADENIYI</code>.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/andela-iadeniyi/Potato-ORM">Potato-orm</a> is maintained by <a href="https://github.com/andela-iadeniyi">andela-iadeniyi</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
