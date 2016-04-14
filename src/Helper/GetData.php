@@ -63,9 +63,9 @@ class GetData implements GetDataInterface
     /**
      * Convert the fetched row to json
      */
-    public function toJson()
+    public function toJson($all = false)
     {
-        return json_encode($this->toArray());
+        return $all ? json_encode($this->getAllData()) : json_encode($this->toArray());
     }
 
     /**
