@@ -22,6 +22,24 @@ class DatabaseQuery implements DatabaseQueryInterface
     //Inject the inflector trait, file upload trait
     use Inflector, Upload;
 
+    protected $properties = [];
+    protected $output;
+
+    public function __set($property, $value)
+    {
+        $this->properties[$property] = $value;
+    }
+
+    public function __get($property)
+    {
+        return $this->properties[$property];
+    }
+
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
     /**
      * connect Setup database connection
      */
@@ -52,23 +70,6 @@ class DatabaseQuery implements DatabaseQueryInterface
     {
         return (isset($this->table)) ? $this->table : null;
     }
-
-    /**
-     * Get the fields to be fillables defined in the model
-     * 
-     * @return string
-     */
-    public function fields()
-    {
-        if (isset($this->fillables)) {
-            $this->output = (sizeof($this->fillables) > 0) ? implode(", ", $this->fillables) : '*';
-        } else {
-            $this->output = '*';
-        }
-
-        return $this->output;
-    }
-
     /**
      * getClassName()
      *
@@ -177,49 +178,25 @@ class DatabaseQuery implements DatabaseQueryInterface
     }
 
     /**
-     * Get the variables declared in the Model
-     * 
-     * @return Array
-     */
-    protected static function getParentClassVar()
-    {
-        return get_class_vars(get_called_class());
-    }
-
-    /**
-     * Get the difference in variables between model and column definition
-     * 
-     * @param  $getClassVars
-     * 
-     * @return Array
-     */
-    protected static function getColumns($getClassVars)
-    {
-        return array_diff($getClassVars, self::getParentClassVar());
-    }
-
-    /**
      * buildColumn  Build the column name
      *
      * @param  $data
      *
      * @return string
      */
-    protected static function buildColumn($getClassVars)
+    protected static function buildColumn($data)
     {
         $counter = 0;
         $insertQuery = "";
-        $columnNames = self::getColumns($getClassVars);
-        $arraySize = count($columnNames);
+        $arraySize = count($data);
 
-        foreach ($columnNames as $key => $value)
+        foreach ($data as $key => $value)
         {
             $counter++;
             $insertQuery .= self::sanitize($key);
             if($arraySize > $counter)
                 $insertQuery .= ", ";
         }
-
         return $insertQuery;
     }
 
@@ -230,14 +207,13 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    protected static function buildValues($getClassVars)
+    protected static function buildValues($data)
     {
         $counter = 0;
         $insertQuery = "";
-        $columnNames = self::getColumns($getClassVars);
-        $arraySize = count($columnNames);
+        $arraySize = count($data);
 
-        foreach ($columnNames as $key => $value)
+        foreach ($data as $key => $value)
         {
             $counter++;
             $insertQuery .= "'".self::sanitize($value) ."'";
@@ -274,13 +250,29 @@ class DatabaseQuery implements DatabaseQueryInterface
     }
 
     /**
+     * Get the fields to be fillables defined in the model
+     * 
+     * @return string
+     */
+    protected function fields()
+    {
+        if (isset($this->fillables)) {
+            $this->output = (sizeof($this->fillables) > 0) ? implode($this->fillables, ',') : '*';
+        } else {
+            $this->output = '*';
+        }
+
+        return $this->output;
+    }
+
+    /**
      * selectAllQuery
      *
      * @return string
      */
-    public static function selectAllQuery($tableName, $field)
+    public function selectAllQuery($tableName)
     {
-        return "SELE3CT {$field} FROM {$tableName}";
+        return "SELECT ".$this->fields()." FROM {$tableName}";
     }
 
     /**
@@ -311,6 +303,26 @@ class DatabaseQuery implements DatabaseQueryInterface
 
         return $where;
     }
+    
+    public static function whereLikeClause($tableName, $data, $condition)
+    {
+        $where = "";
+        $counter = 0;
+        $arraySize = count($data);
+
+        foreach ( $data as $key => $value )
+        {
+            $counter++;
+            $columnName = self::checkColumn($tableName, self::sanitize($key));
+            $where .= $columnName ." LIKE '%".self::sanitize($value)."%'";
+            if ( $arraySize > $counter )
+            {
+                $where .= " " . $condition . " ";
+            }
+        }
+
+        return $where;
+    }
 
     /**
      * selectQuery
@@ -320,16 +332,22 @@ class DatabaseQuery implements DatabaseQueryInterface
     public static function selectQuery($tableName, $fields, $data, $condition, $connection)
     {
         $query = "";
+        $columnName = "";
+        
         try
         {
             $arraySize = count($data);
-            if($arraySize > 1 && $condition == NULL)
+            if( $arraySize > 1 && $condition == NULL)
             {
                 $query = "Please Supply the condition";
             }
             else
             {
-                $columnName = self::whereAndClause($tableName, $data, $condition);
+                if ($condition === 'AND' || $condition === 'OR' || $condition === NULL) {
+                    $columnName = self::whereAndClause($tableName, $data, $condition);
+                } elseif ($condition === 'LIKE') {
+                    $columnName = self::whereLikeClause($tableName, $data, $condition);
+                } 
                 $query =  "SELECT $fields FROM $tableName WHERE $columnName";
             }
         } catch (PDOException $e) {
@@ -346,11 +364,8 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public function insertQuery($tableName)
     {
-        $data = (array)$this;
-        array_shift($data);
-
-        $columnNames = self::buildColumn($data);
-        $values = self::buildValues($data);
+        $columnNames = self::buildColumn($this->properties);
+        $values = self::buildValues($this->properties);
 
         return "INSERT INTO $tableName ({$columnNames}) VALUES ({$values})";
     }
@@ -360,13 +375,10 @@ class DatabaseQuery implements DatabaseQueryInterface
      *
      * @return string
      */
-    public function updateQuery($tableName)
+    public function updateQuery($tableName, $id)
     {
-        $data = (array) $this;
-        $data = array_slice($data, 2);
-
-        $values = self::buildClause($tableName, $data);
-        $updateQuery = "UPDATE $tableName SET {$values} WHERE id = ". self::sanitize($this->id);
+        $values = self::buildClause($tableName, $this->properties);
+        $updateQuery = "UPDATE $tableName SET {$values} WHERE id = $id";
 
         return $updateQuery;
     }
