@@ -12,10 +12,8 @@ namespace Ibonly\PotatoORM;
 interface DatabaseQueryInterface
 {
     public function tableName();
-    
-    public function fields();
 
-    public static function selectAllQuery($tableName, $field);
+    public function selectAllQuery($tableName);
 
     public static function whereAndClause($tableName, $data, $condition);
 
@@ -23,7 +21,7 @@ interface DatabaseQueryInterface
 
     public function insertQuery($tableName);
 
-    public function updateQuery($tableName);
+    public function updateQuery($tableName, $id);
 
     public function query($query, $dbConnection);
 }

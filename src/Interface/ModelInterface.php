@@ -11,9 +11,6 @@ namespace Ibonly\PotatoORM;
 
 interface ModelInterface
 {
-    
-    public function fields();
-
     public function getALL();
 
     public function where($field, $value);
@@ -22,7 +19,7 @@ interface ModelInterface
 
     public function save();
 
-    public function update();
+    public function update($id);
 
     public function destroy($value);
 

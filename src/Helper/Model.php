@@ -107,11 +107,11 @@ class Model extends Relationships implements ModelInterface, RelationshipsInterf
      *
      * @return bool
      */
-    public function update($dbConnection = NULL)
+    public function update($id, $dbConnection = NULL)
     {
         $connection = DatabaseQuery::checkConnection($dbConnection);
 
-        $updateQuery = $this->updateQuery(self::getTableName($connection));
+        $updateQuery = $this->updateQuery(self::getTableName($connection), $id);
         $statement = $connection->prepare($updateQuery);
         if ($statement->execute()) {
             return true;

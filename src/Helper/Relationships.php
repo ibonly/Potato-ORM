@@ -20,19 +20,22 @@ class Relationships extends DatabaseQuery implements RelationshipsInterface
 
         $data = self::query('SELECT COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME="'.self::getTableName($connection).'"')->all();
 
-        array_shift($data);
         $output = "";
         $i = 0;
 
-        if (! isset($data[0]) || $data[0]->REFERENCED_TABLE_NAME !== null) {
-            $arraySize  = count($data);
-
+        if (! isset($data[0]) || $data[1]->REFERENCED_TABLE_NAME !== null) {
             foreach($data as $key => $value) {
-                $output .= ' JOIN '.$value->REFERENCED_TABLE_NAME;
+                if ( ! empty($value->REFERENCED_TABLE_NAME)) {
+                    $output .= ' JOIN '.$value->REFERENCED_TABLE_NAME;
+                }
             }
             foreach($data as $key => $value) {
                 $i++;
                 $whereAnd = $i > 1 ? 'AND' : 'WHERE';
+                if ( empty($value->REFERENCED_TABLE_NAME)) {
+                    $value->REFERENCED_TABLE_NAME = self::getTableName($connection);
+                    $value->REFERENCED_COLUMN_NAME = $value->COLUMN_NAME;
+                }
                 $output .= ' '.$whereAnd.' '.self::getTableName($connection).'.'.$value->COLUMN_NAME.'='.$value->REFERENCED_TABLE_NAME.'.'.$value->REFERENCED_COLUMN_NAME.' ';
             }
          } else {
@@ -48,7 +51,7 @@ class Relationships extends DatabaseQuery implements RelationshipsInterface
         $tableName  = self::getTableName($connection);
         $columnName = self::whereAndClause($tableName, $data, $condition);
 
-        $query = 'SELECT * FROM '.$tableName;
+        $query = self::selectAllQuery($tableName);
 
         if ($joinClause == false && $data === null) {
             $query .= $columnName;
