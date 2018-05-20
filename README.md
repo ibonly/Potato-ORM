@@ -1,4 +1,4 @@
-# Potato-ORM
+ƒ# Potato-ORM
 
 [![Build Status](https://travis-ci.org/andela-iadeniyi/Potato-ORM.svg)](https://travis-ci.org/andela-iadeniyi/Potato-ORM)
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/andela-iadeniyi/Potato-ORM/blob/master/LICENCE)
