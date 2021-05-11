@@ -68,7 +68,7 @@ class DatabaseQuery implements DatabaseQueryInterface
      */
     public function tableName()
     {
-        return (isset($this->table)) ? $this->table : null;
+        return $this->table ?? null;
     }
     /**
      * getClassName()
