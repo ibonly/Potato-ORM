@@ -39,16 +39,7 @@ class DBConfig extends PDO
         $this->sqlitePath = getenv('SQLITE_PATH');
         $this->setUp();
     }
-    /**
-     * pgsqlConnectionString Postgres connection string
-     *
-     * @return string
-     */
-    protected function pgsqlConnectionString()
-    {
-        return $this->driver . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->dbname . ';user=' . $this->user . ';password=' . $this->password;
-    }
-   
+    
     private function setUp()
     {
         try
@@ -79,6 +70,16 @@ class DBConfig extends PDO
             }
     }
     
+     /**
+     * pgsqlConnectionString Postgres connection string
+     *
+     * @return string
+     */
+    protected function pgsqlConnectionString()
+    {
+        return "$this->driver:host=$this->host;port=$this->port;dbname=$this->dbname;user=$this->user;password=$this->password";
+    }
+    
     /**
      * mysqlConnectionString Mysql connection string
      *
@@ -87,7 +88,7 @@ class DBConfig extends PDO
     
     protected function mysqlConnectionString()
     {
-        return $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
+        return "$this->driver:host=$this->host;dbname=$this->dbname;charset=utf8mb4";
     }
 
     /**
@@ -97,7 +98,7 @@ class DBConfig extends PDO
      */
     protected function sqlitConnectionString()
     {
-        return $this->driver . ':' . $this->sqlitePath;
+        return "$this->driver:$this->sqlitePath";
     }
 
     /**
