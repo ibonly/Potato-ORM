@@ -37,9 +37,35 @@ class DBConfig extends PDO
         $this->user       = getenv('DATABASE_USER');
         $this->password   = getenv('DATABASE_PASSWORD');
         $this->sqlitePath = getenv('SQLITE_PATH');
+        $this->setUp();
+    }
+    /**
+     * pgsqlConnectionString Postgres connection string
+     *
+     * @return string
+     */
+    protected function pgsqlConnectionString()
+    {
+        return $this->driver . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->dbname . ';user=' . $this->user . ';password=' . $this->password;
+    }
+   
+    private function setUp()
+    {
         try
         {
-            if ($this->driver === 'pgsql' || $this->driver === 'postgres')
+         $this->setDriver();   
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+    
+    /**
+     * Sets the database driver
+     */
+    
+    private function setDriver()
+    {
+        if ($this->driver === 'pgsql' || $this->driver === 'postgres')
             {
                 parent::__construct($this->pgsqlConnectionString());
             }
@@ -51,26 +77,14 @@ class DBConfig extends PDO
             {
                 parent::__construct($this->sqlitConnectionString());
             }
-        } catch (PDOException $e) {
-            $e->getMessage();
-        }
     }
-
-    /**
-     * pgsqlConnectionString Postgres connection string
-     *
-     * @return string
-     */
-    protected function pgsqlConnectionString()
-    {
-        return $this->driver . ':host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->dbname . ';user=' . $this->user . ';password=' . $this->password;
-    }
-
+    
     /**
      * mysqlConnectionString Mysql connection string
      *
      * @return string
      */
+    
     protected function mysqlConnectionString()
     {
         return $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8mb4';
